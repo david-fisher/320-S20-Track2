@@ -1,12 +1,22 @@
-<h2 *ngIf="student.condition">{{student.name | uppercase}} </h2>
-<div><span>id: </span>{{student.id}}</div>
-<div>
-  <label>name:
-    <input [(ngModel)]="student.name" placeholder="name"/>
-  </label>
-  <br>
-  <label>display
-    <input type="checkbox" [(ngModel)]="student.condition" />
-  </label>
-</div>
+<h2>Students</h2>
+<ul class="test">
+  <li *ngFor="let student of students"
+      (click)="onSelect(student)"
+      [class.selected]="student === selectedStudent">
+    <span class="badge">{{student.id}}</span> {{student.name}}
+  </li>
+</ul>
 
+<div *ngIf="selectedStudent">
+  <h2>{{selectedStudent.name | uppercase}} Details</h2>
+  <div><span>id: </span>{{selectedStudent.id}}</div>
+  <div>
+    <label>name:
+      <input [(ngModel)]="selectedStudent.name" placeholder="name"/>
+    </label>
+    <br>
+    <label>display
+      <input type="checkbox" [(ngModel)]="student.condition" />
+    </label>
+  </div>
+</div>
