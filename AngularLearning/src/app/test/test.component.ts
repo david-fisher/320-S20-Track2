@@ -9,7 +9,8 @@ import { Student } from '../student';
 export class TestComponent implements OnInit {
   student: Student = {
     id: 1,
-    name: 'Student'
+    name: 'Student',
+    condition: false,
   };
 
   constructor() { }

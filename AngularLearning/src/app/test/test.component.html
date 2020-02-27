@@ -1,8 +1,12 @@
-<h2>{{student.name | uppercase}} Details</h2>
+<h2 *ngIf="student.condition">{{student.name | uppercase}} </h2>
 <div><span>id: </span>{{student.id}}</div>
 <div>
   <label>name:
     <input [(ngModel)]="student.name" placeholder="name"/>
+  </label>
+  <br>
+  <label>display
+    <input type="checkbox" [(ngModel)]="student.condition" />
   </label>
 </div>
 
