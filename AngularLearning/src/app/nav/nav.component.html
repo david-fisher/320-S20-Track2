@@ -1,0 +1,18 @@
+<mat-toolbar color="primary">
+  <span>Trellis</span>
+
+
+
+  <button mat-button [matMenuTriggerFor]="beforeMenu">Appointments</button>
+  <mat-menu #beforeMenu="matMenu" xPosition="before">
+    <button mat-menu-item>Schedule an appointment</button>
+    <button mat-menu-item>My Appointments</button>
+  </mat-menu>
+  <button mat-button routerLink="/home">Home</button>
+  <button mat-button routerLink="/faq">FAQ</button>
+
+  <!-- This fills the remaining space of the current row -->
+  <span class="example-fill-remaining-space"></span>
+  <button mat-button routerLink="/faq">Login/Sign Up</button>
+</mat-toolbar>
+
