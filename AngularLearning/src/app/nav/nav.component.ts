@@ -1,7 +1,10 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {MatMenuModule, MatMenuTrigger} from '@angular/material/menu';
-import {MatCardModule} from '@angular/material/card';
-import {MatToolbarModule} from '@angular/material/toolbar';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatMenuModule, MatMenuTrigger } from '@angular/material/menu';
+import {CookieService} from 'ngx-cookie-service';
+import {AuthService} from "../auth/auth.service";
+
+
+
 
 @Component({
   selector: 'app-nav',
@@ -10,8 +13,8 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 })
 export class NavComponent implements OnInit {
   @ViewChild(MatMenuTrigger) trigger: MatMenuTrigger;
-  isLogin = false;
-  constructor() { }
+
+  constructor(private cookieService: CookieService, private auth: AuthService) { }
 
   ngOnInit(): void {
   }
@@ -19,13 +22,17 @@ export class NavComponent implements OnInit {
     this.trigger.openMenu();
   }
 
-  login() {
-    this.isLogin = true;
+  logout() {
+    console.log('logged out');
+    this.cookieService.delete('logged-in');
+    location.reload();
+    console.log('logged out');
   }
 
-  logout() {
-    this.isLogin = false;
+  getAuth() {
+    return this.auth;
   }
+
 
 }
 

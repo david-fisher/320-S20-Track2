@@ -3,19 +3,19 @@
     <span>Trellis</span>
     <button mat-button routerLink="/home">Home</button>
 
-    <ng-template [ngIf]="isLogin" [ngIfElse]="elseBlock">
-      <button mat-button [matMenuTriggerFor]="beforeMenu">Appointments</button>
-      <mat-menu #beforeMenu="matMenu" xPosition="before">
-        <button mat-menu-item>Schedule an appointment</button>
-        <button mat-menu-item>My Appointments</button>
-      </mat-menu>
-
+    <ng-template [ngIf]="getAuth().isUserAuthenticated()" [ngIfElse]="elseBlock">
+<!--      <button mat-button [matMenuTriggerFor]="beforeMenu">Appointments</button>-->
+<!--      <mat-menu #beforeMenu="matMenu" xPosition="before">-->
+<!--        <button mat-menu-item>Schedule an appointment</button>-->
+<!--        <button mat-menu-item>My Appointments</button>-->
+<!--      </mat-menu>-->
+      <button mat-button routerLink="/findsupporters">Find a Supporter</button>
       <!-- This fills the remaining space of the current row -->
       <span class="example-fill-remaining-space"></span>
 
       <button mat-button [matMenuTriggerFor]="accountMenu">Account</button>
       <mat-menu #accountMenu="matMenu" xPosition="before">
-        <button mat-menu-item routerLink="/account">Profile</button>
+        <button mat-menu-item routerLink="/profile">Profile</button>
         <button mat-menu-item (click)="logout()" routerLink="/home">Logout</button>
       </mat-menu>
     </ng-template>
@@ -25,7 +25,7 @@
       <!-- This fills the remaining space of the current row -->
       <span class="example-fill-remaining-space"></span>
 
-      <button mat-button (click)="login()"  routerLink="/login">Login/Sign Up</button>
+      <button mat-button routerLink="/login">Login</button>
 
     </ng-template>
   </mat-toolbar>
