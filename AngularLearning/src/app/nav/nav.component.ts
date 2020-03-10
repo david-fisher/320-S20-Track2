@@ -10,12 +10,21 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 })
 export class NavComponent implements OnInit {
   @ViewChild(MatMenuTrigger) trigger: MatMenuTrigger;
+  isLogin = false;
   constructor() { }
 
   ngOnInit(): void {
   }
   someMethod() {
     this.trigger.openMenu();
+  }
+
+  login() {
+    this.isLogin = true;
+  }
+
+  logout() {
+    this.isLogin = false;
   }
 
 }
