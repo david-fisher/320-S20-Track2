@@ -1,23 +1,24 @@
 <h1 class="center">Welcome to Trellis</h1>
-<h2>Students</h2>
-<ul class="test">
-  <li *ngFor="let student of students"
-      (click)="onSelect(student)"
-      [class.selected]="student === selectedStudent">
-    <span class="badge">{{student.id}}</span> {{student.name}}
-  </li>
-</ul>
+<img class="img_center" src="../../assets/Trellis_logo.png" alt="Trellis Logo">
+<!--<h2>Students</h2>-->
+<!--<ul class="test">-->
+<!--  <li *ngFor="let student of students"-->
+<!--      (click)="onSelect(student)"-->
+<!--      [class.selected]="student === selectedStudent">-->
+<!--    <span class="badge">{{student.id}}</span> {{student.name}}-->
+<!--  </li>-->
+<!--</ul>-->
 
-<div *ngIf="selectedStudent">
-  <h2>{{selectedStudent.name | uppercase}} Details</h2>
-  <div><span>id: </span>{{selectedStudent.id}}</div>
-  <div>
-    <label>name:
-      <input [(ngModel)]="selectedStudent.name" placeholder="name"/>
-    </label>
-    <br>
-    <label>display
-      <input type="checkbox" [(ngModel)]="student.condition" />
-    </label>
-  </div>
-</div>
+<!--<div *ngIf="selectedStudent">-->
+<!--  <h2>{{selectedStudent.name | uppercase}} Details</h2>-->
+<!--  <div><span>id: </span>{{selectedStudent.id}}</div>-->
+<!--  <div>-->
+<!--    <label>name:-->
+<!--      <input [(ngModel)]="selectedStudent.name" placeholder="name"/>-->
+<!--    </label>-->
+<!--    <br>-->
+<!--    <label>display-->
+<!--      <input type="checkbox" [(ngModel)]="student.condition" />-->
+<!--    </label>-->
+<!--  </div>-->
+<!--</div>-->

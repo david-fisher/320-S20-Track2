@@ -30,5 +30,7 @@ export class NavComponent implements OnInit {
   getAuth() {
     return this.auth;
   }
+
+  blank() {}
 }
 

@@ -9,6 +9,14 @@ h1 {
   text-align: center;
 }
 
+.img_center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 25%;
+  height: 50%;
+}
+
 .test {
   margin: 0 0 2em 0;
   list-style-type: none;
