@@ -4,7 +4,11 @@
   flex: 1 1 auto;
 }
 
-.margin {
-  margin: 0em 1em 0em 0em;
+
+.logo_button {
+  font-size: 1.1em;
 }
 
+.logo_button /deep/ .mat-button-focus-overlay {
+  background-color:transparent;
+}

@@ -1,7 +1,6 @@
 
   <mat-toolbar color="primary">
-
-    <a (click) = "blank()"><div class="margin" >Trellis</div></a>
+    <button mat-button class="logo_button" routerLink="/home">Trellis</button>
     <button mat-button routerLink="/home">Home</button>
 
     <ng-template [ngIf]="getAuth().isUserAuthenticated()" [ngIfElse]="elseBlock">
