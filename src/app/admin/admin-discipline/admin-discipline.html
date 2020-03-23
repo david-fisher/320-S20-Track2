@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="UTF-8">
+<title>"Admin Discipline!"</title>
+<body>
+<h1>Admin Discipline Dashboard</h1>
+<div class= "block1">
+
+  <h3>User</h3>
+  <input matInput placeholder="Specify a user here" value="">
+
+  <h3>Reason</h3>
+  <textarea matInput placeholder="Specify reason for discipline"></textarea>
+
+  <h3>Duration</h3>
+  <select matNativeControl required>
+    <option value="3">3 Months</option>
+   <option value="6">6 Months</option>
+   <option value="12">1 Year</option>
+    <option value="24">2 Years</option>
+  </select>
+  <br>
+  <br>
+  <button mat-raised-button color="warn">Confirm</button>
+</div>
+</body>
+</html>

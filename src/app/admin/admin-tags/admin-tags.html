@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="UTF-8">
+<title>"Admin Tags!"</title>
+<body>
+<h1>Tag Analysis And Management</h1>
+<div class = tagbox>
+
+  <h3>Analytics</h3>
+  <button mat-raised-button color="warn">Download .csv</button>
+
+  <h3>Adding Tags</h3>
+  <input matInput placeholder="Write a tag" value="">
+  <button>Confirm</button>
+
+  <h3>Removing Tags</h3>
+  <mat-selection-list #tags>
+    <mat-list-option *ngFor="let tags of tagsList">
+      {{tags}}
+    </mat-list-option>
+  </mat-selection-list>
+  <button mat-raised-button color="warn">Delete Selected</button>
+</div>
+</body>
+</html>
+

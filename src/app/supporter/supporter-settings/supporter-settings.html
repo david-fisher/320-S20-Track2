@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="UTF-8">
+<title>"Supporter Settings!"</title>
+<body>
+<h1>Supporter Settings</h1>
+
+<div class="settingsbox">
+  <h3>Personal Info</h3>
+    <p>
+      Title: <input matInput placeholder="Job Title" value="">
+      <br>
+      University: <input matInput placeholder="University" value="">
+      <br>
+      Bio:
+      <br>
+      <textarea matInput placeholder="Write an optional bio here."></textarea>
+    </p>
+
+  <h3>Appointment Settings</h3>
+  <ul>
+    <li><mat-checkbox>Accept appointments</mat-checkbox></li>
+    <li><mat-checkbox>Accept appointments from undergrads</mat-checkbox></li>
+    <li><mat-checkbox>Accept appointments from postgrads</mat-checkbox></li>
+  </ul>
+  <p>
+    Minimum appointment buffer:  <input matInput placeholder="Duration" value="">
+    <select matNativeControl required>
+      <option value="minutes">Minutes</option>
+      <option value="hours">Hours</option>
+    </select>
+  </p>
+  <p>
+    Max number of people allowed in an appointment: <input matInput placeholder="Number of people" value="">
+  </p>
+
+  <h3>Feedback Settings</h3>
+  <ul>
+    <li><mat-checkbox>Publicly show feedback</mat-checkbox></li>
+    <li><mat-checkbox>Allow thumbs-up/thumbs-down</mat-checkbox></li>
+    <li><mat-checkbox>Allow five-star ratings</mat-checkbox></li>
+    <li><mat-checkbox>Allow comments</mat-checkbox></li>
+  </ul>
+
+  <h3>Feedback Settings</h3>
+  <p>
+    Search for a tag to add to your profile:
+    <br>
+    <input matInput placeholder="Tag Search" value="">
+    <button>Confirm</button>
+    <br>
+    Click on a tag below to remove it:
+    <br>
+    <button mat-raised-button color="primary">Technical Interviews</button>
+    <button mat-raised-button color="primary">Angular</button>
+    <button mat-raised-button color="primary">CompSci 311</button>
+  </p>
+  <button mat-raised-button color="accent">Apply</button>
+</div>
+
+
+</body>
+</html>
