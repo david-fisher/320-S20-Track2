@@ -1,1 +1,44 @@
-<p>profile works!</p>
+<header><b>Profile</b></header><hr />
+
+<!--
+<style>
+  span{
+    color: blue;
+    font-size: xx-large;
+  }
+</style>
+-->
+
+<!--
+<ul>
+  <li *ngFor="let item of studentInfo">
+    {{item}
+  </li>
+</ul>
+-->
+<img src = "assets/umasslogo.png" alt = "logo">
+
+<h1>
+  <div>
+    <ul>
+      <li>Name: {{studentInfo.studentName}}</li>
+      <br>
+      <li><b>GraduationYear: </b> {{studentInfo.GraduateYear}}</li>
+      <br>
+      <li><b>GPA: </b> {{studentInfo.GPA}}</li>
+      <br>
+      <li><b>SpireID: </b> {{studentInfo.spireID}}</li>
+      <br>
+      <li><b>Email: </b> {{studentInfo.Email}}</li>
+      <br>
+      <li><b>GitHub: </b> {{studentInfo.GitHub}}</li>
+      <br>
+    </ul>
+  </div>
+</h1>
+
+<h2><p>Last modification</p>{{today | date:'yyyy-MM-dd HH:mm'}}</h2>
+
+<h3>
+  <button (click) = "run()">Modify</button>
+</h3>

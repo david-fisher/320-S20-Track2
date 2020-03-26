@@ -7,9 +7,24 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ProfileComponent implements OnInit {
 
+  public today: any = new Date();
+  public studentInfo =
+    {
+      studentName: 'Rukai',
+      GraduateYear: 2021 ,
+      GPA: '1.0 :(' ,
+      spireID: '3140xxxx',
+      Email: 'rukaixxx@umass.edu',
+      GitHub: 'GitHub.com/Rukai'
+    };
+
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  run() {
+    alert('Function not complete yet');
   }
 
 }
