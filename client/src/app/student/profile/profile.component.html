@@ -18,7 +18,7 @@
 -->
 <img src = "assets/umasslogo.png" alt = "logo">
 
-<h1>
+<h1 *ngIf = "flag">
   <div>
     <ul>
       <li>Name: {{studentInfo.studentName}}</li>
@@ -37,8 +37,34 @@
   </div>
 </h1>
 
+<h1>
+  <div *ngIf = "!flag">
+    <ul>
+      <li>Name: {{studentInfo.studentName}}</li>
+      <input type = "text"/>
+      <br>
+      <li><b>GraduationYear: </b> {{studentInfo.GraduateYear}}</li>
+      <input type = "text"/>
+      <br>
+      <li><b>GPA: </b> {{studentInfo.GPA}}</li>
+      <input type = "text"/>
+      <br>
+      <li><b>SpireID: </b> {{studentInfo.spireID}}</li>
+      <input type = "text"/>
+      <br>
+      <li><b>Email: </b> {{studentInfo.Email}}</li>
+      <input type = "text"/>
+      <br>
+      <li><b>GitHub: </b> {{studentInfo.GitHub}}</li>
+      <input type = "text"/>
+      <br>
+    </ul>
+  </div>
+</h1>
+
 <h2><p>Last modification</p>{{today | date:'yyyy-MM-dd HH:mm'}}</h2>
 
 <h3>
   <button (click) = "run()">Modify</button>
 </h3>
+

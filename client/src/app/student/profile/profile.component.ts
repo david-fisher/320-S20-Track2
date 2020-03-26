@@ -8,6 +8,7 @@ import { Component, OnInit } from '@angular/core';
 export class ProfileComponent implements OnInit {
 
   public today: any = new Date();
+  public flag = true;
   public studentInfo =
     {
       studentName: 'Rukai',
@@ -25,6 +26,7 @@ export class ProfileComponent implements OnInit {
 
   run() {
     alert('Function not complete yet');
+    this.flag = false;
   }
 
 }
