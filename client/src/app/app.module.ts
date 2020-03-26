@@ -2,6 +2,9 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 
+import { MatSliderModule } from '@angular/material/slider';
+import {ClickMeComponent} from './app.click-me.component';
+
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -26,8 +29,20 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatInputModule } from '@angular/material/input';
 import { CanActivateRouteGuard } from './can-activate-route.guard';
 import { AuthService } from './auth/auth.service';
-import { FindsupportersComponent } from './findsupporters/findsupporters.component';
-import { ProfileComponent } from './profile/profile.component';
+import { FindsupportersComponent } from './student/findsupporters/findsupporters.component';
+import { ProfileComponent } from './student/profile/profile.component';
+import { AdminApplicationsComponent } from './admin/admin-applications/admin-applications.component';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { AdminDisciplineComponent } from './admin/admin-discipline/admin-discipline.component';
+import { AdminLandingComponent } from './admin/admin-landing/admin-landing.component';
+import { AdminReportsComponent } from './admin/admin-reports/admin-reports.component';
+import { AdminTagsComponent } from './admin/admin-tags/admin-tags.component';
+import { MatListModule } from '@angular/material/list';
+import { SupporterAppointmentsComponent } from './supporter/supporter-appointments/supporter-appointments.component';
+import { SupporterAvailabilityComponent } from './supporter/supporter-availability/supporter-availability.component';
+import { SupporterLandingComponent } from './supporter/supporter-landing/supporter-landing.component';
+import { SupporterSettingsComponent } from './supporter/supporter-settings/supporter-settings.component';
+import {MatCheckboxModule} from '@angular/material/checkbox';
 
 
 
@@ -39,7 +54,17 @@ import { ProfileComponent } from './profile/profile.component';
     FaqComponent,
     LoginComponent,
     FindsupportersComponent,
-    ProfileComponent
+    ClickMeComponent,
+    ProfileComponent,
+    AdminApplicationsComponent,
+    AdminDisciplineComponent,
+    AdminLandingComponent,
+    AdminReportsComponent,
+    AdminTagsComponent,
+    SupporterAppointmentsComponent,
+    SupporterAvailabilityComponent,
+    SupporterLandingComponent,
+    SupporterSettingsComponent
   ],
   imports: [
     BrowserModule,
@@ -60,7 +85,10 @@ import { ProfileComponent } from './profile/profile.component';
     MatOptionModule,
     MatProgressSpinnerModule,
     ReactiveFormsModule,
-    AppRoutingModule
+    AppRoutingModule,
+    MatExpansionModule,
+    MatListModule,
+    MatCheckboxModule
   ],
   providers: [CookieService, AuthService, CanActivateRouteGuard],
   bootstrap: [AppComponent]

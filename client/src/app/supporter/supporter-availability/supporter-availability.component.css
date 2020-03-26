@@ -1,0 +1,30 @@
+h1 {
+  color: white;
+  background-color: darkred;
+  width: 800px;
+  margin-top: 10px;
+  padding: 10px;
+  margin-left: 10px;
+}
+
+body {
+  background-color: beige;
+}
+
+h2 {
+  margin-left: 20px;
+  color: white;
+  background-color: darkred;
+  width: 700px;
+  margin-top: 5px;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.appointmentbox {
+  background-color: white;
+  width: 500px;
+  margin-left: 30px;
+  padding: 10px;
+  border-radius: 10px;
+}

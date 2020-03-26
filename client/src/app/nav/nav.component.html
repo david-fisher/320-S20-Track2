@@ -3,13 +3,29 @@
     <button mat-button class="logo_button" routerLink="/home">Trellis</button>
     <button mat-button routerLink="/home">Home</button>
 
+    <!-- Logged in -->
     <ng-template [ngIf]="getAuth().isUserAuthenticated()" [ngIfElse]="elseBlock">
-<!--      <button mat-button [matMenuTriggerFor]="beforeMenu">Appointments</button>-->
-<!--      <mat-menu #beforeMenu="matMenu" xPosition="before">-->
-<!--        <button mat-menu-item>Schedule an appointment</button>-->
-<!--        <button mat-menu-item>My Appointments</button>-->
-<!--      </mat-menu>-->
+
       <button mat-button routerLink="/findsupporters">Find a Supporter</button>
+
+      <!-- Admin Menu -->
+      <button mat-button [matMenuTriggerFor]="beforeMenu">Admin</button>
+      <mat-menu #beforeMenu="matMenu" xPosition="before">
+        <button mat-menu-item routerLink="/admin-landing">Landing</button>
+        <button mat-menu-item routerLink="/admin-discipline">Discipline</button>
+        <button mat-menu-item routerLink="/admin-applications">Applications</button>
+        <button mat-menu-item routerLink="/admin-reports">Reports</button>
+        <button mat-menu-item routerLink="/admin-tags">Tags</button>
+      </mat-menu>
+
+      <!-- Supporter Menu -->
+      <button mat-button [matMenuTriggerFor]="supporterMenu">Supporter</button>
+      <mat-menu #supporterMenu="matMenu" xPosition="before">
+        <button mat-menu-item routerLink="/supporter-landing">Landing</button>
+        <button mat-menu-item routerLink="/supporter-appointments">Appointments</button>
+        <button mat-menu-item routerLink="/supporter-settings">Settings</button>
+        <button mat-menu-item routerLink="/supporter-availability">Availability</button>
+      </mat-menu>
       <!-- This fills the remaining space of the current row -->
       <span class="example-fill-remaining-space"></span>
 
@@ -19,6 +35,8 @@
         <button mat-menu-item (click)="logout()" routerLink="/home">Logout</button>
       </mat-menu>
     </ng-template>
+
+    <!-- Not logged in -->
     <ng-template #elseBlock>
       <button mat-button routerLink="/faq">FAQ</button>
 

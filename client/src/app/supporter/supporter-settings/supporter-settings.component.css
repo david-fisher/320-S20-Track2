@@ -1,0 +1,29 @@
+h1 {
+  color: white;
+  background-color: darkred;
+  width: 800px;
+  margin-top: 10px;
+  padding: 10px;
+  margin-left: 10px;
+}
+
+h3 {
+  color: white;
+  background-color: darkred;
+  width: 580px;
+  margin-top: 10px;
+  padding: 10px;
+}
+
+
+body {
+  background-color: beige;
+}
+
+.settingsbox {
+  background-color: white;
+  width: 600px;
+  margin-left: 30px;
+  padding: 10px;
+  border-radius: 10px;
+}
