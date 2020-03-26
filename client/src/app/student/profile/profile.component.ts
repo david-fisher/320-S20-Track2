@@ -13,7 +13,6 @@ export class ProfileComponent implements OnInit {
     {
       studentName: 'Rukai',
       GraduateYear: 2021 ,
-      GPA: '1.0 :(' ,
       spireID: '3140xxxx',
       Email: 'rukaixxx@umass.edu',
       GitHub: 'GitHub.com/Rukai'
@@ -25,8 +24,10 @@ export class ProfileComponent implements OnInit {
   }
 
   run() {
-    alert('Function not complete yet');
     this.flag = false;
+  }
+  submit() {
+    alert('function not complete yet!');
   }
 
 }
