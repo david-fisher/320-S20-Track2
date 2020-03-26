@@ -7,6 +7,7 @@
     <ng-template [ngIf]="getAuth().isUserAuthenticated()" [ngIfElse]="elseBlock">
 
       <button mat-button routerLink="/findsupporters">Find a Supporter</button>
+      <button mat-button routerLink="/myappointments">My Appointments</button>
 
       <!-- Admin Menu -->
       <button mat-button [matMenuTriggerFor]="beforeMenu">Admin</button>

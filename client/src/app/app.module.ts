@@ -43,6 +43,7 @@ import { SupporterAvailabilityComponent } from './supporter/supporter-availabili
 import { SupporterLandingComponent } from './supporter/supporter-landing/supporter-landing.component';
 import { SupporterSettingsComponent } from './supporter/supporter-settings/supporter-settings.component';
 import {MatCheckboxModule} from '@angular/material/checkbox';
+import { MyappointmentsComponent } from './student/myappointments/myappointments.component';
 
 
 
@@ -64,7 +65,8 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
     SupporterAppointmentsComponent,
     SupporterAvailabilityComponent,
     SupporterLandingComponent,
-    SupporterSettingsComponent
+    SupporterSettingsComponent,
+    MyappointmentsComponent
   ],
   imports: [
     BrowserModule,

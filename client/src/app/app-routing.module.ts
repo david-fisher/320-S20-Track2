@@ -16,6 +16,7 @@ import {AdminApplicationsComponent} from './admin/admin-applications/admin-appli
 import {AdminTagsComponent} from './admin/admin-tags/admin-tags.component';
 import {AdminDisciplineComponent} from './admin/admin-discipline/admin-discipline.component';
 import { AdminLandingComponent } from './admin/admin-landing/admin-landing.component';
+import {MyappointmentsComponent} from './student/myappointments/myappointments.component';
 
 const appRoutes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -24,6 +25,7 @@ const appRoutes: Routes = [
   { path: 'faq', component: FaqComponent},
   { path: 'findsupporters', component: FindsupportersComponent, canActivate: [ CanActivateRouteGuard]},
   { path: 'profile', component: ProfileComponent, canActivate: [ CanActivateRouteGuard] },
+  { path: 'myappointments', component: MyappointmentsComponent, canActivate: [ CanActivateRouteGuard] },
   { path: 'supporter-landing', component: SupporterLandingComponent, canActivate: [ CanActivateRouteGuard] },
   { path: 'supporter-appointments', component: SupporterAppointmentsComponent, canActivate: [ CanActivateRouteGuard] },
   { path: 'supporter-settings', component: SupporterSettingsComponent, canActivate: [ CanActivateRouteGuard] },
