@@ -1,9 +1,21 @@
-<div id="next">
-  <h1>Up Coming Appointments</h1>
-    <hr>
-</div>
-
-<div id="prev">
-  <h1>Previous Appointments</h1>
-    <hr>
-</div>
+<li *ngFor="let appointment of appointments">
+  <ul>
+    <mat-card class="example-card">
+      <mat-card-header>
+        <div mat-card-avatar class="example-header-image"></div>
+        <mat-card-title>{{appointment.type}}</mat-card-title>
+        <mat-card-subtitle>{{appointment.supporter}}</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <h3>
+          Date:
+        </h3>
+        <p>{{appointment.date}}</p>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-button>LIKE</button>
+        <button mat-button>SHARE</button>
+      </mat-card-actions>
+    </mat-card>
+  </ul>
+</li>
