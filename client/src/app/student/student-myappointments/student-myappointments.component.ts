@@ -4,10 +4,10 @@ import {Appointments} from './appointments';
 
 @Component({
   selector: 'app-myappointments',
-  templateUrl: './myappointments.component.html',
-  styleUrls: ['./myappointments.component.css']
+  templateUrl: './student-myappointments.component.html',
+  styleUrls: ['./student-myappointments.component.css']
 })
-export class MyappointmentsComponent implements OnInit {
+export class StudentMyappointmentsComponent implements OnInit {
 
   constructor() { }
 

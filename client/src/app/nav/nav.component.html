@@ -6,12 +6,17 @@
     <!-- Logged in -->
     <ng-template [ngIf]="getAuth().isUserAuthenticated()" [ngIfElse]="elseBlock">
 
-      <button mat-button routerLink="/findsupporters">Find a Supporter</button>
-      <button mat-button routerLink="/myappointments">My Appointments</button>
+
+      <!-- Appointment Menu -->
+      <button mat-button [matMenuTriggerFor]="adminMenu">Appointments</button>
+      <mat-menu #adminMenu="matMenu" xPosition="before">
+        <button mat-menu-item routerLink="/student-myappointments">My Appointments</button>
+        <button mat-menu-item routerLink="/student-findsupporters">Find a Supporter</button>
+      </mat-menu>
 
       <!-- Admin Menu -->
-      <button mat-button [matMenuTriggerFor]="beforeMenu">Admin</button>
-      <mat-menu #beforeMenu="matMenu" xPosition="before">
+      <button mat-button [matMenuTriggerFor]="adminMenu">Admin</button>
+      <mat-menu #adminMenu="matMenu" xPosition="before">
         <button mat-menu-item routerLink="/admin-landing">Landing</button>
         <button mat-menu-item routerLink="/admin-discipline">Discipline</button>
         <button mat-menu-item routerLink="/admin-applications">Applications</button>
@@ -32,7 +37,7 @@
 
       <button mat-button [matMenuTriggerFor]="accountMenu">Account</button>
       <mat-menu #accountMenu="matMenu" xPosition="before">
-        <button mat-menu-item routerLink="/profile">Profile</button>
+        <button mat-menu-item routerLink="/student-profile">Profile</button>
         <button mat-menu-item (click)="logout()" routerLink="/home">Logout</button>
       </mat-menu>
     </ng-template>

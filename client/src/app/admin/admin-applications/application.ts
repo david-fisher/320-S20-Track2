@@ -1,4 +1,4 @@
-import {Appointments} from "../../student/myappointments/appointments";
+import {Appointments} from "../../student/student-myappointments/appointments";
 
 export interface Application {
   date: Date;

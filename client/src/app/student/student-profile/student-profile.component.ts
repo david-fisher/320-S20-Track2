@@ -2,10 +2,10 @@ import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-profile',
-  templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.css']
+  templateUrl: './student-profile.component.html',
+  styleUrls: ['./student-profile.component.css']
 })
-export class ProfileComponent implements OnInit {
+export class StudentProfileComponent implements OnInit {
 
   public today: any = new Date();
   public flag = true;

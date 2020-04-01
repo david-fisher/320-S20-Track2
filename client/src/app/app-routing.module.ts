@@ -5,8 +5,9 @@ import {HomeComponent} from './home/home.component';
 import {LoginComponent} from './login/login.component';
 import {FaqComponent} from './faq/faq.component';
 import {CanActivateRouteGuard} from './can-activate-route.guard';
-import {FindsupportersComponent} from './student/findsupporters/findsupporters.component';
-import {ProfileComponent} from './student/profile/profile.component';
+import {StudentFindsupportersComponent} from './student/student-findsupporters/student-findsupporters.component';
+import {StudentProfileComponent} from './student/student-profile/student-profile.component';
+import {StudentRatesupporterComponent} from './student/student-ratesupporter/student-ratesupporter.component';
 import {SupporterLandingComponent} from './supporter/supporter-landing/supporter-landing.component';
 import {SupporterAppointmentsComponent} from './supporter/supporter-appointments/supporter-appointments.component';
 import {SupporterSettingsComponent} from './supporter/supporter-settings/supporter-settings.component';
@@ -16,16 +17,21 @@ import {AdminApplicationsComponent} from './admin/admin-applications/admin-appli
 import {AdminTagsComponent} from './admin/admin-tags/admin-tags.component';
 import {AdminDisciplineComponent} from './admin/admin-discipline/admin-discipline.component';
 import { AdminLandingComponent } from './admin/admin-landing/admin-landing.component';
-import {MyappointmentsComponent} from './student/myappointments/myappointments.component';
+import {StudentMyappointmentsComponent} from './student/student-myappointments/student-myappointments.component';
+import {StudentMakeappointmentComponent} from './student/student-makeappointment/student-makeappointment.component';
+import {CreateaccountComponent} from './createaccount/createaccount.component';
 
 const appRoutes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'home', component: HomeComponent },
   { path: 'login', component: LoginComponent},
   { path: 'faq', component: FaqComponent},
-  { path: 'findsupporters', component: FindsupportersComponent, canActivate: [ CanActivateRouteGuard]},
-  { path: 'profile', component: ProfileComponent, canActivate: [ CanActivateRouteGuard] },
-  { path: 'myappointments', component: MyappointmentsComponent, canActivate: [ CanActivateRouteGuard] },
+  { path: 'createaccount', component: CreateaccountComponent},
+  { path: 'student-findsupporters', component: StudentFindsupportersComponent, canActivate: [ CanActivateRouteGuard]},
+  { path: 'student-profile', component: StudentProfileComponent, canActivate: [ CanActivateRouteGuard] },
+  { path: 'student-myappointments', component: StudentMyappointmentsComponent, canActivate: [ CanActivateRouteGuard] },
+  { path: 'student-ratesupporter', component: StudentRatesupporterComponent, canActivate: [ CanActivateRouteGuard] },
+  { path: 'student-makeappointment', component: StudentMakeappointmentComponent, canActivate: [ CanActivateRouteGuard] },
   { path: 'supporter-landing', component: SupporterLandingComponent, canActivate: [ CanActivateRouteGuard] },
   { path: 'supporter-appointments', component: SupporterAppointmentsComponent, canActivate: [ CanActivateRouteGuard] },
   { path: 'supporter-settings', component: SupporterSettingsComponent, canActivate: [ CanActivateRouteGuard] },

@@ -29,8 +29,8 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatInputModule } from '@angular/material/input';
 import { CanActivateRouteGuard } from './can-activate-route.guard';
 import { AuthService } from './auth/auth.service';
-import { FindsupportersComponent } from './student/findsupporters/findsupporters.component';
-import { ProfileComponent } from './student/profile/profile.component';
+import { StudentFindsupportersComponent } from './student/student-findsupporters/student-findsupporters.component';
+import { StudentProfileComponent } from './student/student-profile/student-profile.component';
 import { AdminApplicationsComponent } from './admin/admin-applications/admin-applications.component';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { AdminDisciplineComponent } from './admin/admin-discipline/admin-discipline.component';
@@ -43,7 +43,10 @@ import { SupporterAvailabilityComponent } from './supporter/supporter-availabili
 import { SupporterLandingComponent } from './supporter/supporter-landing/supporter-landing.component';
 import { SupporterSettingsComponent } from './supporter/supporter-settings/supporter-settings.component';
 import {MatCheckboxModule} from '@angular/material/checkbox';
-import { MyappointmentsComponent } from './student/myappointments/myappointments.component';
+import { StudentMyappointmentsComponent } from './student/student-myappointments/student-myappointments.component';
+import { StudentRatesupporterComponent } from './student/student-ratesupporter/student-ratesupporter.component';
+import { StudentMakeappointmentComponent } from './student/student-makeappointment/student-makeappointment.component';
+import { CreateaccountComponent } from './createaccount/createaccount.component';
 
 
 
@@ -54,9 +57,9 @@ import { MyappointmentsComponent } from './student/myappointments/myappointments
     NavComponent,
     FaqComponent,
     LoginComponent,
-    FindsupportersComponent,
+    StudentFindsupportersComponent,
     ClickMeComponent,
-    ProfileComponent,
+    StudentProfileComponent,
     AdminApplicationsComponent,
     AdminDisciplineComponent,
     AdminLandingComponent,
@@ -66,7 +69,10 @@ import { MyappointmentsComponent } from './student/myappointments/myappointments
     SupporterAvailabilityComponent,
     SupporterLandingComponent,
     SupporterSettingsComponent,
-    MyappointmentsComponent
+    StudentMyappointmentsComponent,
+    StudentRatesupporterComponent,
+    StudentMakeappointmentComponent,
+    CreateaccountComponent
   ],
   imports: [
     BrowserModule,
