@@ -8,8 +8,8 @@
 
 
       <!-- Appointment Menu -->
-      <button mat-button [matMenuTriggerFor]="adminMenu">Appointments</button>
-      <mat-menu #adminMenu="matMenu" xPosition="before">
+      <button mat-button [matMenuTriggerFor]="appointmentsMenu">Appointments</button>
+      <mat-menu #appointmentsMenu="matMenu" xPosition="before">
         <button mat-menu-item routerLink="/student-myappointments">My Appointments</button>
         <button mat-menu-item routerLink="/student-findsupporters">Find a Supporter</button>
       </mat-menu>
