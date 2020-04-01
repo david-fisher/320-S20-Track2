@@ -1,6 +1,6 @@
 h1 {
-  color: white;
-  background-color: darkred;
+  color: black;
+  background-color: white;
   width: 800px;
   margin-top: 10px;
   padding: 10px;
@@ -13,12 +13,13 @@ mat-expansion-panel-header {
 }
 
 body {
-  background-color: grey;
+  background-color: white;
 }
 .subbox {
   background-color: lightgrey;
-  width: 600px;
+  width: 800px;
   margin-left: 30px;
+  margin-right: 90px;
   padding: 10px;
   border-radius: 10px;
 }

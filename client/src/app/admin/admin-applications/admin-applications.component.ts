@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {APPLICATIONS} from './application';
+import {Application} from './application';
 
 @Component({
   selector: 'app-admin-applications',
@@ -9,7 +11,10 @@ export class AdminApplicationsComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit(): void {
+  get applications(): Array<Application> {
+    return APPLICATIONS;
   }
 
+  ngOnInit(): void {
+  }
 }

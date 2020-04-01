@@ -2,7 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {APPOINTMENTS} from './mock-appointments';
 import {Appointments} from './appointments';
 
-
 @Component({
   selector: 'app-myappointments',
   templateUrl: './myappointments.component.html',
@@ -10,8 +9,7 @@ import {Appointments} from './appointments';
 })
 export class MyappointmentsComponent implements OnInit {
 
-  constructor() {
-  }
+  constructor() { }
 
   get appointments(): Array<Appointments> {
     return APPOINTMENTS;
