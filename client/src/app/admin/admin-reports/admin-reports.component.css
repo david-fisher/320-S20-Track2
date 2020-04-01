@@ -15,6 +15,7 @@ body {
   background-color: lightgrey;
   margin-left: 30px;
   padding: 10px;
+  width: 900px;
   border-radius: 10px;
 }
 
@@ -28,25 +29,4 @@ p {
   padding: 10px;
   margin-left: 10px;
   border-radius: 5px;
-}
-
-nav{
-  display:flex;
-  flex-wrap:wrap;
-}
-nav a {
-  text-decoration: none;
-  display:block;
-  padding: 15px 25px;
-  text-align: center;
-  background-color: darkred;
-  color: white;
-  margin:0;
-  outline-width: thick;
-  outline-color: black;
-  font-family:sans-serif;
-}
-nav a:hover {
-  background-color: #777777;
-  color:#ffffff;
 }

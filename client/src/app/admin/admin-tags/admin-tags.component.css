@@ -9,6 +9,7 @@ h1 {
 
 body {
   background-color: grey;
+  height: 900px;
 }
 
 h3 {
@@ -18,7 +19,6 @@ h3 {
   margin-top: 10px;
   padding: 10px;
 }
-
 
 
 .tagbox {

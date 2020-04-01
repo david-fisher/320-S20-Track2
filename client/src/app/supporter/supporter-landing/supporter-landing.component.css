@@ -11,36 +11,11 @@ body {
   background-color: beige;
 }
 
-p {
-  background-color: darkred;
-  color: white;
-  outline-width: 20px;
-  outline-color: black;
-  margin-top: 10px;
-  padding: 10px;
-  width: 800px;
-  margin-left: 10px;
-  border-radius: 2px;
+
+.mat-raised-button {
+  font-size: 1.6em;
+  width: 300px;
+  height: 40px;
+  color: darkred;
 }
 
-nav{
-  display:flex;
-  flex-wrap:wrap;
-  margin-left: 20px;
-}
-nav a {
-  text-decoration: none;
-  display:block;
-  padding: 15px 25px;
-  text-align: center;
-  background-color: darkred;
-  color: white;
-  margin:0;
-  outline-width: thick;
-  outline-color: black;
-  font-family:sans-serif;
-}
-nav a:hover {
-  background-color: #777777;
-  color:#ffffff;
-}

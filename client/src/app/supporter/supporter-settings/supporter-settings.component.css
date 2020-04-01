@@ -18,6 +18,7 @@ h3 {
 
 body {
   background-color: beige;
+  height: 1300px;
 }
 
 .settingsbox {
@@ -26,4 +27,10 @@ body {
   margin-left: 30px;
   padding: 10px;
   border-radius: 10px;
+}
+
+
+.bio {
+  width: 600px;
+  height: 200px;
 }

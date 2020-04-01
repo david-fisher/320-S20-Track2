@@ -8,13 +8,13 @@
 <div class="settingsbox">
   <h3>Personal Info</h3>
   <p>
-    Title: <input matInput placeholder="Job Title" value="">
+    Title: <input placeholder="Job Title" value="">
     <br>
-    University: <input matInput placeholder="University" value="">
+    University: <input placeholder="University" value="">
     <br>
     Bio:
     <br>
-    <textarea matInput placeholder="Write an optional bio here."></textarea>
+    <textarea class = "bio" placeholder="Write an optional bio here."></textarea>
   </p>
 
   <h3>Appointment Settings</h3>
@@ -34,6 +34,14 @@
     Max number of people allowed in an appointment: <input matInput placeholder="Number of people" value="">
   </p>
 
+  <h3>Notification Settings</h3>
+  <ul>
+    <li><mat-checkbox>Receive notifications before an appointment</mat-checkbox></li>
+    How many hours prior? <input matInput placeholder="Hours prior" value="">
+    <li><mat-checkbox>Receive notifications on appointment cancellation</mat-checkbox></li>
+    <li><mat-checkbox>Receive notifications on feedback received</mat-checkbox></li>
+  </ul>
+
   <h3>Feedback Settings</h3>
   <ul>
     <li><mat-checkbox>Publicly show feedback</mat-checkbox></li>
@@ -42,11 +50,11 @@
     <li><mat-checkbox>Allow comments</mat-checkbox></li>
   </ul>
 
-  <h3>Feedback Settings</h3>
+  <h3>Tag Settings</h3>
   <p>
     Search for a tag to add to your profile:
     <br>
-    <input matInput placeholder="Tag Search" value="">
+    <input placeholder="Tag Search" value="">
     <button>Confirm</button>
     <br>
     Click on a tag below to remove it:

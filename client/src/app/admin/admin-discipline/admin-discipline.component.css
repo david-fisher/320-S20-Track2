@@ -11,39 +11,15 @@ body {
   background-color: grey;
 }
 
+.reason {
+  width: 500px;
+  height: 200px;
+}
+
 .block1 {
   background-color: lightgrey;
   margin-left: 30px;
+  width: 700px;
   padding: 10px;
   border-radius: 10px;
-}
-
-p {
-  background-color: darkred;
-  color: white;
-  width: 800px;
-  outline-width: 20px;
-  outline-color: black;
-  margin-top: 10px;
-  padding: 10px;
-  margin-left: 10px;
-  border-radius: 5px;
-}
-
-nav{
-  display:flex;
-  flex-wrap:wrap;
-}
-nav a {
-  text-decoration: none;
-  display:block;
-  padding: 15px 25px;
-  text-align: center;
-  background-color: darkred;
-  color: white;
-  font-family:sans-serif;
-}
-nav a:hover {
-  background-color: rebeccapurple;
-  color:rebeccapurple;
 }
