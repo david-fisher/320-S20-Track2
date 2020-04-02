@@ -1,12 +1,17 @@
 div{
 }
 
+hr {
+  margin-left: 2%;
+  width: 450px;
+}
+
 h1{
+  margin-left: 2%;
   font-size: xx-large;
 }
 .example-card {
   max-width: 400px;
-
 }
 
 .example-header-image {
