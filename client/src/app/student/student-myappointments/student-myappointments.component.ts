@@ -25,7 +25,7 @@ export class StudentMyappointmentsComponent implements OnInit {
     alert("Are you sure you want to cancel");
     prompt( "Please state a reason for cancelation.");
     for (let x in APPOINTMENTS) {
-      if ( APPOINTMENTS[x] == appointment){
+      if ( APPOINTMENTS[x] === appointment){
         console.log(parseInt(x));
         APPOINTMENTS.slice( parseInt(x) , 1 );
       }

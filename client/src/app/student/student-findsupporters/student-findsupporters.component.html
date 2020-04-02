@@ -1,7 +1,5 @@
 <div>
-  <div>
-    Selected: {{ selectedTags | json }}
-  </div>
+
   <div class="box">
     <mat-selection-list [(ngModel)]="selectedTags" >
       <mat-list-option *ngFor="let tag of tags.tags"  [value]="tag">
