@@ -27,7 +27,7 @@ export class StudentMyappointmentsComponent implements OnInit {
     for (let x in APPOINTMENTS) {
       if ( APPOINTMENTS[x] === appointment){
         console.log(parseInt(x));
-        APPOINTMENTS.slice( parseInt(x) , 1 );
+        APPOINTMENTS.splice( parseInt(x) , 1 );
       }
     }
   }
