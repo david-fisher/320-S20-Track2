@@ -1,0 +1,25 @@
+h1 {
+  padding-top: 1em;
+  text-align: center;
+}
+
+.feedback {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+mat-form-field {
+  width: 75%;
+}
+
+.recommend {
+  background-color: #00ee00;
+}
+
+.feedbackbuttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

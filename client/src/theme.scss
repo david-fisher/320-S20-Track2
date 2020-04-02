@@ -4,6 +4,7 @@
 $trellis-app-primary: mat-palette($mat-red, 800);
 $trellis-app-accent:  mat-palette($mat-blue, 300);
 $trellis-app-warn:     mat-palette($mat-pink, 900);
+$trellis-app-accept:     mat-palette($mat-light-green, 300);
 $trellis-app-theme: mat-light-theme($trellis-app-primary, $trellis-app-accent, $trellis-app-warn);
 
 @include angular-material-theme($trellis-app-theme);

@@ -2,8 +2,10 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 
+import { StarRatingModule } from 'angular-star-rating';
 import { MatSliderModule } from '@angular/material/slider';
 import {ClickMeComponent} from './app.click-me.component';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
@@ -96,7 +98,9 @@ import { CreateaccountComponent } from './createaccount/createaccount.component'
     AppRoutingModule,
     MatExpansionModule,
     MatListModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    NgbModule,
+    StarRatingModule.forRoot()
   ],
   providers: [CookieService, AuthService, CanActivateRouteGuard],
   bootstrap: [AppComponent]
