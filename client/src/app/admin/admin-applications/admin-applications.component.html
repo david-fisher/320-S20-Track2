@@ -41,33 +41,28 @@
 <meta charset="UTF-8">
 <body>
 <h1>Review Supporter Applications</h1>
-<div class = "subbox">
 
 <li *ngFor="let application of applications">
   <ul>
-    <mat-card class="example-card">
+    <mat-card class="application-card">
       <mat-card-header>
-        <div mat-card-avatar class="example-header-image"></div>
         <mat-card-title>Name: {{application.name}}</mat-card-title>
-        <mat-card-subtitle>Supporter Type: {{application.supporter_type}}</mat-card-subtitle>
-        <mat-card-subtitle>Employer: {{application.employer}}</mat-card-subtitle>
-        <mat-card-subtitle>Team: {{application.team}}</mat-card-subtitle>
-        <mat-card-subtitle>Title: {{application.title}}</mat-card-subtitle>
+        <mat-card-subtitle>Submitted: {{application.date}}</mat-card-subtitle>
       </mat-card-header>
       <mat-card-content>
-        <h3>
-          Submitted:
-        </h3>
-        <p>{{application.date}}</p>
+        <b>Supporter Type:</b> {{application.supporter_type}} <br>
+        <b>Employer:</b> {{application.employer}} <br>
+        <b>Team:</b> {{application.team}} <br>
+        <b>Title:</b> {{application.title}} <br>
       </mat-card-content>
       <mat-card-actions>
-        <button mat-button>APPROVE</button>
-        <button mat-button>DENY</button>
+        <button mat-raised-button color="accent">Download Resumé</button>
+        <button mat-raised-button color="accent">Approve</button>
+        <button mat-raised-button color="primary">Deny</button>
       </mat-card-actions>
     </mat-card>
   </ul>
 </li>
 
-</div>
 </body>
 </html>

@@ -1,17 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
 <meta charset="UTF-8">
-<title>"Admin Reports!"</title>
+<title>"Admin Reports"</title>
 <body>
+
+
 <h1>Reports Dashboard</h1>
-<p>Open Tickets:</p>
-<div class = ticketbox>
-  <img src="https://i.imgur.com/OR2yZjx.png" alt="ticket" width = 75%>
-</div>
-<p>Closed Tickets:</p>
-<div class = ticketbox>
-  <h2>No closed tickets</h2>
-</div>
-<br>
+
+<h2>Open Tickets:</h2>
+
+<li *ngFor="let ticket of openTickets">
+  <ul>
+    <mat-card class="report">
+      <mat-card-header>
+        <mat-card-title>Report Number: {{ticket.ticketID}}</mat-card-title>
+        <mat-card-subtitle class="open-report-status">Status: {{ticket.status}}</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <b>Date:</b> {{ticket.date}} <br>
+        <b>Reported By:</b> {{ticket.filedBy}}<br>
+        <b>Reported Against:</b> {{ticket.filedAgainst}} <br>
+        <br>
+        <b>Report: </b> <p class = "complaint"><i>{{ticket.report}}</i></p>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-raised-button color="primary" (click)='closeTicket(ticket)'>Action</button>
+      </mat-card-actions>
+    </mat-card>
+  </ul>
+</li>
+
+
+<h2>Closed Tickets:</h2>
+
+<li *ngFor="let ticket of closedTickets">
+  <ul>
+    <mat-card class="report">
+      <mat-card-header>
+        <mat-card-title>Report Number: {{ticket.ticketID}}</mat-card-title>
+        <mat-card-subtitle class="closed-report-status">Status: {{ticket.status}}</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <b>Date:</b> {{ticket.date}} <br>
+        <b>Reported By:</b> {{ticket.filedBy}}<br>
+        <b>Reported Against:</b> {{ticket.filedAgainst}} <br>
+        <br>
+        <b>Report:</b> <p class = "complaint"><i>{{ticket.report}}</i></p>
+      </mat-card-content>
+    </mat-card>
+  </ul>
+</li>
+
+
 </body>
 </html>

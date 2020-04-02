@@ -12,14 +12,26 @@ body {
 }
 
 .reason {
-  width: 500px;
-  height: 200px;
+  min-width: 400px;
+  max-width: 500px;
+  background-color: white;
+  padding: 5px;
+  border-radius: 5px;
 }
+
+.input {
+  min-width: 200px;
+  max-width: 300px;
+  background-color: white;
+  padding: 5px;
+  border-radius: 5px;
+}
+
 
 .block1 {
   background-color: lightgrey;
   margin-left: 30px;
-  width: 700px;
+  width: 800px;
   padding: 10px;
   border-radius: 10px;
 }

@@ -7,18 +7,24 @@
 <div class= "block1">
 
   <h3>User</h3>
-  <input matInput placeholder="Specify a user here" value="">
+  <mat-form-field class = "input">
+    <input matInput placeholder="Specify a user here" value="">
+  </mat-form-field>
 
   <h3>Reason</h3>
-  <textarea class="reason" matInput placeholder="Specify reason for discipline"></textarea>
+  <mat-form-field class="reason">
+    <textarea matInput placeholder="Specify reason for discipline"></textarea>
+  </mat-form-field>
 
   <h3>Duration</h3>
-  <select matNativeControl required>
-    <option value="3">3 Months</option>
-    <option value="6">6 Months</option>
-    <option value="12">1 Year</option>
-    <option value="24">2 Years</option>
-  </select>
+  <mat-form-field class="input">
+    <mat-select>
+      <mat-option value="3">3 Months</mat-option>
+     <mat-option value="6">6 Months</mat-option>
+      <mat-option value="12">1 Year</mat-option>
+      <mat-option value="24">2 Years</mat-option>
+    </mat-select>
+  </mat-form-field>
   <br>
   <br>
   <button mat-raised-button color="warn">Confirm</button>

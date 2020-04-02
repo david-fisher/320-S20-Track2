@@ -23,14 +23,23 @@ body {
 
 .settingsbox {
   background-color: white;
-  width: 600px;
+  width: 800px;
   margin-left: 30px;
   padding: 10px;
   border-radius: 10px;
 }
 
 
-.bio {
-  width: 600px;
-  height: 200px;
+.mat-expansion-panel-header {
+  background-color: lightgrey;
 }
+.textbox {
+  min-width: 400px;
+  max-width: 500px;
+}
+
+.input {
+  min-width: 150px;
+  max-width: 200px;
+}
+

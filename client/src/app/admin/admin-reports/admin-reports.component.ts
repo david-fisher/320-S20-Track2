@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {TICKETS} from './mock-tickets';
+import {ReportTickets} from './report-ticket';
 
 @Component({
   selector: 'app-admin-reports',
@@ -7,9 +9,33 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AdminReportsComponent implements OnInit {
 
-  constructor() { }
+  constructor() {
+  }
+
+  get openTickets(): Array<ReportTickets> {
+    const open: Array<ReportTickets> = [];
+    for (const ticket of TICKETS) {
+      if (ticket.status === 'Open') {
+        open.push(ticket);
+      }
+    }
+    return open;
+  }
+
+  get closedTickets(): Array<ReportTickets> {
+    const closed: Array<ReportTickets> = [];
+    for (const ticket of TICKETS) {
+      if (ticket.status === 'Closed') {
+        closed.push(ticket);
+      }
+    }
+    return closed;
+  }
+
+  closeTicket(ticket) {
+    ticket.status = 'Closed';
+  }
 
   ngOnInit(): void {
   }
-
 }

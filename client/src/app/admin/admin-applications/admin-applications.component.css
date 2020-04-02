@@ -1,25 +1,20 @@
 h1 {
-  color: black;
-  background-color: white;
+  color: white;
+  background-color: darkred;
   width: 800px;
   margin-top: 10px;
   padding: 10px;
   margin-left: 10px;
 }
-
 mat-expansion-panel-header {
   background-color: darkred;
-
 }
 
 body {
-  background-color: white;
+  background-color: grey;
+  height: 100vh;
 }
-.subbox {
-  background-color: lightgrey;
-  width: 800px;
-  margin-left: 30px;
-  margin-right: 90px;
-  padding: 10px;
-  border-radius: 10px;
+
+.application-card {
+  width: fit-content;
 }
