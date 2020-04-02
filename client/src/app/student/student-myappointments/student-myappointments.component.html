@@ -11,7 +11,7 @@
       </mat-card-header>
       <mat-card-content>
         <h3>
-          <p>{{appointment.date.toGMTString().substring(0,22)}}</p>
+          <p>{{appointment.date | date:'HH:mm a  MMM dd yyyy '}}</p>
         </h3>
       </mat-card-content>
       <mat-card-actions>
@@ -34,7 +34,7 @@
       </mat-card-header>
       <mat-card-content>
         <h3>
-          <p>{{appointment.date.toGMTString().substring(0,22)}}</p>
+          <p>{{appointment.date | date:'HH:mm a  MMM dd yyyy '}}</p>
         </h3>
       </mat-card-content>
       <mat-card-actions>
