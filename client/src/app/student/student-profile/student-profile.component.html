@@ -16,7 +16,7 @@
   </li>
 </ul>
 -->
-<img mat-card-image src = "assets/umasslogo.png" alt = "logo">
+<img src = "assets/umasslogo.png" alt = "logo">
 
 <mat-card-content>
 <h1 *ngIf = "flag">
@@ -34,8 +34,6 @@
       <br>
       <li><b>GitHub: </b> {{studentInfo.GitHub}}</li>
       <br>
-      <li><b>selfDescription: </b> {{studentInfo.selfDescription}}</li>
-      <br>
     </ul>
   </div>
 </h1>
@@ -45,29 +43,27 @@
 <h1>
   <div *ngIf = "!flag">
     <ul>
-      <li>Name: {{studentInfo.studentName}}</li>
+      <mat-form-field>Name: {{studentInfo.studentName}}</mat-form-field>>
       <input type = "text" id = "Name" [(ngModel)]="studentInfo.studentName"/>
       <br>
-      <li><b>Identity: </b> {{studentInfo.Identity}}</li>
+      <mat-form-field><b>Identity: </b> {{studentInfo.Identity}}</mat-form-field>>
       <br>
-      <li><b>GraduationYear: </b> </li>
+        <mat-form-field><b>GraduationYear: </b> </mat-form-field>>
       <select name = "GraduationYear" [(ngModel)]="studentInfo.GraduateYear">
         <option [value] = "item" *ngFor = "let item of studentInfo.GraduationYearList" >{{item}}</option>
       </select>
       <br>
-      <li><b>SpireID: </b> {{studentInfo.spireID}}</li>
+          <mat-form-field><b>SpireID: </b> {{studentInfo.spireID}}</mat-form-field>>
       <input type = "text" id = "spireID" [(ngModel)]="studentInfo.spireID"/>
       <br>
-      <li><b>Email: </b> {{studentInfo.Email}}</li>
+            <mat-form-field><b>Email: </b> {{studentInfo.Email}}</mat-form-field>>
       <input type = "text" id = "Email" [(ngModel)]="studentInfo.Email"/>
       <br>
-      <li><b>GitHub: </b> {{studentInfo.GitHub}}</li>
+              <mat-form-field><b>GitHub: </b> {{studentInfo.GitHub}}</mat-form-field>>
       <input type = "text" id = "Github" [(ngModel)]="studentInfo.GitHub"/>
       <br>
-      <li><b>selfDescription: </b> </li>
 
-      <br>
-      <mat-card-actions><button (click) = "submit()">Submit</button></mat-card-actions>
+      <mat-card-actions><button mat-fab (click) = "submit()">Submit</button></mat-card-actions>
     </ul>
   </div>
 </h1>
@@ -77,6 +73,7 @@
 
 <mat-card-actions>
 <h3>
-  <button (click) = "run()">Modify</button>
+  <button mat-fab (click) = "run()">Modify</button>
 </h3>
 </mat-card-actions>
+
