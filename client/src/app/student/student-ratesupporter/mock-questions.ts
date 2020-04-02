@@ -1,6 +1,6 @@
 
 export const QUESTIONS: string[] = [
-  'What did you like about working with Sam?',
-  'What did you dislike about working with Sam?',
-  'What can Sam do to improve?'
+  'What did you like about working with me?',
+  'What did you dislike about working with me?',
+  'What could I do to improve?'
 ];

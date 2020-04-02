@@ -38,7 +38,7 @@
         </h3>
       </mat-card-content>
       <mat-card-actions>
-        <button mat-button routerLink="/student-ratesupporter">RATE</button>
+        <button mat-button [routerLink]="['/student-ratesupporter', appointment.supporter]">RATE</button>
       </mat-card-actions>
     </mat-card>
   </ul>

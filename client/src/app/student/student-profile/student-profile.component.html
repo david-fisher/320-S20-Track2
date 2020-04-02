@@ -1,4 +1,4 @@
-<header><b>Profile</b></header><hr />
+<mat-card-header><b>Profile</b></mat-card-header><hr />
 
 <!--
 <style>
@@ -16,12 +16,15 @@
   </li>
 </ul>
 -->
-<img src = "assets/umasslogo.png" alt = "logo">
+<img mat-card-image src = "assets/umasslogo.png" alt = "logo">
 
+<mat-card-content>
 <h1 *ngIf = "flag">
   <div>
     <ul>
-      <li>Name: {{studentInfo.studentName}}</li>
+      <li><b>Name: </b>{{studentInfo.studentName}}</li>
+      <br>
+      <li><b>Identity: </b> {{studentInfo.Identity}}</li>
       <br>
       <li><b>GraduationYear: </b> {{studentInfo.GraduateYear}}</li>
       <br>
@@ -31,36 +34,49 @@
       <br>
       <li><b>GitHub: </b> {{studentInfo.GitHub}}</li>
       <br>
+      <li><b>selfDescription: </b> {{studentInfo.selfDescription}}</li>
+      <br>
     </ul>
   </div>
 </h1>
+</mat-card-content>
 
+<mat-card-content>
 <h1>
   <div *ngIf = "!flag">
     <ul>
       <li>Name: {{studentInfo.studentName}}</li>
-      <input type = "text"/>
+      <input type = "text" id = "Name" [(ngModel)]="studentInfo.studentName"/>
       <br>
-      <li><b>GraduationYear: </b> {{studentInfo.GraduateYear}}</li>
-      <input type = "text"/>
+      <li><b>Identity: </b> {{studentInfo.Identity}}</li>
+      <br>
+      <li><b>GraduationYear: </b> </li>
+      <select name = "GraduationYear" [(ngModel)]="studentInfo.GraduateYear">
+        <option [value] = "item" *ngFor = "let item of studentInfo.GraduationYearList" >{{item}}</option>
+      </select>
       <br>
       <li><b>SpireID: </b> {{studentInfo.spireID}}</li>
-      <input type = "text"/>
+      <input type = "text" id = "spireID" [(ngModel)]="studentInfo.spireID"/>
       <br>
       <li><b>Email: </b> {{studentInfo.Email}}</li>
-      <input type = "text"/>
+      <input type = "text" id = "Email" [(ngModel)]="studentInfo.Email"/>
       <br>
       <li><b>GitHub: </b> {{studentInfo.GitHub}}</li>
-      <input type = "text"/>
+      <input type = "text" id = "Github" [(ngModel)]="studentInfo.GitHub"/>
       <br>
-      <button (click) = "submit()">Modify</button>
+      <li><b>selfDescription: </b> </li>
+
+      <br>
+      <mat-card-actions><button (click) = "submit()">Submit</button></mat-card-actions>
     </ul>
   </div>
 </h1>
+</mat-card-content>
 
 <h2><p>Last modification</p>{{today | date:'yyyy-MM-dd HH:mm'}}</h2>
 
+<mat-card-actions>
 <h3>
   <button (click) = "run()">Modify</button>
 </h3>
-
+</mat-card-actions>
