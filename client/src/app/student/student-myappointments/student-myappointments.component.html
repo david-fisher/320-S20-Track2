@@ -1,5 +1,8 @@
+<h1>Up Coming Appointments...</h1>
+<hr>
+
 <div *ngFor="let appointment of appointments">
-  <ul>
+  <ul *ngIf="appointment.date > date ">
     <mat-card class="example-card">
       <mat-card-header>
         <div mat-card-avatar class="example-header-image"></div>
@@ -8,7 +11,30 @@
       </mat-card-header>
       <mat-card-content>
         <h3>
-          <p>{{appointment.date.toGMTString().substring(0,17)}}</p>
+          <p>{{appointment.date.toGMTString().substring(0,22)}}</p>
+        </h3>
+      </mat-card-content>
+      <mat-card-actions>
+        <button (click)="varify(appointment)" mat-button routerLink="/student-myappointments" >Cancel</button>
+      </mat-card-actions>
+    </mat-card>
+  </ul>
+</div>
+
+<h1>Previous Appointments</h1>
+<hr>
+
+<div *ngFor="let appointment of appointments">
+  <ul *ngIf="appointment.date <= date ">
+    <mat-card class="example-card">
+      <mat-card-header>
+        <div mat-card-avatar class="example-header-image"></div>
+        <mat-card-title>{{appointment.type}}</mat-card-title>
+        <mat-card-subtitle>{{appointment.supporter}}</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <h3>
+          <p>{{appointment.date.toGMTString().substring(0,22)}}</p>
         </h3>
       </mat-card-content>
       <mat-card-actions>

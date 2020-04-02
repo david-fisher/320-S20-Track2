@@ -1,0 +1,8 @@
+.box{
+  width: 40%;
+  height: 10%;
+  float: left;
+  border: solid;
+  border-radius: 4px;
+  margin: 4%;
+}
