@@ -12,10 +12,13 @@ export class StudentProfileComponent implements OnInit {
   public studentInfo =
     {
       studentName: 'Rukai',
-      GraduateYear: 2021 ,
+      Identity: 'Student',
+      GraduateYear: '2021' ,
+      GraduationYearList: ['2020', '2021', '2022', '2023', '2024'],
       spireID: '3140xxxx',
       Email: 'rukaixxx@umass.edu',
-      GitHub: 'GitHub.com/Rukai'
+      GitHub: 'GitHub.com/Rukai',
+      selfDescription: ''
     };
 
   constructor() { }
@@ -27,7 +30,11 @@ export class StudentProfileComponent implements OnInit {
     this.flag = false;
   }
   submit() {
-    alert('function not complete yet!');
+    /*
+    let nameDom:any = document.getElementById('Name ');
+    this.studentInfo.studentName = nameDom.value;
+     */
+    this.flag = true;
   }
 
 }
