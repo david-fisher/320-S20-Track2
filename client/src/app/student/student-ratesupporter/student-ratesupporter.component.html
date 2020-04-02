@@ -8,9 +8,11 @@
 <!-- Supporter wants recommend/do not recommend -->
 <ng-template [ngIf]="toggleBinaryResponse()">
   <h1>Would you recommend {{supporterName}} to other students?</h1>
-  <div class="feedbackbuttons">
-    <button mat-raised-button class="recommend">Recommend</button>
-    <button mat-raised-button color="primary">Do Not Recommend</button>
+  <div class="buttons">
+    <mat-button-toggle-group>
+      <mat-button-toggle value="Recommend" class="recommend">Recommend</mat-button-toggle>
+      <mat-button-toggle value="Do Not Recommend" class="donotrecommend">Do Not Recommend</mat-button-toggle>
+    </mat-button-toggle-group>
   </div>
 </ng-template>
 
@@ -27,3 +29,6 @@
   </div>
 
 </ng-template>
+<div class="buttons">
+  <button mat-fab routerLink="/student-myappointments">Submit</button>
+</div>

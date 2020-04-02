@@ -49,6 +49,7 @@ import { StudentMyappointmentsComponent } from './student/student-myappointments
 import { StudentRatesupporterComponent } from './student/student-ratesupporter/student-ratesupporter.component';
 import { StudentMakeappointmentComponent } from './student/student-makeappointment/student-makeappointment.component';
 import { CreateaccountComponent } from './createaccount/createaccount.component';
+import {MatButtonToggleModule} from "@angular/material/button-toggle";
 
 
 
@@ -100,7 +101,8 @@ import { CreateaccountComponent } from './createaccount/createaccount.component'
     MatListModule,
     MatCheckboxModule,
     NgbModule,
-    StarRatingModule.forRoot()
+    StarRatingModule.forRoot(),
+    MatButtonToggleModule
   ],
   providers: [CookieService, AuthService, CanActivateRouteGuard],
   bootstrap: [AppComponent]

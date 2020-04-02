@@ -15,10 +15,14 @@ mat-form-field {
 }
 
 .recommend {
-  background-color: #00ee00;
+  color: #2e7d32;
 }
 
-.feedbackbuttons {
+.donotrecommend {
+  color: #990000;
+}
+
+.buttons {
   display: flex;
   justify-content: center;
   align-items: center;

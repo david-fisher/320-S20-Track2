@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {QUESTIONS} from './mock-questions';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-student-ratesupporter',
@@ -8,8 +9,10 @@ import {QUESTIONS} from './mock-questions';
 })
 export class StudentRatesupporterComponent implements OnInit {
   currentRate = 5;
-  supporterName = 'Sam';
-  constructor() { }
+  supporterName;
+  constructor(private activatedRoute: ActivatedRoute) {
+    this.supporterName = this.activatedRoute.snapshot.params.name;
+  }
 
   ngOnInit(): void {
   }
