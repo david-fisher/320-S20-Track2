@@ -18,13 +18,14 @@
       </mat-card-header>
       <mat-card-content>
         <b>Date:</b> {{ticket.date}} <br>
-        <b>Reported By:</b> {{ticket.filedBy}}<br>
-        <b>Reported Against:</b> {{ticket.filedAgainst}} <br>
+        <b>Reported By:</b> {{ticket.filedBy}}  (<i>ID: {{ticket.filedByID}})</i><br>
+        <b>Reported Against:</b> {{ticket.filedAgainst}} (<i>ID: {{ticket.filedAgainstID}})</i> <br>
         <br>
         <b>Report: </b> <p class = "complaint"><i>{{ticket.report}}</i></p>
       </mat-card-content>
       <mat-card-actions>
-        <button mat-raised-button color="primary" (click)='closeTicket(ticket)'>Action</button>
+        <button mat-raised-button color="primary" (click)='closeTicket(ticket)'>Resolve Without Discipline</button>
+        <button mat-raised-button color="warn" [routerLink]="['/admin-discipline', ticket.filedAgainstID]" routerLinkActive="active">Discipline</button>
       </mat-card-actions>
     </mat-card>
   </ul>
@@ -46,6 +47,7 @@
         <b>Reported Against:</b> {{ticket.filedAgainst}} <br>
         <br>
         <b>Report:</b> <p class = "complaint"><i>{{ticket.report}}</i></p>
+
       </mat-card-content>
     </mat-card>
   </ul>

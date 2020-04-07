@@ -3,6 +3,8 @@ export interface ReportTickets {
   ticketID: number;
   status: string;
   filedBy: string;
+  filedByID: number;
   filedAgainst: string;
+  filedAgainstID: number;
   report: string;
 }

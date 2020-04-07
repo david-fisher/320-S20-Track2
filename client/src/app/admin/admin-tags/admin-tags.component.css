@@ -9,7 +9,8 @@ h1 {
 
 body {
   background-color: grey;
-  height: 900px;
+  height: 110%;
+  background-size: cover;
 }
 
 h3 {

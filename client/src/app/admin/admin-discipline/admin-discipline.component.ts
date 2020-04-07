@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-admin-discipline',
@@ -6,8 +7,10 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./admin-discipline.component.css']
 })
 export class AdminDisciplineComponent implements OnInit {
-
-  constructor() { }
+  reportedID;
+  constructor(private activatedRoute: ActivatedRoute) {
+    this.reportedID = this.activatedRoute.snapshot.params.filedAgainstID;
+  }
 
   ngOnInit(): void {
   }

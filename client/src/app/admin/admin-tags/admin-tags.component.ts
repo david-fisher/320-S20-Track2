@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {InterestTags} from './interest-tag';
+import {TAGS} from './tag-list';
 
 @Component({
   selector: 'app-admin-tags',
@@ -6,8 +8,17 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./admin-tags.component.css']
 })
 export class AdminTagsComponent implements OnInit {
-  tagsList: string[] = ['Interviews', 'Technical Interviews', 'Python', 'Java', 'TypeScript', 'Resume Review', 'Google', 'Group Interview',
-    'C++', 'Group Interviews'];
+  tagInput;
+  get tag_list(): Array<InterestTags> {
+    return TAGS;
+  }
+
+  push_tag(): Array<InterestTags> {
+    if (this.tagInput.length > 0) {
+      TAGS.push({name: this.tagInput});
+      return TAGS;
+    }
+  }
   constructor() { }
 
   ngOnInit(): void {

@@ -40,7 +40,8 @@ const appRoutes: Routes = [
   { path: 'admin-reports', component: AdminReportsComponent, canActivate: [ CanActivateRouteGuard] },
   { path: 'admin-applications', component: AdminApplicationsComponent, canActivate: [ CanActivateRouteGuard] },
   { path: 'admin-tags', component: AdminTagsComponent, canActivate: [ CanActivateRouteGuard] },
-  { path: 'admin-discipline', component: AdminDisciplineComponent, canActivate: [ CanActivateRouteGuard] }
+  { path: 'admin-discipline', component: AdminDisciplineComponent, canActivate: [ CanActivateRouteGuard] },
+  { path: 'admin-discipline/:filedAgainstID', component: AdminDisciplineComponent, canActivate: [ CanActivateRouteGuard] }
   ];
 
 @NgModule({

@@ -10,13 +10,15 @@
   <button mat-raised-button color="warn">Download .csv</button>
 
   <h3>Adding Tags</h3>
-  <input matInput placeholder="Write a tag" value="">
-  <button>Confirm</button>
+  <mat-form-field>
+    <input matInput placeholder="Write a tag" [(ngModel)]="tagInput" value="">
+  </mat-form-field>
+  <button mat-raised-button color="primary" (click)='push_tag()'>Confirm</button>
 
   <h3>Removing Tags</h3>
-  <mat-selection-list #tags>
-    <mat-list-option *ngFor="let tags of tagsList">
-      {{tags}}
+  <mat-selection-list>
+    <mat-list-option *ngFor="let tag of tag_list">
+      {{tag.name}}
     </mat-list-option>
   </mat-selection-list>
   <button mat-raised-button color="warn">Delete Selected</button>
