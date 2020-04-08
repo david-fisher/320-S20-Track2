@@ -1,6 +1,26 @@
-import boto3
+# import boto3
+import psycopg2
 
 
+def connect():
+    connection = psycopg2.connect( host = constants.RDS_ENDPOINT,
+                             port = constants.RDS_PORT,
+                             user = constats.RDS_USER,
+                             password = constants.RDS_PASS,
+                             database = constants.RDS_DB)
+    return connection, connection.cursor()
+
+
+
+def base_select(table, fields='*', conditions='None'):
+    conn, cur = connect()
+
+    cur.close()
+    conn.close()
+    return
+
+
+# old version using boto3 because I misunderstood how RDS works
 '''
 Queries the database for entries from a table matching every parameter
     table:      A string of the database table to query
@@ -14,7 +34,7 @@ Queries the database for entries from a table matching every parameter
         1) We don't have an Aurora instance set up so we have no idea if this works
         2) We need a constants module that's in the gitignore to add our constants in safely
         3) Usining parameterized queries uses types as keys, and I haven't handled that yet
-'''
+
 def basic_select(table, fields='*', conditions=None):
     client = boto3.client('rds-data')
     query = "SELECT {} FROM {}"
@@ -40,3 +60,4 @@ def basic_select(table, fields='*', conditions=None):
         i += 1
     response = client.execute_statement({"parameters" : params, "resourceArn": "placeholder", "secretArn": "placeholder", "sql": query})
     return response
+'''
