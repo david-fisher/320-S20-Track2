@@ -2,8 +2,8 @@ import json
 import boto3
 
 def authentication_login(event, context):
-    username = event['queryStringParameters']['username']
-    password = event['queryStringParameters']['password']
+    username = event['username']
+    password = event['password']
 
     #Connect to Database
     client = boto3.client('rds-data')
