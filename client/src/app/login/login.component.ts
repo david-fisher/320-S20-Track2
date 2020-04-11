@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 // import { AuthService } from '../auth.service';
 
@@ -12,8 +12,17 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class LoginComponent implements OnInit {
   form: FormGroup;
   loginInvalid = false;
+  invalidEmail = false;
+  public flag = false;
+  public inputEmail = false;
+  public userType;
+  public myGroup;
 
-  constructor(private cookieService: CookieService) { }
+  constructor(private cookieService: CookieService) {
+    this.myGroup = new FormGroup({
+      firstName: new FormControl()
+    });
+  }
 
   ngOnInit(): void {
   }
@@ -21,6 +30,17 @@ export class LoginComponent implements OnInit {
   login() {
     this.cookieService.set('logged-in', '');
   }
+  register() {}
+  select(userType: boolean) {
+    this.userType = userType;
+    this.inputEmail = true;
+    this.flag = true;
+    console.log('test');
+  }
+  toggleFlag() {
+    this.flag = true;
+  }
+
 
 
 

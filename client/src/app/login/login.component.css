@@ -7,3 +7,29 @@ mat-card {
 mat-form-field {
   display: block;
 }
+
+.account {
+  padding-top: 1em;
+}
+
+h1 {
+  font-size: xx-large;
+  text-align: center;
+}
+.users button,
+.users a {
+  margin-right: 8px;
+}
+
+.alignment {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 10%;
+}
+.center-alignment {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
