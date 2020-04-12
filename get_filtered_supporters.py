@@ -25,22 +25,25 @@ def get_filtered_supporters(event, context):
     if supporter_types:
         query += "supporter_type IN (" + str(supporter_types)[1:-1] + ") AND "
 
-    # remove unwanted "AND " sequence at end of query
-    query = query[:-4]
+    # finish query
+    if query == "":
+        query = ("SELECT * "
+                 "FROM supporter;")
+    else:
+        # remove unwanted "AND " sequence at end of query
+        query = query[:-4]
+        query = ("SELECT * "
+                 "FROM supporter "
+                 "WHERE " + query + ";")
 
     # TODO: Filter by tags, sort out the tag system
-
-    # finish query
-    query = ("SELECT * "
-             "FROM supporter "
-             "WHERE " + query + ";")
 
     # access client and execute query
     client = boto3.client('rds-data')
 
     response = client.execute_statement(resourceArn=db_config.ARN,
                                         secretArn=db_config.SECRET_ARN,
-                                        sql=tag_query)
+                                        sql=query)
 
     return{
         'body': json.dumps(response),
