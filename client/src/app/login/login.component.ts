@@ -31,7 +31,7 @@ export class LoginComponent implements OnInit {
     this.cookieService.set('logged-in', '');
   }
   register() {}
-  select(userType: boolean) {
+  select(userType: string) {
     this.userType = userType;
     this.inputEmail = true;
     this.flag = true;

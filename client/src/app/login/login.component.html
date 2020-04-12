@@ -40,13 +40,12 @@
     </div>
     <div class="center-alignment">
       <div class="users">
-        <button mat-raised-button (click)="select(true)" color="primary">Student</button>
-        <button mat-raised-button (click)="select(false)" color="primary">Supporter</button>
+        <button mat-raised-button (click)="select('student')" color="primary">Student</button>
+        <button mat-raised-button (click)="select('supporter')" color="primary">Supporter</button>
       </div>
     </div>
-
-
   </div>
+
   <div *ngIf = "inputEmail">
     <mat-card>
       <mat-card-content>
@@ -65,7 +64,7 @@
             </mat-error>
           </mat-form-field>
           <div>
-            <button mat-raised-button (click)="register()" routerLink="/createaccount" color="primary">Register</button>
+            <button mat-raised-button (click)="register()" [routerLink]="['/createaccount', userType]" color="primary">Register</button>
           </div>
         </form>
       </mat-card-content>
