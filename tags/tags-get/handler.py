@@ -14,14 +14,12 @@ def get_tags():
     # should be error-checked
     conn = pymysql.connect(rds_host, user=name, passwd=password, db=db_name, connect_timeout=5)
 
-    try:
-        with conn.cursor() as curr:
-            sql = "SELECT * FROM tags;"
-            conn.execute(sql)
-            response = curr.fetchall()
-            print(response)
-    finally:
-        conn.close()
+    with conn.cursor() as curr:
+        sql = "SELECT * FROM tags;"
+        conn.execute(sql)
+        response = curr.fetchall()
+        print(response)
+    conn.close()
     return response
 
 
@@ -30,8 +28,11 @@ def get_tags():
 
 
 def lambda_handler(event, context):
-    # TODO implement
+    response = get_tags()
+
+    statusCode = 200
+
     return {
-        'statusCode': 200,
-        'body': json.dumps(get_tags())
+        'statusCode': statusCode,
+        'body': json.dumps(response)
     }
