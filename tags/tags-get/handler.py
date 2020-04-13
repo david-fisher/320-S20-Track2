@@ -1,12 +1,13 @@
 import json
 import pymysql
+import rds_config
 
 
 #rds settings
-rds_host  = "rds-instance-endpoint"
-name = 'rds_config.db_username'
-password = 'rds_config.db_password'
-db_name = 'rds_config.db_name'
+rds_host  = rds_config.endpoint
+name = rds_config.username
+password = rds_config.password
+db_name = rds_config.db_name
 
 
 def get_tags():
