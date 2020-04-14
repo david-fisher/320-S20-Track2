@@ -10,24 +10,26 @@ import {toInteger} from "@ng-bootstrap/ng-bootstrap/util/util";
 })
 export class StudentMyappointmentsComponent implements OnInit {
 
-  constructor() { }
+  constructor() {
+  }
 
 
   get appointments(): Array<Appointments> {
     return APPOINTMENTS;
   }
 
-  get date(): object{
+  get date(): object {
     return new Date();
   }
 
-  varify(appointment){
-    alert("Are you sure you want to cancel");
-    prompt( "Please state a reason for cancelation.");
-    for (let x in APPOINTMENTS) {
-      if ( APPOINTMENTS[x] === appointment){
-        console.log(parseInt(x));
-        APPOINTMENTS.splice( parseInt(x) , 1 );
+  varify(appointment) {
+    if (confirm('Are you sure you want to cancel this appointment?')) {
+      prompt('Please state a reason for cancelation.');
+      for (let x in APPOINTMENTS) {
+        if (APPOINTMENTS[x] === appointment) {
+          console.log(parseInt(x));
+          APPOINTMENTS.splice(parseInt(x), 1);
+        }
       }
     }
   }

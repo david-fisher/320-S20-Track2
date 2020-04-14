@@ -13,15 +13,15 @@
   <mat-form-field>
     <input matInput placeholder="Write a tag" [(ngModel)]="tagInput" value="">
   </mat-form-field>
-  <button mat-raised-button color="primary" (click)='push_tag()'>Confirm</button>
+  <button mat-raised-button color="primary" (click)="push_tag()">Confirm</button>
 
   <h3>Removing Tags</h3>
-  <mat-selection-list>
-    <mat-list-option *ngFor="let tag of tag_list">
+  <mat-selection-list [(ngModel)]="selectedTags">
+    <mat-list-option *ngFor="let tag of tag_list" [value]="tag.name">
       {{tag.name}}
     </mat-list-option>
   </mat-selection-list>
-  <button mat-raised-button color="warn">Delete Selected</button>
+  <button mat-raised-button color="warn" (click)="delete_tag()">Delete Selected</button>
 </div>
 </body>
 </html>
