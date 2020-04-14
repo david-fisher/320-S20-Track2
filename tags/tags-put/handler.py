@@ -23,6 +23,8 @@ def put_tag(tag_name):
 
         sql = "INSERT INTO tags VALUES (%s, %s);"
         conn.execute(sql, [tag_id, tag_name])
+
+    conn.commit()
     conn.close()
     return 200
 

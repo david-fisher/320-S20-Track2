@@ -15,16 +15,15 @@ def remove_tag(tag_id):
     conn = pymysql.connect(rds_host, user=name, passwd=password, db=db_name, connect_timeout=5)
 
     with conn.cursor() as curr:
+        # delete the tag from tags table
         sql = "DELETE FROM `tags` WHERE `tag_id` = %s;"
         conn.execute(sql, [tag_id])
 
-    '''
-        # going to comment this out until we've decided on consistent  error handling
-        # check that it was deleted
-        sql = "SELECT `tag_name` FROM `tags` WHERE `tag_id`=%s"
-        cursor.execute(sql, [tag_id])
-        response = curr.fetchall()
-    '''
+        # remove supporter associations
+        sql = "DELETE FROM `supporter_tags` WHERE `tag_id` = %s;"
+        conn.execute(sql, [tag_id])
+
+    conn.commit()
     conn.close()
     return 200
 
@@ -39,18 +38,9 @@ def lambda_handler(event, context):
     tag_id = int(event["pathParameters"]["id"])
     response = remove_tag(tag_id)
 
-    '''
-    # going to comment this out until we've decided on consistent  error handling
-    if len(response) == 0:
-        statusCode = 200
-        message = "tag {} successfully dropped".format(tag_id)
-    else:
-        statusCode = 400
-        message = "server error: tag {} was not dropped".format(tag_id)
-    '''
     statusCode = response
     message = "tag {} successfully dropped".format(tag_id)
-    
+
     return {
         'statusCode': statusCode,
         'body': {'message': message}
