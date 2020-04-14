@@ -1,31 +1,27 @@
 import json
-import pymysql
+import boto3
 import rds_config
-
-
-#rds settings
-rds_host  = rds_config.endpoint
-name = rds_config.username
-password = rds_config.password
-db_name = rds_config.db_name
+from db_wrapper import execute_statement, extract_records
 
 
 def remove_tag(tag_id):
-    # should be error-checked
-    conn = pymysql.connect(rds_host, user=name, passwd=password, db=db_name, connect_timeout=5)
+    client = boto3.client('rds-data')
 
-    with conn.cursor() as curr:
-        # delete the tag from tags table
-        sql = "DELETE FROM `tags` WHERE `tag_id` = %s;"
-        conn.execute(sql, [tag_id])
+    # delete the tag from the tags table
+    sql = "DELETE FROM `tags` WHERE `tag_id` = :tag_id;"
+    sql_parameters = [ {'name':'tag_id', 'value':{'longValue': tag_id} } ]
+    query_result = execute_statement(client, sql, sql_parameters)
+    print("delete from tags table")
+    print(query_result)
 
-        # remove supporter associations
-        sql = "DELETE FROM `supporter_tags` WHERE `tag_id` = %s;"
-        conn.execute(sql, [tag_id])
+    # delete the tag from the supporter_tags table
+    sql = "DELETE FROM `supporter_tags` WHERE `tag_id` = :tag_id;"
+    sql_parameters = [ {'name':'tag_id', 'value':{'longValue': tag_id} ]
+    query_result = execute_statement(client, sql, sql_parameters)
+    print("delete from supporter_tags table")
+    print(query_result)
 
-    conn.commit()
-    conn.close()
-    return 200
+    return {}
 
 
 
@@ -38,10 +34,9 @@ def lambda_handler(event, context):
     tag_id = int(event["pathParameters"]["id"])
     response = remove_tag(tag_id)
 
-    statusCode = response
-    message = "tag {} successfully dropped".format(tag_id)
+    statusCode = 200
 
     return {
         'statusCode': statusCode,
-        'body': {'message': message}
+        'body': {}
     }

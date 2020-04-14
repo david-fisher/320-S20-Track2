@@ -1,30 +1,19 @@
 import json
-import pymysql
+import boto3
 import rds_config
-
-
-#rds settings
-rds_host  = rds_config.endpoint
-name = rds_config.username
-password = rds_config.password
-db_name = rds_config.db_name
+from db_wrapper import execute_statement, extract_records
 
 
 def get_tags():
-    # should be error-checked
-    conn = pymysql.connect(rds_host, user=name, passwd=password, db=db_name, connect_timeout=5)
+    client = boto3.client('rds-data')
 
-    with conn.cursor() as curr:
-        sql = "SELECT * FROM tags;"
-        conn.execute(sql)
-        response = curr.fetchall()
-        print(response)
-    conn.close()
+    # query the database for all current tags
+    sql = "SELECT * FROM tags;"
+    query_result = execute_statement(client, sql)
+
+    # parse the result
+    response = extract_records(query_result)
     return response
-
-
-
-
 
 
 def lambda_handler(event, context):

@@ -1,32 +1,26 @@
 import json
-import pymysql
+import boto3
 import rds_config
-
-
-#rds settings
-rds_host  = rds_config.endpoint
-name = rds_config.username
-password = rds_config.password
-db_name = rds_config.db_name
+from db_wrapper import execute_statement, extract_records
 
 
 def put_tag(tag_name):
-    # should be error-checked
-    conn = pymysql.connect(rds_host, user=name, passwd=password, db=db_name, connect_timeout=5)
+    client = boto3.client('rds-data')
 
-    with conn.cursor() as curr:
-        #generate the next id number
-        sql = "SELECT MAX(tag_id) FROM tags;"
-        conn.execute(sql)
-        response = curr.fetchone()
-        tag_id = response + 1
+    # query database to get next id number
+    sql = "SELECT MAX(tag_id) FROM tags;"
+    query_result = execute_statement(client, sql)
+    max_id = extract_records(query_result)
+    tag_id = 0 if len(max_id) == 0 else max_id[0][0]+1
 
-        sql = "INSERT INTO tags VALUES (%s, %s);"
-        conn.execute(sql, [tag_id, tag_name])
+    # insert the new tag into the database
+    sql = "INSERT INTO tags VALUES (:tag_id, :tag_name);"
+    sql_parameters = [ {'name':'tag_id', 'value':{'longValue': tag_id}}, {'name':'tag_name', 'value':{'stringValue': f'{tag_name}'}}  ]
 
-    conn.commit()
-    conn.close()
-    return 200
+    query_result = execute_statement(client, sql, sql_parameters)
+    print(query_result)
+
+    return {}
 
 
 
@@ -37,14 +31,12 @@ def lambda_handler(event, context):
 
     # extract the tag_name
     tag_name = event["body"]["tag_name"]
-    tag_id = int(event["body"]["tag_name"])
 
     response = put_tag(tag_name)
 
-    statusCode = response
-    message = "tag {} successfully dropped".format(tag_id)
+    statusCode = 200
 
     return {
         'statusCode': statusCode,
-        'body': {'message' : message}
+        'body': {}
     }
