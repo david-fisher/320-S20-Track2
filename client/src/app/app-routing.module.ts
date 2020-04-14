@@ -26,7 +26,7 @@ const appRoutes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'login', component: LoginComponent},
   { path: 'faq', component: FaqComponent},
-  { path: 'createaccount', component: CreateaccountComponent},
+  { path: 'createaccount/:type', component: CreateaccountComponent},
   { path: 'student-findsupporters', component: StudentFindsupportersComponent, canActivate: [ CanActivateRouteGuard]},
   { path: 'student-profile', component: StudentProfileComponent, canActivate: [ CanActivateRouteGuard] },
   { path: 'student-myappointments', component: StudentMyappointmentsComponent, canActivate: [ CanActivateRouteGuard] },

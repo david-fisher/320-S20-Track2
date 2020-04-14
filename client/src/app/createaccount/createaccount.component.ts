@@ -9,7 +9,7 @@ import {ActivatedRoute} from '@angular/router';
 export class CreateaccountComponent implements OnInit {
   userType;
   constructor(private activatedRoute: ActivatedRoute) {
-    this.userType = this.activatedRoute.snapshot.params.name === 'student';
+    this.userType = this.activatedRoute.snapshot.params.type === 'student';
   }
 
   ngOnInit(): void {
