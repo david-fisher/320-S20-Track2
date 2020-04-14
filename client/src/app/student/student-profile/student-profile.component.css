@@ -4,7 +4,7 @@ mat-card-header{
   font-size: xx-large;
 }
 
-h1{
+h1,h4{
   margin: 0 auto;
   padding:20px;
   border:1px  ;
