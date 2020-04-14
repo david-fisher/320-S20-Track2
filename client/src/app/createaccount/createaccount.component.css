@@ -1,21 +1,28 @@
 
 
-h1 {
-  font-size: xx-large;
-  text-align: center;
-}
-.users button,
-.users a {
-  margin-right: 8px;
-}
+/*h1 {*/
+/*  font-size: xx-large;*/
+/*  text-align: center;*/
+/*}*/
+/*.users button,*/
+/*.users a {*/
+/*  margin-right: 8px;*/
+/*}*/
 
-.alignment {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding-top: 10%;
-}
-.center-alignment {
+/*.alignment {*/
+/*  display: flex;*/
+/*  justify-content: center;*/
+/*  align-items: center;*/
+/*  padding-top: 10%;*/
+/*}*/
+/*.center-alignment {*/
+/*  display: flex;*/
+/*  justify-content: center;*/
+/*  align-items: center;*/
+/*}*/
+
+.main-div{
+  height: 80vh;
   display: flex;
   justify-content: center;
   align-items: center;
