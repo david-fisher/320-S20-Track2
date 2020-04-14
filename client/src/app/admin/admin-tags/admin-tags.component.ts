@@ -18,7 +18,7 @@ export class AdminTagsComponent implements OnInit {
     if (this.tagInput.length > 0) {
       for (const entry of TAGS) {
         if (entry.name === this.tagInput) {
-          alert('This tag already exists.');
+          alert('This tag already exists, please input another..');
           return TAGS;
         }
       }
