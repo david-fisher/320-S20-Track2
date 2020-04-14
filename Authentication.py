@@ -1,5 +1,10 @@
 import json
+import random
+import string
 import boto3
+
+def token(N=64):
+    return ''.join(random.choices(string.ascii_uppercase + string.digits + string.ascii_lowercase, k=N))
 
 def authentication_login(event, context):
     username = event['username']
@@ -39,6 +44,7 @@ def authentication_login(event, context):
         loginResponse['username'] = username
         loginResponse['password'] = password
         loginResponse['message'] = 'Login Success'
+        loginResponse['token'] = token
 
     response = {}
     response['statusCode'] = statusCode
