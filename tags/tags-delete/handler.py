@@ -9,7 +9,7 @@ def remove_tag(tag_id):
 
     # delete the tag from the tags table
     sql = "DELETE FROM `tags` WHERE `tag_id` = :tag_id;"
-    sql_parameters = [ {'name':'tag_id', 'value':{'longValue': tag_id} } ]
+    sql_parameters = [ {'name':'tag_id', 'value':{'longValue': tag_id} ]
     query_result = execute_statement(client, sql, sql_parameters)
     print("delete from tags table")
     print(query_result)
