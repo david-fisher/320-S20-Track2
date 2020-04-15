@@ -10,5 +10,4 @@ def supporter_feedbacK(event, context):
         comment = event['comment']
     if 'supporter_id' in event:
         supporter_id = event['supporter_id']
-    
-    
+    #check these
