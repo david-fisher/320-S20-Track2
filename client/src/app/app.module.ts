@@ -51,6 +51,9 @@ import { StudentMakeappointmentComponent } from './student/student-makeappointme
 import { CreateaccountComponent } from './createaccount/createaccount.component';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import {MatFileUploadModule} from 'mat-file-upload';
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+
 
 
 
@@ -82,6 +85,10 @@ import {MatFileUploadModule} from 'mat-file-upload';
     BrowserModule,
     FormsModule,
     BrowserAnimationsModule,
+    CalendarModule.forRoot({
+      provide: DateAdapter,
+      useFactory: adapterFactory,
+    }),
     MatMenuModule,
     MatIconModule,
     MatCardModule,
@@ -110,3 +117,4 @@ import {MatFileUploadModule} from 'mat-file-upload';
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+
