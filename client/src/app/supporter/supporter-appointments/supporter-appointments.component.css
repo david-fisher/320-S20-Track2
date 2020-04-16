@@ -1,32 +1,30 @@
-p {
-  background-color: darkred;
-  color: white;
-  outline-width: 20px;
-  outline-color: black;
-  margin-top: 10px;
-  padding: 10px;
-  width: 400px;
-  margin-left: 2%;
-  border-radius: 2px;
-}
+
 
 h1 {
   color: white;
   background-color: darkred;
-  width: 800px;
+  width: 50%;
   margin-top: 10px;
   padding: 10px;
   margin-left: 2%;
+  border-radius: 10px;
 }
-mat-expansion-panel-header {
-  background-color: darkred;
+
+h3 {
+  width: 300 px;
 }
 
 body {
-  background-color: grey;
+  background-color: beige;
   height: 100vh;
 }
 
-.application-card {
-  width: fit-content;
+.example-header-image {
+  background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
+  background-size: cover;
+}
+
+
+.appointment-card {
+  max-width: 500px;
 }

@@ -51,6 +51,7 @@ import { StudentMakeappointmentComponent } from './student/student-makeappointme
 import { CreateaccountComponent } from './createaccount/createaccount.component';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import {MatFileUploadModule} from 'mat-file-upload';
+import { HttpClientModule } from '@angular/common/http';
 
 
 
@@ -80,6 +81,7 @@ import {MatFileUploadModule} from 'mat-file-upload';
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     FormsModule,
     BrowserAnimationsModule,
     MatMenuModule,

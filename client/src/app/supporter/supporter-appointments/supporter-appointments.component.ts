@@ -15,17 +15,18 @@ export class SupporterAppointmentsComponent implements OnInit {
     return APPOINTMENTS;
   }
 
-  get date(): object{
+  get date(): object {
     return new Date();
   }
 
-  verify(appointment){
-    alert("Are you sure you want to cancel");
-    prompt( "Please state a reason for cancelation.");
-    for (let x in APPOINTMENTS) {
-      if ( APPOINTMENTS[x] === appointment){
-        console.log(parseInt(x));
-        APPOINTMENTS.splice( parseInt(x) , 1 );
+  verify(appointment) {
+    if (confirm('Are you sure you want to cancel?')) {
+      prompt('Please state a reason for cancelation.');
+      for (const x in APPOINTMENTS) {
+        if (APPOINTMENTS[x] === appointment) {
+          console.log(parseInt(x));
+          APPOINTMENTS.splice(parseInt(x), 1);
+        }
       }
     }
   }

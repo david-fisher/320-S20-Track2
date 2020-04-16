@@ -6,16 +6,16 @@
 <h1>Tag Analysis And Management</h1>
 <div class = tagbox>
 
-  <h3>Analytics</h3>
+  <h3 color="primary">Analytics</h3>
   <button mat-raised-button color="warn">Download .csv</button>
 
-  <h3>Adding Tags</h3>
+  <h3 color="primary">Adding Tags</h3>
   <mat-form-field>
     <input matInput placeholder="Write a tag" [(ngModel)]="tagInput" value="">
   </mat-form-field>
   <button mat-raised-button color="primary" (click)="push_tag()">Confirm</button>
 
-  <h3>Removing Tags</h3>
+  <h3 color="primary">Removing Tags</h3>
   <mat-selection-list [(ngModel)]="selectedTags">
     <mat-list-option *ngFor="let tag of tag_list" [value]="tag.name">
       {{tag.name}}

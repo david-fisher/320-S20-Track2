@@ -1,23 +1,10 @@
-<!--<!DOCTYPE html>-->
-<!--<html lang="en">-->
-<!--<meta charset="UTF-8">-->
-<!--<title>"Supporter Appointments!"</title>-->
-<!--<body>-->
-<!--<h1>Your Current Appointments:</h1>-->
-<!--<img src="https://i.imgur.com/MTadDTa.png alt" alt="appointment placeholder">-->
-<!--<br>-->
-<!--<img src="https://i.imgur.com/MTadDTa.png alt" alt="appointment placeholder">-->
-<!--<br>-->
-<!--<img src="https://i.imgur.com/MTadDTa.png alt" alt="appointment placeholder">-->
-<!--</body>-->
-<!--</html>-->
 
+<body>
 <h1>Up Coming Appointments</h1>
-<hr>
 
 <div *ngFor="let appointment of appointments">
   <ul *ngIf="appointment.date > date ">
-    <mat-card [class.mat-elevation-z5]="true" class="example-card">
+    <mat-card [class.mat-elevation-z5]="true" class="appointment-card">
       <mat-card-header>
         <div mat-card-avatar class="example-header-image"></div>
         <mat-card-title>{{appointment.type}}</mat-card-title>
@@ -25,9 +12,7 @@
         <mat-card-subtitle>{{appointment.location}}</mat-card-subtitle>
       </mat-card-header>
       <mat-card-content>
-        <h3>
-          <p>{{appointment.date | date:'HH:mm a  MMM dd yyyy '}}</p>
-        </h3>
+        <h3> {{appointment.date | date:'HH:mm a  MMM dd yyyy '}} </h3>
       </mat-card-content>
       <mat-card-actions>
         <button (click)="verify(appointment)" mat-button routerLink="/supporter-appointments" >Cancel</button>
@@ -37,11 +22,10 @@
 </div>
 
 <h1>Previous Appointments</h1>
-<hr>
 
 <div *ngFor="let appointment of appointments">
   <ul *ngIf="appointment.date <= date ">
-    <mat-card [class.mat-elevation-z5]="true" class="example-card">
+    <mat-card [class.mat-elevation-z5]="true" class="appointment-card">
       <mat-card-header>
         <div mat-card-avatar class="example-header-image"></div>
         <mat-card-title>{{appointment.type}}</mat-card-title>
@@ -49,10 +33,9 @@
         <mat-card-subtitle>{{appointment.location}}</mat-card-subtitle>
       </mat-card-header>
       <mat-card-content>
-        <h3>
-          <p>{{appointment.date | date:'HH:mm a  MMM dd yyyy '}}</p>
-        </h3>
+        <h3> {{appointment.date | date:'HH:mm a  MMM dd yyyy '}} </h3>
       </mat-card-content>
     </mat-card>
   </ul>
 </div>
+</body>

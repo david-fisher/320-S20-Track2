@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {InterestTags} from './interest-tag';
 import {TAGS} from './tag-list';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import {Observable} from "rxjs";
 
 @Component({
   selector: 'app-admin-tags',
@@ -10,8 +12,18 @@ import {TAGS} from './tag-list';
 export class AdminTagsComponent implements OnInit {
   tagInput;
   selectedTags;
+  private tagsURL = 'GET/tags';
+  private http: HttpClient;
+
+  constructor() {
+  }
+
   get tag_list(): Array<InterestTags> {
     return TAGS;
+  }
+
+  get_tags_html(): Observable<InterestTags> {
+    return this.http.get<InterestTags>(this.tagsURL);
   }
 
   push_tag(): Array<InterestTags> {
@@ -49,7 +61,6 @@ export class AdminTagsComponent implements OnInit {
     }
     return TAGS;
   }
-  constructor() { }
 
   ngOnInit(): void {
   }
