@@ -47,10 +47,9 @@ const colors: any = {
 export class StudentMakeappointmentComponent {
   @ViewChild('modalContent', { static: true }) modalContent: TemplateRef<any>;
 
-  view: CalendarView = CalendarView.Month;
-
+  view: CalendarView = CalendarView.Week;
   CalendarView = CalendarView;
-
+  excludeDays: number[] = [0, 6];
   viewDate: Date = new Date();
 
   modalData: {
