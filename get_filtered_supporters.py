@@ -22,7 +22,7 @@ def param_to_sql_param(params, existing_sql_params=None):
         return existing_sql_params + sql_params
     return sql_params
 
-def get_filtered_supporters(event, context):
+def get_supporters(event, context):
 
     # identify filters
     if 'titles' in event:
