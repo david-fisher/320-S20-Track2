@@ -11,9 +11,12 @@ export class StudentProfileComponent implements OnInit {
   public flag = true;
   public studentInfo =
     {
-      studentName: 'Rukai',
+      FirstName: 'Rukai',
+      LastName: 'Cai',
+      PreferredName: 'RK' ,
       Identity: 'Student',
       GraduateYear: '2021' ,
+      Resume: '',
       GraduationYearList: ['2020', '2021', '2022', '2023', '2024'],
       spireID: '3140xxxx',
       Email: 'rukaixxx@umass.edu',

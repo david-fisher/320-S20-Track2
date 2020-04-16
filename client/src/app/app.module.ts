@@ -6,6 +6,7 @@ import { StarRatingModule } from 'angular-star-rating';
 import { MatSliderModule } from '@angular/material/slider';
 import {ClickMeComponent} from './app.click-me.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { HttpClientModule} from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
@@ -51,7 +52,9 @@ import { StudentMakeappointmentComponent } from './student/student-makeappointme
 import { CreateaccountComponent } from './createaccount/createaccount.component';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import {MatFileUploadModule} from 'mat-file-upload';
-import { HttpClientModule } from '@angular/common/http';
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+
 
 
 
@@ -81,9 +84,12 @@ import { HttpClientModule } from '@angular/common/http';
   ],
   imports: [
     BrowserModule,
-    HttpClientModule,
     FormsModule,
     BrowserAnimationsModule,
+    CalendarModule.forRoot({
+      provide: DateAdapter,
+      useFactory: adapterFactory,
+    }),
     MatMenuModule,
     MatIconModule,
     MatCardModule,
@@ -106,9 +112,11 @@ import { HttpClientModule } from '@angular/common/http';
     NgbModule,
     StarRatingModule.forRoot(),
     MatButtonToggleModule,
-    MatFileUploadModule
+    MatFileUploadModule,
+    HttpClientModule
   ],
   providers: [CookieService, AuthService, CanActivateRouteGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+
