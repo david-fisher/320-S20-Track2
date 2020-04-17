@@ -7,11 +7,17 @@ from db_wrapper import execute_statement, extract_records
 # Input: appt_id
 # Output: 200 for success or 404 if appt id not found in db
 def cancel_appt(event, context):
-     # extract the appt id to delete
-    appt_id = int(event["pathParameters"]["id"])
+    # extract the appt id to delete
+    if event == {}:
+        return {
+            'statusCode': 400,
+            'body': 'event is empty {}, path parameter {id} was not properly extracted into event'
+        }
+    else:
+        appt_id = int(event['pathParameters']['id'])
 
     # Check if the appt id exists in database
-    query = "SELECT `appt_id` FROM `appointments` WHERE `appointment_id` = :appt_id;"
+    query = "SELECT `appointment_id` FROM `appointments` WHERE `appointment_id` = :appt_id;"
     sql_params = [{'name': 'appt_id', 'value':{'longValue': appt_id}}]
     existing_appt = execute_statement(query, sql_params)
     
@@ -23,7 +29,7 @@ def cancel_appt(event, context):
         }
 
     # Cancel the appt
-    query = "UPDATE `appointments` SET `cancelled` = true WHERE appointment_id = :appt_id;"
+    query = "UPDATE `appointments` SET `cancelled` = true WHERE `appointment_id` = :appt_id;"
     query_response = execute_statement(query, sql_params)
 
     # Return success 
