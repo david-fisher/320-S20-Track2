@@ -8,15 +8,12 @@ from db_wrapper import execute_statement, extract_records
 # Output: 200 for success or 404 if appt id not found in db
 def cancel_appt(event, context):
      # extract the appt id to delete
-    appt_id = event['appointment_id']
-
-    # Connect to database
-    client = boto3.client('rds-data')
+    appt_id = int(event["pathParameters"]["id"])
 
     # Check if the appt id exists in database
     query = "SELECT `appt_id` FROM `appointments` WHERE `appointment_id` = :appt_id;"
     sql_params = [{'name': 'appt_id', 'value':{'longValue': appt_id}}]
-    existing_appt = execute_statement(client, query, sql_params)
+    existing_appt = execute_statement(query, sql_params)
     
     # Appt id not found
     if existing_appt['records'] == []:
@@ -27,7 +24,7 @@ def cancel_appt(event, context):
 
     # Cancel the appt
     query = "UPDATE `appointments` SET `cancelled` = true WHERE appointment_id = :appt_id;"
-    query_response = execute_statement(client, query, sql_params)
+    query_response = execute_statement(query, sql_params)
 
     # Return success 
     return {
