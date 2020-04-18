@@ -45,7 +45,7 @@ def authentication_login(event, context):
 #     sql = "SELECT password FROM user WHERE email = '%s';" % (username)
 #     )
     
-    if(not verify_password(password, pw['records'][0][0]['stringValue'])):
+    if(not(password == pw['records'][0][0]['stringValue'])):
         loginResponse['message'] = 'Password Does Not Match'
         statusCode = 404
     
