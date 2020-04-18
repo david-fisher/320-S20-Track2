@@ -1,7 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
-
 import { StarRatingModule } from 'angular-star-rating';
 import { MatSliderModule } from '@angular/material/slider';
 import {ClickMeComponent} from './app.click-me.component';
@@ -113,7 +112,8 @@ import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
     StarRatingModule.forRoot(),
     MatButtonToggleModule,
     MatFileUploadModule,
-    HttpClientModule
+    HttpClientModule,
+    BrowserModule,
   ],
   providers: [CookieService, AuthService, CanActivateRouteGuard],
   bootstrap: [AppComponent]

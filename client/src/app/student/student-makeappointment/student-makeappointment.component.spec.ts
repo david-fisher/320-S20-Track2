@@ -8,18 +8,20 @@ import { FlatpickrModule } from 'angularx-flatpickr';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
+import {OwlDateTimeModule} from "ng-pick-datetime";
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    NgbModalModule,
-    FlatpickrModule.forRoot(),
-    CalendarModule.forRoot({
-      provide: DateAdapter,
-      useFactory: adapterFactory,
-    }),
-  ],
+    imports: [
+        CommonModule,
+        FormsModule,
+        NgbModalModule,
+        FlatpickrModule.forRoot(),
+        CalendarModule.forRoot({
+            provide: DateAdapter,
+            useFactory: adapterFactory,
+        }),
+        OwlDateTimeModule,
+    ],
   declarations: [StudentMakeappointmentComponent],
   exports: [StudentMakeappointmentComponent],
 })
