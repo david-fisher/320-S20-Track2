@@ -1,193 +1,162 @@
+import {SUPPORTERS} from './mock-supporters';
+import {Supports} from './supports';
+import {TAGS} from './mock-tags';
+import {Tags} from './tags';
 import {
-  Component,
-  OnInit,
   ChangeDetectionStrategy,
-  ViewChild,
-  TemplateRef,
+  ChangeDetectorRef,
+  Component,
+  Injectable,
+  ViewEncapsulation,
 } from '@angular/core';
-import {
-  startOfDay,
-  endOfDay,
-  subDays,
-  addDays,
-  endOfMonth,
-  isSameDay,
-  isSameMonth,
-  addHours,
-} from 'date-fns';
-import { Subject } from 'rxjs';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import {
-  CalendarEvent,
-  CalendarEventAction,
-  CalendarEventTimesChangedEvent,
-  CalendarView,
-} from 'angular-calendar';
+import { CalendarEvent, CalendarEventTitleFormatter } from 'angular-calendar';
+import { WeekViewHourSegment } from 'calendar-utils';
+import { fromEvent } from 'rxjs';
+import { finalize, takeUntil } from 'rxjs/operators';
+import { addDays, addMinutes, endOfWeek } from 'date-fns';
 
-const colors: any = {
-  red: {
-    primary: '#ad2121',
-    secondary: '#FAE3E3',
-  },
-  blue: {
-    primary: '#1e90ff',
-    secondary: '#D1E8FF',
-  },
-  yellow: {
-    primary: '#e3bc08',
-    secondary: '#FDF1BA',
-  },
-};
+function floorToNearest(amount: number, precision: number) {
+  return Math.floor(amount / precision) * precision;
+}
 
-@Component({
-  selector: 'app-student-makeappointment',
-  templateUrl: './student-makeappointment.component.html',
-  styleUrls: ['./student-makeappointment.component.css']
-})
-export class StudentMakeappointmentComponent {
-  @ViewChild('modalContent', { static: true }) modalContent: TemplateRef<any>;
+function ceilToNearest(amount: number, precision: number) {
+  return Math.ceil(amount / precision) * precision;
+}
 
-  view: CalendarView = CalendarView.Week;
-  CalendarView = CalendarView;
-  excludeDays: number[] = [0, 6];
-  viewDate: Date = new Date();
-
-  modalData: {
-    action: string;
-    event: CalendarEvent;
-  };
-
-  actions: CalendarEventAction[] = [
-    {
-      label: '<i class="fa fa-fw fa-pencil"></i>',
-      a11yLabel: 'Edit',
-      onClick: ({ event }: { event: CalendarEvent }): void => {
-        this.handleEvent('Edited', event);
-      },
-    },
-    {
-      label: '<i class="fa fa-fw fa-times"></i>',
-      a11yLabel: 'Delete',
-      onClick: ({ event }: { event: CalendarEvent }): void => {
-        this.events = this.events.filter((iEvent) => iEvent !== event);
-        this.handleEvent('Deleted', event);
-      },
-    },
-  ];
-
-  refresh: Subject<any> = new Subject();
-
-  events: CalendarEvent[] = [
-    {
-      start: subDays(startOfDay(new Date()), 1),
-      end: addDays(new Date(), 1),
-      title: 'A 3 day event',
-      color: colors.red,
-      actions: this.actions,
-      allDay: true,
-      resizable: {
-        beforeStart: true,
-        afterEnd: true,
-      },
-      draggable: true,
-    },
-    {
-      start: startOfDay(new Date()),
-      title: 'An event with no end date',
-      color: colors.yellow,
-      actions: this.actions,
-    },
-    {
-      start: subDays(endOfMonth(new Date()), 3),
-      end: addDays(endOfMonth(new Date()), 3),
-      title: 'A long event that spans 2 months',
-      color: colors.blue,
-      allDay: true,
-    },
-    {
-      start: addHours(startOfDay(new Date()), 2),
-      end: addHours(new Date(), 2),
-      title: 'A draggable and resizable event',
-      color: colors.yellow,
-      actions: this.actions,
-      resizable: {
-        beforeStart: true,
-        afterEnd: true,
-      },
-      draggable: true,
-    },
-  ];
-
-  activeDayIsOpen: boolean = true;
-
-  constructor(private modal: NgbModal) {}
-
-  dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
-    if (isSameMonth(date, this.viewDate)) {
-      if (
-        (isSameDay(this.viewDate, date) && this.activeDayIsOpen === true) ||
-        events.length === 0
-      ) {
-        this.activeDayIsOpen = false;
-      } else {
-        this.activeDayIsOpen = true;
-      }
-      this.viewDate = date;
+@Injectable()
+export class CustomEventTitleFormatter extends CalendarEventTitleFormatter {
+  weekTooltip(event: CalendarEvent, title: string) {
+    if (!event.meta.tmpEvent) {
+      return super.weekTooltip(event, title);
     }
   }
 
-  eventTimesChanged({
-                      event,
-                      newStart,
-                      newEnd,
-                    }: CalendarEventTimesChangedEvent): void {
-    this.events = this.events.map((iEvent) => {
-      if (iEvent === event) {
-        return {
-          ...event,
-          start: newStart,
-          end: newEnd,
-        };
-      }
-      return iEvent;
-    });
-    this.handleEvent('Dropped or resized', event);
-  }
-
-  handleEvent(action: string, event: CalendarEvent): void {
-    this.modalData = { event, action };
-    this.modal.open(this.modalContent, { size: 'lg' });
-  }
-
-  addEvent(): void {
-    this.events = [
-      ...this.events,
-      {
-        title: 'New event',
-        start: startOfDay(new Date()),
-        end: endOfDay(new Date()),
-        color: colors.red,
-        draggable: true,
-        resizable: {
-          beforeStart: true,
-          afterEnd: true,
-        },
-      },
-    ];
-  }
-
-  deleteEvent(eventToDelete: CalendarEvent) {
-    this.events = this.events.filter((event) => event !== eventToDelete);
-  }
-
-  setView(view: CalendarView) {
-    this.view = view;
-  }
-
-  closeOpenMonthViewDay() {
-    this.activeDayIsOpen = false;
+  dayTooltip(event: CalendarEvent, title: string) {
+    if (!event.meta.tmpEvent) {
+      return super.dayTooltip(event, title);
+    }
   }
 }
+
+// tslint:disable-next-line max-classes-per-file
+@Component({
+  selector: 'app-student-makeappointment',
+  templateUrl: './student-makeappointment.component.html',
+  styleUrls: ['./student-makeappointment.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [
+    {
+      provide: CalendarEventTitleFormatter,
+      useClass: CustomEventTitleFormatter,
+    },
+  ],
+  styles: [
+    `
+      .disable-hover {
+        pointer-events: none;
+      }
+    `,
+  ],
+  encapsulation: ViewEncapsulation.None,
+})
+export class StudentMakeappointmentComponent {
+  viewDate = new Date();
+  events: CalendarEvent[] = [];
+  dragToCreateActive = false;
+  weekStartsOn: 0 = 0;
+  excludeDays: number[] = [0, 6];
+
+  selectedTags;
+  get supporters(): Supports[] {
+
+    let list: Array<any> = [];
+    if (this.selectedTags == null) {
+      return SUPPORTERS;
+    }
+
+    if (this.selectedTags.length == 0) {
+      return SUPPORTERS;
+    }
+
+    // tslint:disable-next-line:forin
+    for (const x in SUPPORTERS) {
+      // tslint:disable-next-line:prefer-for-of
+      let count: number = 0;
+      for (let i = 0; i <  this.selectedTags.length; i++  ) {
+
+        if (SUPPORTERS[x].tags.includes(this.selectedTags[i])) {
+          count++;
+        }
+      }
+      if(count == this.selectedTags.length){
+        list.push(SUPPORTERS[x]);
+      }
+    }
+    return list;
+  }
+
+  get tags(): Tags {
+    return TAGS;
+  }
+
+  constructor(private cdr: ChangeDetectorRef) {}
+
+  startDragToCreate(
+    segment: WeekViewHourSegment,
+    mouseDownEvent: MouseEvent,
+    segmentElement: HTMLElement
+  ) {
+    const dragToSelectEvent: CalendarEvent = {
+      id: this.events.length,
+      title: 'New event',
+      start: segment.date,
+      meta: {
+        tmpEvent: true,
+      },
+    };
+    this.events = [...this.events, dragToSelectEvent];
+    const segmentPosition = segmentElement.getBoundingClientRect();
+    this.dragToCreateActive = true;
+    const endOfView = endOfWeek(this.viewDate, {
+      weekStartsOn: this.weekStartsOn,
+    });
+
+    fromEvent(document, 'mousemove')
+      .pipe(
+        finalize(() => {
+          delete dragToSelectEvent.meta.tmpEvent;
+          this.dragToCreateActive = false;
+          this.refresh();
+        }),
+        takeUntil(fromEvent(document, 'mouseup'))
+      )
+      .subscribe((mouseMoveEvent: MouseEvent) => {
+        const minutesDiff = ceilToNearest(
+          mouseMoveEvent.clientY - segmentPosition.top,
+          30
+        );
+
+        const daysDiff =
+          floorToNearest(
+            mouseMoveEvent.clientX - segmentPosition.left,
+            segmentPosition.width
+          ) / segmentPosition.width;
+
+        const newEnd = addDays(addMinutes(segment.date, minutesDiff), daysDiff);
+        if (newEnd > segment.date && newEnd < endOfView) {
+          dragToSelectEvent.end = newEnd;
+        }
+        this.refresh();
+      });
+  }
+
+  private refresh() {
+    this.events = [...this.events];
+    this.cdr.detectChanges();
+  }
+}
+
+
 
 
 /*@Component({
@@ -201,5 +170,56 @@ export class StudentMakeappointmentComponent implements OnInit {
 
   ngOnInit(): void {
   }
-
 }*/
+
+/*@Component({
+  selector: 'app-student-makeappointment',
+  templateUrl: './student-makeappointment.component.html',
+  styleUrls: ['./student-makeappointment.component.css'],
+  styles: [
+    `
+      .cal-week-view .cal-time-events .cal-day-column {
+        margin-right: 10px;
+      }
+
+      .cal-week-view .cal-hour {
+        width: calc(100% + 10px);
+      }
+    `,
+  ]
+})
+export class StudentMakeappointmentComponent {
+  @ViewChild('modalContent', { static: true }) modalContent: TemplateRef<any>;
+
+  selectedTags;
+  get supporters(): Supports[] {
+
+    let list: Array<any> = [];
+    if (this.selectedTags == null) {
+      return SUPPORTERS;
+    }
+
+    if (this.selectedTags.length == 0) {
+      return SUPPORTERS;
+    }
+
+    // tslint:disable-next-line:forin
+    for (const x in SUPPORTERS) {
+      // tslint:disable-next-line:prefer-for-of
+      let count: number = 0;
+      for (let i = 0; i <  this.selectedTags.length; i++  ) {
+
+        if (SUPPORTERS[x].tags.includes(this.selectedTags[i])) {
+          count++;
+        }
+      }
+      if(count == this.selectedTags.length){
+        list.push(SUPPORTERS[x]);
+      }
+    }
+    return list;
+  }
+
+  get tags(): Tags {
+    return TAGS;
+  }*/

@@ -1,4 +1,9 @@
-module.ts
+@import "~ng-pick-datetime/assets/style/picker.min.css";
+
+button.btn:focus {
+  border-width: 0;
+}
+
 h3 {
   margin: 0 0 10px;
 }
@@ -7,3 +12,26 @@ pre {
   background-color: #f5f5f5;
   padding: 15px;
 }
+
+h4{
+  margin: 1em;
+}
+
+.row{
+  max-width: 98vw;
+}
+
+.sidebox{
+  margin: 1em 3em 0em 3em;
+  overflow-y: scroll;
+  border: solid;
+  max-height: 50vh;
+  border-radius: 7px;
+  -ms-overflow-style: none;
+
+}
+
+.sidebox::-webkit-scrollbar {
+  display: none;
+}
+

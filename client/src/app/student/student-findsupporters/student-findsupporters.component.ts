@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {SUPPORTERS} from './mock-supporters';
-import {Supports} from './supports';
-import {TAGS} from './mock-tags';
+import {SUPPORTERS} from '../student-makeappointment/mock-supporters';
+import {Supports} from '../student-makeappointment/supports';
+import {TAGS} from '../student-makeappointment/mock-tags';
 import {Tags} from './tags';
 
 @Component({
