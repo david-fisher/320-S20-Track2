@@ -27,7 +27,7 @@ def cancel_appt(event, context):
     # If the database does not update the appt to cancelled
     if query_response['numberOfRecordsUpdated'] == 0:
         return {
-            'statusCode': 400,
+            'statusCode': 500,
             'body': json.dumps('Error in cancelling the appointment')
         }
 
@@ -36,6 +36,3 @@ def cancel_appt(event, context):
         'statusCode': 200,
         'body': json.dumps('Successfully cancelled appointment')
     }
-
-
-    
