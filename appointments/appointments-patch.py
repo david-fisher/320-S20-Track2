@@ -16,7 +16,7 @@ def cancel_appt(event, context):
     # Appt id not found
     if existing_appt['records'] == []:
         return {
-            'status code': 404,
+            'statusCode': 404,
             'body': json.dumps('Appointment id not found in database')
         }
 
