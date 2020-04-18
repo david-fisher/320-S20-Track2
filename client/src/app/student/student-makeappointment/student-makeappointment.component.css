@@ -25,6 +25,7 @@ h4{
   margin: 1em 3em 0em 3em;
   overflow-y: scroll;
   border: solid;
+  max-height: 50vh;
   border-radius: 7px;
   -ms-overflow-style: none;
 
