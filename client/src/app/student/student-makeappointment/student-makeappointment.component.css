@@ -1,4 +1,4 @@
-module.ts
+@import '~bootstrap/dist/css/bootstrap.min.css';
 h3 {
   margin: 0 0 10px;
 }
