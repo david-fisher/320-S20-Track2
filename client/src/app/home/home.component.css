@@ -1,8 +1,12 @@
 /* TestComponent's private CSS styles */
-h1 {
-  color: #3F51B5;
-  font-family: Arial, Helvetica, sans-serif;
+.center {
   font-size: 250%;
+  color: white;
+  background-color: #B71C1C;
+  width: 97%;
+  margin-top: 10px;
+  padding: 10px;
+  border-radius: 10px;
 }
 
 .center {

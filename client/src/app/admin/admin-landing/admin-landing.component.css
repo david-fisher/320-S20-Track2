@@ -1,19 +1,7 @@
-h1 {
-  color: white;
-  background-color: darkred;
-  width: 800px;
-  margin-top: 10px;
-  padding: 10px;
-  margin-left: 10px;
-}
 
-body {
-  background-color: grey;
-}
 
 .mat-raised-button {
   font-size: 1.6em;
   width: 300px;
   height: 40px;
-  color: darkred;
 }

@@ -4,13 +4,6 @@ mat-card-header{
   font-size: xx-large;
 }
 
-h1,h4{
-  margin: 0 auto;
-  padding:20px;
-  border:1px  ;
-  font-size: large;
-}
-
 .red{
   color: red;
 }
@@ -18,13 +11,22 @@ h1,h4{
 h2{
   font-size: large;
   text-align: right;
+  background-color: whitesmoke;
+  color: black;
+  width: 90%;
+  font-size: large;
 }
 
+h1 {
+  background-color: whitesmoke;
+  color: black;
+  font-size: large;
+}
 h3{
   text-align: right;
-  color: white;
+  background-color: whitesmoke;
+  color: black;
   font-size: 16px;
-
 }
 
 .submit{

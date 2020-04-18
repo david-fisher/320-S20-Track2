@@ -12,7 +12,7 @@ export class FaqComponent implements OnInit {
   } // You can leave the constructor blank, http will be automatically "injected" for you
 
   test() { // Function which you can call to make a request
-    this.http.get('http://t2-bucket-storage.s3-website.us-east-2.amazonaws.com/faq').subscribe(res => {
+    this.http.get('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/faq').subscribe(res => {
       console.log(res);
     });
   }

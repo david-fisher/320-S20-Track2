@@ -2,7 +2,7 @@
   <mat-card>
     <mat-card-content>
       <form [formGroup]="form">
-        <h2>Log In</h2>
+        <h2 class = "log-in-h2">Log In</h2>
         <mat-error *ngIf="loginInvalid">
           The username and password were not recognised
         </mat-error>
@@ -33,7 +33,7 @@
   <div *ngIf = "!inputEmail">
     <div class="alignment">
       <div>
-        <h1>
+        <h1 class = "log-in-h1">
           Who are you?
         </h1>
       </div>
@@ -50,7 +50,7 @@
     <mat-card>
       <mat-card-content>
         <form [formGroup]="form">
-          <h2>Please state an email and a password</h2>
+          <h3 class = "log-in-h3">Please state an email and a password</h3>
           <mat-form-field class="full-width-input">
             <input matInput placeholder="Email" formControlName="email" required>
             <mat-error>

@@ -2,5 +2,43 @@
 @import '~css-star-rating/scss/star-rating';
 @import "../node_modules/angular-calendar/css/angular-calendar.css";
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html, body {
+  height: 100vh;
+  background-color: whitesmoke;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  margin: 0;
+}
+h1 {
+  color: white;
+  background-color: #B71C1C;
+  width: 900px;
+  margin-top: 10px;
+  padding: 10px;
+  margin-left: 10px;
+  border-radius: 10px;
+}
+mat-expansion-panel-header {
+  background-color: #B71C1C;
+}
+
+
+h2 {
+  background-color: #B71C1C;
+  color: white;
+  width: 800px;
+  margin-top: 10px;
+  padding: 10px;
+  margin-left: 10px;
+  border-radius: 5px;
+}
+
+h3 {
+  color: white;
+  background-color: #B71C1C;
+  width: 580px;
+  margin-top: 10px;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+

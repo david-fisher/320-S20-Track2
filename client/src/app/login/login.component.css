@@ -12,10 +12,29 @@ mat-form-field {
   padding-top: 1em;
 }
 
-h1 {
-  font-size: xx-large;
+.log-in-h1 {
+  align-content: center;
   text-align: center;
 }
+
+.log-in-h2 {
+  background-color: #B71C1C;
+  color: white;
+  width: 360px;
+  margin-top: 10px;
+  border-radius: 5px;
+  align-content: center;
+}
+
+.log-in-h3 {
+  background-color: #B71C1C;
+  color: white;
+  width: 360px;
+  margin-top: 10px;
+  border-radius: 5px;
+  align-content: center;
+}
+
 .users button,
 .users a {
   margin-right: 8px;

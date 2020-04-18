@@ -1,24 +1,3 @@
-
-
-h1 {
-  color: white;
-  background-color: darkred;
-  width: 50%;
-  margin-top: 10px;
-  padding: 10px;
-  margin-left: 2%;
-  border-radius: 10px;
-}
-
-h3 {
-  width: 300 px;
-}
-
-body {
-  background-color: beige;
-  height: 100vh;
-}
-
 .example-header-image {
   background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
   background-size: cover;

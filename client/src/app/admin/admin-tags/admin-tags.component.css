@@ -1,29 +1,5 @@
-h1 {
-  color: white;
-  background-color: darkred;
-  width: 800px;
-  margin-top: 10px;
-  padding: 10px;
-  margin-left: 10px;
-}
-
-body {
-  background-color: grey;
-  height: 110%;
-  background-size: cover;
-}
-
-h3 {
-  color: white;
-  background-color: darkred;
-  width: 580px;
-  margin-top: 10px;
-  padding: 10px;
-}
-
-
 .tagbox {
-  background-color: lightgrey;
+  background-color: white;
   width: 600px;
   margin-left: 30px;
   padding: 10px;

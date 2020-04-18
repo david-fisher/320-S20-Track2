@@ -10,9 +10,9 @@
         <mat-card-subtitle>{{appointment.supporter}}</mat-card-subtitle>
       </mat-card-header>
       <mat-card-content>
-        <h3>
+        <h4>
           <p>{{appointment.date | date:'HH:mm a  MMM dd yyyy '}}</p>
-        </h3>
+        </h4>
       </mat-card-content>
       <mat-card-actions>
         <button (click)="varify(appointment)" mat-button routerLink="/student-myappointments" >Cancel</button>
@@ -33,9 +33,9 @@
         <mat-card-subtitle>{{appointment.supporter}}</mat-card-subtitle>
       </mat-card-header>
       <mat-card-content>
-        <h3>
+        <h4>
           <p>{{appointment.date | date:'HH:mm a  MMM dd yyyy '}}</p>
-        </h3>
+        </h4>
       </mat-card-content>
       <mat-card-actions>
         <button mat-button [routerLink]="['/student-ratesupporter', appointment.supporter]">RATE</button>
