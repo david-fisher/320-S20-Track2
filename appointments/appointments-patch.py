@@ -2,10 +2,10 @@ import json
 from db_wrapper import execute_statement, extract_records
 
 # Cancels the appt by setting the 'cancelled' boolean in the db to true
-# Input: appt_id
-# Output: 200 for success or 404 if appt id not found in db
+# Input: appointment_id
+# Output: 200 for success, 404 if appt id not found in db, 500 if error cancelling appt
 def cancel_appt(event, context):
-    # extract the appt id to delete
+    # Extract the appt id to delete
     appt_id = int(event['pathParameters']['id'])
 
     # Check if the appt id exists in database
