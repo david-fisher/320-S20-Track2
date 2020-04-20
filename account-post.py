@@ -1,7 +1,6 @@
 import boto3
 import json
-
-from package import db_config
+import rds_config
 
 
 # converts variables into boto3 SQL query input parameters. Also appends variables to existing SQL params if included
@@ -32,8 +31,8 @@ def update_account(event, context):
                               "WHERE user_id_ = %s")
 
     supporter_exists_param = param_to_sql_param([user_id_])
-    supporter_query_response = client.execute_statement(resourceArn=db_config.ARN,
-                                            secretArn=db_config.SECRET_ARN,
+    supporter_query_response = client.execute_statement(resourceArn=rds_config.ARN,
+                                            secretArn=rds_config.SECRET_ARN,
                                             sql=supporter_exists_query,
                                             parameters=supporter_exists_param)
     if(supporter_query_response.rowcount != 0):
@@ -44,8 +43,8 @@ def update_account(event, context):
                             "FROM student "
                             "WHERE user_id_ = %s")
     student_exists_param = param_to_sql_param([user_id_])
-    student_query_response = client.execute_statement(resourceArn=db_config.ARN,
-                                            secretArn=db_config.SECRET_ARN,
+    student_query_response = client.execute_statement(resourceArn=rds_config.ARN,
+                                            secretArn=rds_config.SECRET_ARN,
                                             sql=student_exists_query,
                                             parameters=student_exists_param)
     if(student_query_response.rowcount != 0):
@@ -109,8 +108,8 @@ def update_account(event, context):
                                 "FROM user "
                                 "WHERE email = %s")
         exists_param = param_to_sql_param([user_id_])
-        exists_response = client.execute_statement(resourceArn=db_config.ARN,
-                                            secretArn=db_config.SECRET_ARN,
+        exists_response = client.execute_statement(resourceArn=rds_config.ARN,
+                                            secretArn=rds_config.SECRET_ARN,
                                             sql=supporter_exists_query,
                                             parameters=supporter_exists_param)
         if(exists_response.rowcount != 0):
@@ -122,8 +121,8 @@ def update_account(event, context):
                  "SET email = %s "
                  "WHERE user_id_ = %s;")
         params = param_to_sql_param([email, user_id_])
-        response = client.execute_statement(resourceArn=db_config.ARN,
-                                            secretArn=db_config.SECRET_ARN,
+        response = client.execute_statement(resourceArn=rds_config.ARN,
+                                            secretArn=rds_config.SECRET_ARN,
                                             sql=query,
                                             parameters=params)
         
@@ -133,8 +132,8 @@ def update_account(event, context):
                  f"SET password_ = %s"
                  f"WHERE user_id_ = %s")
         params = param_to_sql_param([password_,user_id_])
-        response = client.execute_statement(resourceArn=db_config.ARN,
-                                            secretArn=db_config.SECRET_ARN,
+        response = client.execute_statement(resourceArn=rds_config.ARN,
+                                            secretArn=rds_config.SECRET_ARN,
                                             sql=response,
                                             parameters=params)
     if first_name:
@@ -142,8 +141,8 @@ def update_account(event, context):
                  f"SET first_name = %s"
                  f"WHERE user_id_ = %s")
         params = param_to_sql_param([first_name,user_id_])
-        response = client.execute_statement(resourceArn=db_config.ARN,
-                                            secretArn=db_config.SECRET_ARN,
+        response = client.execute_statement(resourceArn=rds_config.ARN,
+                                            secretArn=rds_config.SECRET_ARN,
                                             sql=response,
                                             parameters=params)
     if last_name:
@@ -151,8 +150,8 @@ def update_account(event, context):
                  f"SET last_name = %s"
                  f"WHERE user_id_ = %s")
         params = param_to_sql_param([last_name,user_id_])
-        response = client.execute_statement(resourceArn=db_config.ARN,
-                                            secretArn=db_config.SECRET_ARN,
+        response = client.execute_statement(resourceArn=rds_config.ARN,
+                                            secretArn=rds_config.SECRET_ARN,
                                             sql=response,
                                             parameters=params)
     if preferred_name:
@@ -160,8 +159,8 @@ def update_account(event, context):
                  f"SET preferred_name = %s"
                  f"WHERE user_id_ = %s")
         params = param_to_sql_param([preferred_name,user_id_])
-        response = client.execute_statement(resourceArn=db_config.ARN,
-                                            secretArn=db_config.SECRET_ARN,
+        response = client.execute_statement(resourceArn=rds_config.ARN,
+                                            secretArn=rds_config.SECRET_ARN,
                                             sql=response,
                                             parameters=params)
 
@@ -170,8 +169,8 @@ def update_account(event, context):
                  f"SET phone_number = %s"
                  f"WHERE user_id_ = %s")
         params = param_to_sql_param([phone_number,user_id_])
-        response = client.execute_statement(resourceArn=db_config.ARN,
-                                            secretArn=db_config.SECRET_ARN,
+        response = client.execute_statement(resourceArn=rds_config.ARN,
+                                            secretArn=rds_config.SECRET_ARN,
                                             sql=response,
                                             parameters=params)
     if profile_picture:
@@ -179,8 +178,8 @@ def update_account(event, context):
                  f"SET profile_picture = %s"
                  f"WHERE user_id_ = %s")
         params = param_to_sql_param([profile_picture,user_id_])
-        response = client.execute_statement(resourceArn=db_config.ARN,
-                                            secretArn=db_config.SECRET_ARN,
+        response = client.execute_statement(resourceArn=rds_config.ARN,
+                                            secretArn=rds_config.SECRET_ARN,
                                             sql=response,
                                             parameters=params)
     if request_supporter:
@@ -188,8 +187,8 @@ def update_account(event, context):
                  f"SET request_supporter = %s"
                  f"WHERE user_id_ = %s")
         params = param_to_sql_param([request_supporter,user_id_])
-        response = client.execute_statement(resourceArn=db_config.ARN,
-                                            secretArn=db_config.SECRET_ARN,
+        response = client.execute_statement(resourceArn=rds_config.ARN,
+                                            secretArn=rds_config.SECRET_ARN,
                                             sql=response,
                                             parameters=params)
     if active_account:
@@ -197,8 +196,8 @@ def update_account(event, context):
                  f"SET active_account = %s"
                  f"WHERE user_id_ = %s")
         params = param_to_sql_param([active_account,user_id_])
-        response = client.execute_statement(resourceArn=db_config.ARN,
-                                            secretArn=db_config.SECRET_ARN,
+        response = client.execute_statement(resourceArn=rds_config.ARN,
+                                            secretArn=rds_config.SECRET_ARN,
                                             sql=response,
                                             parameters=params)
     if gpa:
@@ -206,8 +205,8 @@ def update_account(event, context):
                  f"SET GPA = %s"
                  f"WHERE user_id_ = %s")
         params = param_to_sql_param([GPA,user_id_])
-        response = client.execute_statement(resourceArn=db_config.ARN,
-                                            secretArn=db_config.SECRET_ARN,
+        response = client.execute_statement(resourceArn=rds_config.ARN,
+                                            secretArn=rds_config.SECRET_ARN,
                                             sql=response,
                                             parameters=params)
     if grad_year:
@@ -215,8 +214,8 @@ def update_account(event, context):
                  f"SET grad_year = %s"
                  f"WHERE user_id_ = %s")
         params = param_to_sql_param([grad_year,user_id_])
-        response = client.execute_statement(resourceArn=db_config.ARN,
-                                            secretArn=db_config.SECRET_ARN,
+        response = client.execute_statement(resourceArn=rds_config.ARN,
+                                            secretArn=rds_config.SECRET_ARN,
                                             sql=response,
                                             parameters=params)
     if grad_year:
@@ -224,8 +223,8 @@ def update_account(event, context):
                  f"SET grad_year = %s"
                  f"WHERE user_id_ = %s")
         params = param_to_sql_param([grad_year,user_id_])
-        response = client.execute_statement(resourceArn=db_config.ARN,
-                                            secretArn=db_config.SECRET_ARN,
+        response = client.execute_statement(resourceArn=rds_config.ARN,
+                                            secretArn=rds_config.SECRET_ARN,
                                             sql=response,
                                             parameters=params)
     if resume_ref:
@@ -233,8 +232,8 @@ def update_account(event, context):
                  f"SET resume_ref = %s"
                  f"WHERE user_id_ = %s")
         params = param_to_sql_param([resume_ref,user_id_])
-        response = client.execute_statement(resourceArn=db_config.ARN,
-                                            secretArn=db_config.SECRET_ARN,
+        response = client.execute_statement(resourceArn=rds_config.ARN,
+                                            secretArn=rds_config.SECRET_ARN,
                                             sql=response,
                                             parameters=params)
     if transcript_ref:
@@ -242,8 +241,8 @@ def update_account(event, context):
                  f"SET transcript_ref = %s"
                  f"WHERE user_id_ = %s")
         params = param_to_sql_param([transcript_ref,user_id_])
-        response = client.execute_statement(resourceArn=db_config.ARN,
-                                            secretArn=db_config.SECRET_ARN,
+        response = client.execute_statement(resourceArn=rds_config.ARN,
+                                            secretArn=rds_config.SECRET_ARN,
                                             sql=response,
                                             parameters=params)
     if github_link:
@@ -251,8 +250,8 @@ def update_account(event, context):
                  f"SET github_link = %s"
                  f"WHERE user_id_ = %s")
         params = param_to_sql_param([github_link,user_id_])
-        response = client.execute_statement(resourceArn=db_config.ARN,
-                                            secretArn=db_config.SECRET_ARN,
+        response = client.execute_statement(resourceArn=rds_config.ARN,
+                                            secretArn=rds_config.SECRET_ARN,
                                             sql=response,
                                             parameters=params)
     if linkedin_link:
@@ -260,8 +259,8 @@ def update_account(event, context):
                  f"SET linkedin_link = %s"
                  f"WHERE user_id_ = %s")
         params = param_to_sql_param([linkedin_link,user_id_])
-        response = client.execute_statement(resourceArn=db_config.ARN,
-                                            secretArn=db_config.SECRET_ARN,
+        response = client.execute_statement(resourceArn=rds_config.ARN,
+                                            secretArn=rds_config.SECRET_ARN,
                                             sql=response,
                                             parameters=params)
     if is_undergrad:
@@ -269,8 +268,8 @@ def update_account(event, context):
                  f"SET is_undergrad = %s"
                  f"WHERE user_id_ = %s")
         params = param_to_sql_param([is_undergrad,user_id_])
-        response = client.execute_statement(resourceArn=db_config.ARN,
-                                            secretArn=db_config.SECRET_ARN,
+        response = client.execute_statement(resourceArn=rds_config.ARN,
+                                            secretArn=rds_config.SECRET_ARN,
                                             sql=response,
                                             parameters=params)
     
@@ -279,8 +278,8 @@ def update_account(event, context):
                  f"SET title = %s"
                  f"WHERE user_id_ = %s")
         params = param_to_sql_param([title,user_id_])
-        response = client.execute_statement(resourceArn=db_config.ARN,
-                                            secretArn=db_config.SECRET_ARN,
+        response = client.execute_statement(resourceArn=rds_config.ARN,
+                                            secretArn=rds_config.SECRET_ARN,
                                             sql=response,
                                             parameters=params)
 
@@ -289,8 +288,8 @@ def update_account(event, context):
                  f"SET current_employer = %s"
                  f"WHERE user_id_ = %s")
         params = param_to_sql_param([current_employer,user_id_])
-        response = client.execute_statement(resourceArn=db_config.ARN,
-                                            secretArn=db_config.SECRET_ARN,
+        response = client.execute_statement(resourceArn=rds_config.ARN,
+                                            secretArn=rds_config.SECRET_ARN,
                                             sql=response,
                                             parameters=params)
 
@@ -299,8 +298,8 @@ def update_account(event, context):
                  f"SET supporter_type = %s"
                  f"WHERE user_id_ = %s")
         params = param_to_sql_param([supporter_type,user_id_])
-        response = client.execute_statement(resourceArn=db_config.ARN,
-                                            secretArn=db_config.SECRET_ARN,
+        response = client.execute_statement(resourceArn=rds_config.ARN,
+                                            secretArn=rds_config.SECRET_ARN,
                                             sql=response,
                                             parameters=params)
     if calendar_ref:
@@ -308,8 +307,8 @@ def update_account(event, context):
                  f"SET calendar_ref = %s"
                  f"WHERE user_id_ = %s")
         params = param_to_sql_param([calendar_ref,user_id_])
-        response = client.execute_statement(resourceArn=db_config.ARN,
-                                            secretArn=db_config.SECRET_ARN,
+        response = client.execute_statement(resourceArn=rds_config.ARN,
+                                            secretArn=rds_config.SECRET_ARN,
                                             sql=response,
                                             parameters=params)
     if calendar_sync:
@@ -317,8 +316,8 @@ def update_account(event, context):
                  f"SET calendar_sync = %s"
                  f"WHERE user_id_ = %s")
         params = param_to_sql_param([calendar_sync,user_id_])
-        response = client.execute_statement(resourceArn=db_config.ARN,
-                                            secretArn=db_config.SECRET_ARN,
+        response = client.execute_statement(resourceArn=rds_config.ARN,
+                                            secretArn=rds_config.SECRET_ARN,
                                             sql=response,
                                             parameters=params)
     if calendar_sync_freq:
@@ -326,8 +325,8 @@ def update_account(event, context):
                  f"SET calendar_sync_freq = %s"
                  f"WHERE user_id_ = %s")
         params = param_to_sql_param([calendar_sync_freq,user_id_])
-        response = client.execute_statement(resourceArn=db_config.ARN,
-                                            secretArn=db_config.SECRET_ARN,
+        response = client.execute_statement(resourceArn=rds_config.ARN,
+                                            secretArn=rds_config.SECRET_ARN,
                                             sql=response,
                                             parameters=params)
     

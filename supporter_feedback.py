@@ -3,7 +3,7 @@ import json
 
 from package import db_config
 
-def supporter_feedbacK(event, context):
+def supporter_feedback(event, context):
     if 'rating' in event:
         rating = event['rating']
     if 'appointment_id' in event:
@@ -20,7 +20,7 @@ def supporter_feedbacK(event, context):
     # f"VALUES(%s,%s,%s,%s)")
     add_supporter_rating_query= (f"INSERT INTO student_feedback" 
     f"(appointment_id,student_id,rating,recommended) "
-    f"VALUES({appointment_id},{student_id},{rating},{recommended})")
+    f"VALUES(%s,%s,%s,%s)")
 
     # info = (appointment_id, student_id, rating, recommended)
 
