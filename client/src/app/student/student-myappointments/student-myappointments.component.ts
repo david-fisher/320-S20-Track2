@@ -1,7 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {APPOINTMENTS} from './mock-appointments';
 import {Appointments} from './appointments';
-import {toInteger} from "@ng-bootstrap/ng-bootstrap/util/util";
+import { HttpClient } from '@angular/common/http';
+import { HttpParams } from '@angular/common/http';
 
 @Component({
   selector: 'app-myappointments',
@@ -9,6 +10,8 @@ import {toInteger} from "@ng-bootstrap/ng-bootstrap/util/util";
   styleUrls: ['./student-myappointments.component.css']
 })
 export class StudentMyappointmentsComponent implements OnInit {
+
+
 
   constructor() {
   }
