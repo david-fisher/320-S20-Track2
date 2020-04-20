@@ -115,7 +115,6 @@ def update_account(event, context):
                                             parameters=supporter_exists_param)
         if(exists_response.rowcount != 0):
             return {
-                'body': "Email already registered in database"
                 'statusCode': 204
             }
         
