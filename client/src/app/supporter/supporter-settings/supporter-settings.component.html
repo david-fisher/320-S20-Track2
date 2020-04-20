@@ -79,6 +79,18 @@
       <li><mat-checkbox>Allow thumbs-up/thumbs-down</mat-checkbox></li>
       <li><mat-checkbox>Allow five-star ratings</mat-checkbox></li>
       <li><mat-checkbox>Allow comments</mat-checkbox></li>
+      <li>Add a custom feedback question
+      <mat-form-field class="input">
+        <input matInput placeholder="Question" value="">
+      </mat-form-field>
+        <button mat-raised-button color="primary">Confirm</button></li>
+<!--      <li>Current Feedback Questions-->
+<!--      <mat-selection-list [(ngModel)]="selectedQuestions">-->
+<!--        <mat-list-option *ngFor="let question of questions_https" [value]="question.name">-->
+<!--          {{question.name}}-->
+<!--        </mat-list-option>-->
+<!--      </mat-selection-list></li>-->
+<!--      <li><button mat-raised-button color="warn" (click)="delete_question()">Delete Selected</button></li>-->
     </ul>
   </mat-expansion-panel>
 
