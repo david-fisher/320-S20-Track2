@@ -7,22 +7,22 @@
         <form class="container">
           <mat-form-field appearance="fill">
             <mat-label>Name</mat-label>
-            <input matInput placeholder="ex. John" required>
+            <input matInput placeholder="ex. John" required [(ngModel)]="userName">
           </mat-form-field>
           <br>
           <mat-form-field appearance="fill">
             <mat-label>Preferred Name</mat-label>
-            <input matInput placeholder="ex. Jack" required>
+            <input matInput placeholder="ex. Jack" required [(ngModel)]="preferredName">
           </mat-form-field>
           <br>
           <mat-form-field appearance="fill">
             <mat-label>GPA</mat-label>
-            <input matInput placeholder="ex. 3.12">
+            <input matInput placeholder="ex. 3.12" [(ngModel)]="gpa">
           </mat-form-field>
           <br>
           <mat-form-field appearance="fill">
             <mat-label>Graduation Year</mat-label>
-            <mat-select>
+            <mat-select [(ngModel)]="gradYear">
               <mat-option value="2020">2020</mat-option>
               <mat-option value="2020">2021</mat-option>
               <mat-option value="2020">2022</mat-option>
@@ -33,12 +33,12 @@
           <br>
           <mat-form-field appearance="fill">
             <mat-label>GitHub</mat-label>
-            <input matInput placeholder="ex. https://github.com/user">
+            <input matInput placeholder="ex. https://github.com/user" [(ngModel)]="github">
           </mat-form-field>
           <br>
           <mat-form-field appearance="fill">
             <mat-label>LinkedIn</mat-label>
-            <input matInput placeholder="ex. https://www.linkedin.com/in/user/">
+            <input matInput placeholder="ex. https://www.linkedin.com/in/user/" [(ngModel)]="linkedin">
           </mat-form-field>
           <br>
           <mat-file-upload
@@ -74,6 +74,43 @@
 </div>
 
 <!-- Supporter -->
-<div *ngIf = "userType">
+<div *ngIf = "!userType">
+  <div class="main-div">
+    <mat-card [class.mat-elevation-z5]="true">
+      <mat-card-content>
+        <h2>Create a Supporter Account</h2>
+        <form class="container">
+          <mat-form-field appearance="fill">
+            <mat-label>Name</mat-label>
+            <input matInput placeholder="ex. John" required [(ngModel)]="userName">
+          </mat-form-field>
+          <br>
+          <mat-form-field appearance="fill">
+            <mat-label>Preferred Name</mat-label>
+            <input matInput placeholder="ex. Jack" required [(ngModel)]="preferredName">
+          </mat-form-field>
+          <br>
+          <mat-form-field appearance="fill">
+            <mat-label>Title</mat-label>
+            <input matInput placeholder="ex. Principle Software Engineer" required [(ngModel)]="userTitle">
+          </mat-form-field>
+          <br>
+          <mat-form-field appearance="fill">
+            <mat-label>Current Employer</mat-label>
+            <input matInput placeholder="ex. Google" required [(ngModel)]="currentEmployer">
+          </mat-form-field>
+          <br>
+          <span>Supporter Types</span>
+          <br>
+          <mat-checkbox class="padding">Alumni</mat-checkbox>
+          <mat-checkbox class="padding">Industry Affiliate</mat-checkbox>
+          <mat-checkbox class="padding">Professor</mat-checkbox>
 
+        </form>
+        <div>
+          <button mat-raised-button (click)="sendData()" routerLink="/login" color="primary">Create Account</button>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
 </div>
