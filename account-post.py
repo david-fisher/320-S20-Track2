@@ -116,7 +116,7 @@ def update_account(event, context):
         if(exists_response.rowcount != 0):
             return {
                 'body': "Email already registered in database"
-                'returnCode': 204
+                'statusCode': 204
             }
         
         query = ("UPDATE user "
