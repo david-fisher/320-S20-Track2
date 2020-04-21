@@ -17,6 +17,7 @@ export class CreateaccountComponent implements OnInit {
   gradYear: string;
   github: string;
   linkedin: string;
+  phoneNum: string;
   supporterType: Array<string>;
   userTitle: string;
   currentEmployer: string;

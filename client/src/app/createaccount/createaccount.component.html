@@ -15,6 +15,11 @@
             <input matInput placeholder="ex. Jack" required [(ngModel)]="preferredName">
           </mat-form-field>
           <br>
+<!--          <mat-form-field appearance="fill">-->
+<!--            <mat-label>Phone Number</mat-label>-->
+<!--            <input matInput placeholder="xxx-xxx-xxxx" required [(ngModel)]="phoneNum">-->
+<!--          </mat-form-field>-->
+<!--          <br>-->
           <mat-form-field appearance="fill">
             <mat-label>GPA</mat-label>
             <input matInput placeholder="ex. 3.12" [(ngModel)]="gpa">
@@ -62,6 +67,17 @@
             [acceptedTypes]="'.pdf, .docx'"
           >
           </mat-file-upload>
+          <br>
+<!--          <mat-file-upload-->
+<!--            [labelText]="'Upload Profile Picture:'"-->
+<!--            [selectButtonText]="'Choose File'"-->
+<!--            [uploadButtonText]="'Submit'"-->
+<!--            [allowMultipleFiles]="false"-->
+<!--            [showUploadButton]="true"-->
+<!--            [customSvgIcon]="'close_custom'"-->
+<!--            [acceptedTypes]="'.png, .jpg, .jpeg'"-->
+<!--          >-->
+<!--          </mat-file-upload>-->
 
         </form>
         <div>
@@ -99,13 +115,28 @@
             <mat-label>Current Employer</mat-label>
             <input matInput placeholder="ex. Google" required [(ngModel)]="currentEmployer">
           </mat-form-field>
+<!--          <br>-->
+<!--          <mat-form-field appearance="fill">-->
+<!--            <mat-label>Phone Number</mat-label>-->
+<!--            <input matInput placeholder="xxx-xxx-xxxx" required [(ngModel)]="phoneNum">-->
+<!--          </mat-form-field>-->
           <br>
           <span>Supporter Types</span>
           <br>
           <mat-checkbox class="padding">Alumni</mat-checkbox>
           <mat-checkbox class="padding">Industry Affiliate</mat-checkbox>
           <mat-checkbox class="padding">Professor</mat-checkbox>
-
+<!--          <br>-->
+<!--          <mat-file-upload-->
+<!--            [labelText]="'Upload Profile Picture:'"-->
+<!--            [selectButtonText]="'Choose File'"-->
+<!--            [uploadButtonText]="'Submit'"-->
+<!--            [allowMultipleFiles]="false"-->
+<!--            [showUploadButton]="true"-->
+<!--            [customSvgIcon]="'close_custom'"-->
+<!--            [acceptedTypes]="'.png, .jpg, .jpeg'"-->
+<!--          >-->
+<!--          </mat-file-upload>-->
         </form>
         <div>
           <button mat-raised-button (click)="sendData()" routerLink="/login" color="primary">Create Account</button>
