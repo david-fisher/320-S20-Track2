@@ -5,6 +5,10 @@ import rds_config
 
 # converts variables into boto3 SQL query input parameters. Also appends variables to existing SQL params if included
 def param_to_sql_param(params, existing_sql_params=None):
+    name_index = 0
+    if existing_sql_params:
+        name_index = len(existing_sql_params)
+
     sql_params = []
     for param in params:
 
@@ -27,9 +31,11 @@ def param_to_sql_param(params, existing_sql_params=None):
             }
 
         sql_params.append({
-            'name': str(param),
+            'name': str(name_index),
             'value': value
         })
+        name_index += 1
+
     if existing_sql_params:
         return existing_sql_params + sql_params
     return sql_params
@@ -48,7 +54,7 @@ def update_account(event, context):
     # query to check if supporter or student
     supporter_exists_query = (f"SELECT * "
                               f"FROM supporter "
-                              f"WHERE user_id_ = :{str(user_id_)};")
+                              f"WHERE user_id_ = :{str(0)};")
 
     supporter_exists_param = param_to_sql_param([user_id_])
     supporter_query_response = client.execute_statement(resourceArn=rds_config.ARN,
@@ -62,17 +68,20 @@ def update_account(event, context):
     is_student = False
     student_exists_query = (f"SELECT * "
                             f"FROM student "
-                            f"WHERE user_id_ = :{str(user_id_)};")
+                            f"WHERE user_id_ = :{str(0)};")
     student_exists_param = param_to_sql_param([user_id_])
     student_query_response = client.execute_statement(resourceArn=rds_config.ARN,
                                                       secretArn=rds_config.SECRET_ARN,
                                                       database=rds_config.DB_NAME,
                                                       sql=student_exists_query,
                                                       parameters=student_exists_param)
-    if supporter_query_response["numberOfRecordsUpdated"] != 0:
+    if student_query_response["numberOfRecordsUpdated"] != 0:
         is_student = True
 
     # account update info
+    email = password_ = first_name = last_name = preferred_name = phone_number \
+        = profile_picture = request_supporter = active_account = None
+
     if 'email' in event:
         email = event['email']
     if 'password_' in event:
@@ -93,9 +102,11 @@ def update_account(event, context):
         active_account = event['active_account']
 
     # student update info
+    GPA = grad_year = resume_ref = transcript_ref = github_link = linkedin_link = is_undergrad = None
+
     if is_student:
         if 'GPA' in event:
-            gpa = event['GPA']
+            GPA = event['GPA']
         if 'grad_year' in event:
             grad_year = event['grad_year']
         if 'resume_ref' in event:
@@ -110,6 +121,8 @@ def update_account(event, context):
             is_undergrad = event['is_undergrad']
 
     # supporter update info
+    title = current_employer = supporter_type = calendar_ref = calendar_sync = calendar_sync_freq = None
+
     if is_supporter:
         if 'title' in event:
             title = event['title']
@@ -124,65 +137,66 @@ def update_account(event, context):
         if 'calendar_sync_freq' in event:
             calendar_sync_freq = event['calendar_sync_freq']
 
-    if email:
+    if email is not None:
         # verify email is not already in database
         already_exists_query = (f"SELECT * "
                                 f"FROM user "
-                                f"WHERE email = :{str(email)};")
-        exists_param = param_to_sql_param([user_id_])
+                                f"WHERE email = :{str(0)};")
+        exists_param = param_to_sql_param([email])
         exists_response = client.execute_statement(resourceArn=rds_config.ARN,
                                                    secretArn=rds_config.SECRET_ARN,
                                                    database=rds_config.DB_NAME,
-                                                   sql=supporter_exists_query,
-                                                   parameters=supporter_exists_param)
-        if (exists_response.rowcount != 0):
+                                                   sql=already_exists_query,
+                                                   parameters=exists_param)
+        if exists_response["numberOfRecordsUpdated"] != 0:
             return {
                 'statusCode': 204
             }
 
         query = (f"UPDATE user "
-                 f"SET email = :{str(email)}; "
-                 f"WHERE user_id_ = :{str(user_id_)};")
+                 f"SET email = :{str(0)} "
+                 f"WHERE user_id_ = :{str(1)};")
         params = param_to_sql_param([email, user_id_])
         response = client.execute_statement(resourceArn=rds_config.ARN,
                                             secretArn=rds_config.SECRET_ARN,
+                                            database=rds_config.DB_NAME,
                                             sql=query,
                                             parameters=params)
 
-    if password_:
+    if password_ is not None:
         query = (f"UPDATE user "
-                 f"SET password_ = :{str(password_)};"
-                 f"WHERE user_id_ = :{str(user_id_)};")
+                 f"SET password_ = :{str(0)} "
+                 f"WHERE user_id_ = :{str(1)};")
         params = param_to_sql_param([password_, user_id_])
         response = client.execute_statement(resourceArn=rds_config.ARN,
                                             secretArn=rds_config.SECRET_ARN,
                                             database=rds_config.DB_NAME,
                                             sql=query,
                                             parameters=params)
-    if first_name:
+    if first_name is not None:
         query = (f"UPDATE user "
-                 f"SET first_name = :{str(first_name)};"
-                 f"WHERE user_id_ = :{str(user_id_)};")
+                 f"SET first_name = :{str(0)} "
+                 f"WHERE user_id_ = :{str(1)};")
         params = param_to_sql_param([first_name, user_id_])
         response = client.execute_statement(resourceArn=rds_config.ARN,
                                             secretArn=rds_config.SECRET_ARN,
                                             database=rds_config.DB_NAME,
                                             sql=query,
                                             parameters=params)
-    if last_name:
+    if last_name is not None:
         query = (f"UPDATE user "
-                 f"SET last_name = :{str(last_name)};"
-                 f"WHERE user_id_ = :{str(user_id_)};")
+                 f"SET last_name = :{str(0)} "
+                 f"WHERE user_id_ = :{str(1)};")
         params = param_to_sql_param([last_name, user_id_])
         response = client.execute_statement(resourceArn=rds_config.ARN,
                                             secretArn=rds_config.SECRET_ARN,
                                             database=rds_config.DB_NAME,
                                             sql=query,
                                             parameters=params)
-    if preferred_name:
+    if preferred_name is not None:
         query = (f"UPDATE user "
-                 f"SET preferred_name = :{str(preferred_name)};"
-                 f"WHERE user_id_ = :{str(user_id_)};")
+                 f"SET preferred_name = :{str(0)} "
+                 f"WHERE user_id_ = :{str(1)};")
         params = param_to_sql_param([preferred_name, user_id_])
         response = client.execute_statement(resourceArn=rds_config.ARN,
                                             secretArn=rds_config.SECRET_ARN,
@@ -190,60 +204,60 @@ def update_account(event, context):
                                             sql=query,
                                             parameters=params)
 
-    if phone_number:
+    if phone_number is not None:
         query = (f"UPDATE user "
-                 f"SET phone_number = :{str(phone_number)};"
-                 f"WHERE user_id_ = :{str(user_id_)};")
+                 f"SET phone_number = :{str(0)} "
+                 f"WHERE user_id_ = :{str(1)};")
         params = param_to_sql_param([phone_number, user_id_])
         response = client.execute_statement(resourceArn=rds_config.ARN,
                                             secretArn=rds_config.SECRET_ARN,
                                             database=rds_config.DB_NAME,
                                             sql=query,
                                             parameters=params)
-    if profile_picture:
+    if profile_picture is not None:
         query = (f"UPDATE user "
-                 f"SET profile_picture = :{str(profile_picture)};"
-                 f"WHERE user_id_ = :{str(user_id_)};")
+                 f"SET profile_picture = :{str(0)} "
+                 f"WHERE user_id_ = :{str(1)};")
         params = param_to_sql_param([profile_picture, user_id_])
         response = client.execute_statement(resourceArn=rds_config.ARN,
                                             secretArn=rds_config.SECRET_ARN,
                                             database=rds_config.DB_NAME,
                                             sql=query,
                                             parameters=params)
-    if request_supporter:
+    if request_supporter is not None:
         query = (f"UPDATE user "
-                 f"SET request_supporter = :{str(request_supporter)};"
-                 f"WHERE user_id_ = :{str(user_id_)};")
+                 f"SET request_supporter = :{str(0)} "
+                 f"WHERE user_id_ = :{str(1)};")
         params = param_to_sql_param([request_supporter, user_id_])
         response = client.execute_statement(resourceArn=rds_config.ARN,
                                             secretArn=rds_config.SECRET_ARN,
                                             database=rds_config.DB_NAME,
                                             sql=query,
                                             parameters=params)
-    if active_account:
+    if active_account is not None:
         query = (f"UPDATE user "
-                 f"SET active_account = :{str(active_account)};"
-                 f"WHERE user_id_ = :{str(user_id_)};")
+                 f"SET active_account = :{str(0)} "
+                 f"WHERE user_id_ = :{str(1)};")
         params = param_to_sql_param([active_account, user_id_])
         response = client.execute_statement(resourceArn=rds_config.ARN,
                                             secretArn=rds_config.SECRET_ARN,
                                             database=rds_config.DB_NAME,
                                             sql=query,
                                             parameters=params)
-    if gpa:
+    if GPA is not None:
         query = (f"UPDATE student "
-                 f"SET GPA = :{str(gpa)};"
-                 f"WHERE user_id_ = :{str(user_id_)};")
+                 f"SET GPA = :{str(0)} "
+                 f"WHERE user_id_ = :{str(1)};")
         params = param_to_sql_param([GPA, user_id_])
         response = client.execute_statement(resourceArn=rds_config.ARN,
                                             secretArn=rds_config.SECRET_ARN,
                                             database=rds_config.DB_NAME,
                                             sql=query,
                                             parameters=params)
-    if grad_year:
+    if grad_year is not None:
         query = (f"UPDATE student "
-                 f"SET grad_year = :{str(grad_year)};"
-                 f"WHERE user_id_ = :{str(user_id_)};")
+                 f"SET grad_year = :{str(0)} "
+                 f"WHERE user_id_ = :{str(1)};")
         params = param_to_sql_param([grad_year, user_id_])
         response = client.execute_statement(resourceArn=rds_config.ARN,
                                             secretArn=rds_config.SECRET_ARN,
@@ -251,50 +265,50 @@ def update_account(event, context):
                                             sql=query,
                                             parameters=params)
 
-    if resume_ref:
+    if resume_ref is not None:
         query = (f"UPDATE student "
-                 f"SET resume_ref = :{str(resume_ref)};"
-                 f"WHERE user_id_ = :{str(user_id_)};")
+                 f"SET resume_ref = :{str(0)} "
+                 f"WHERE user_id_ = :{str(1)};")
         params = param_to_sql_param([resume_ref, user_id_])
         response = client.execute_statement(resourceArn=rds_config.ARN,
                                             secretArn=rds_config.SECRET_ARN,
                                             database=rds_config.DB_NAME,
                                             sql=query,
                                             parameters=params)
-    if transcript_ref:
+    if transcript_ref is not None:
         query = (f"UPDATE student "
-                 f"SET transcript_ref = :{str(transcript_ref)};"
-                 f"WHERE user_id_ = :{str(user_id_)};")
+                 f"SET transcript_ref = :{str(0)} "
+                 f"WHERE user_id_ = :{str(1)};")
         params = param_to_sql_param([transcript_ref, user_id_])
         response = client.execute_statement(resourceArn=rds_config.ARN,
                                             secretArn=rds_config.SECRET_ARN,
                                             database=rds_config.DB_NAME,
                                             sql=query,
                                             parameters=params)
-    if github_link:
+    if github_link is not None:
         query = (f"UPDATE student "
-                 f"SET github_link = :{str(github_link)};"
-                 f"WHERE user_id_ = :{str(user_id_)};")
+                 f"SET github_link = :{str(0)} "
+                 f"WHERE user_id_ = :{str(1)};")
         params = param_to_sql_param([github_link, user_id_])
         response = client.execute_statement(resourceArn=rds_config.ARN,
                                             secretArn=rds_config.SECRET_ARN,
                                             database = rds_config.DB_NAME,
                                             sql=query,
                                             parameters=params)
-    if linkedin_link:
+    if linkedin_link is not None:
         query = (f"UPDATE student "
-                 f"SET linkedin_link = :{str(linkedin_link)};"
-                 f"WHERE user_id_ = :{str(user_id_)};")
+                 f"SET linkedin_link = :{str(0)} "
+                 f"WHERE user_id_ = :{str(1)};")
         params = param_to_sql_param([linkedin_link, user_id_])
         response = client.execute_statement(resourceArn=rds_config.ARN,
                                             secretArn=rds_config.SECRET_ARN,
                                             database=rds_config.DB_NAME,
                                             sql=query,
                                             parameters=params)
-    if is_undergrad:
+    if is_undergrad is not None:
         query = (f"UPDATE student "
-                 f"SET is_undergrad = :{str(is_undergrad)};"
-                 f"WHERE user_id_ = :{str(user_id_)};")
+                 f"SET is_undergrad = :{str(0)} "
+                 f"WHERE user_id_ = :{str(1)};")
         params = param_to_sql_param([is_undergrad, user_id_])
         response = client.execute_statement(resourceArn=rds_config.ARN,
                                             secretArn=rds_config.SECRET_ARN,
@@ -302,10 +316,10 @@ def update_account(event, context):
                                             sql=query,
                                             parameters=params)
 
-    if title:
+    if title is not None:
         query = (f"UPDATE supporter "
-                 f"SET title = :{str(title)};"
-                 f"WHERE user_id_ = :{str(user_id_)};")
+                 f"SET title = :{str(0)} "
+                 f"WHERE user_id_ = :{str(1)};")
         params = param_to_sql_param([title, user_id_])
         response = client.execute_statement(resourceArn=rds_config.ARN,
                                             secretArn=rds_config.SECRET_ARN,
@@ -313,10 +327,10 @@ def update_account(event, context):
                                             sql=query,
                                             parameters=params)
 
-    if current_employer:
+    if current_employer is not None:
         query = (f"UPDATE supporter "
-                 f"SET current_employer = :{str(current_employer)};"
-                 f"WHERE user_id_ = :{str(user_id_)};")
+                 f"SET current_employer = :{str(0)} "
+                 f"WHERE user_id_ = :{str(1)};")
         params = param_to_sql_param([current_employer, user_id_])
         response = client.execute_statement(resourceArn=rds_config.ARN,
                                             secretArn=rds_config.SECRET_ARN,
@@ -324,40 +338,40 @@ def update_account(event, context):
                                             sql=query,
                                             parameters=params)
 
-    if supporter_type:
+    if supporter_type is not None:
         query = (f"UPDATE supporter "
-                 f"SET supporter_type = :{str(supporter_type)};"
-                 f"WHERE user_id_ = :{str(user_id_)};")
+                 f"SET supporter_type = :{str(0)} "
+                 f"WHERE user_id_ = :{str(1)};")
         params = param_to_sql_param([supporter_type, user_id_])
         response = client.execute_statement(resourceArn=rds_config.ARN,
                                             secretArn=rds_config.SECRET_ARN,
                                             database=rds_config.DB_NAME,
                                             sql=query,
                                             parameters=params)
-    if calendar_ref:
+    if calendar_ref is not None:
         query = (f"UPDATE supporter "
-                 f"SET calendar_ref = :{str(calendar_ref)};"
-                 f"WHERE user_id_ = :{str(user_id_)};")
+                 f"SET calendar_ref = :{str(0)} "
+                 f"WHERE user_id_ = :{str(1)};")
         params = param_to_sql_param([calendar_ref, user_id_])
         response = client.execute_statement(resourceArn=rds_config.ARN,
                                             secretArn=rds_config.SECRET_ARN,
                                             database=rds_config.DB_NAME,
                                             sql=query,
                                             parameters=params)
-    if calendar_sync:
+    if calendar_sync is not None:
         query = (f"UPDATE supporter "
-                 f"SET calendar_sync = :{str(calendar_sync)};"
-                 f"WHERE user_id_ = :{str(user_id_)};")
+                 f"SET calendar_sync = :{str(0)} "
+                 f"WHERE user_id_ = :{str(1)};")
         params = param_to_sql_param([calendar_sync, user_id_])
         response = client.execute_statement(resourceArn=rds_config.ARN,
                                             secretArn=rds_config.SECRET_ARN,
                                             database=rds_config.DB_NAME,
                                             sql=query,
                                             parameters=params)
-    if calendar_sync_freq:
+    if calendar_sync_freq is not None:
         query = (f"UPDATE supporter "
-                 f"SET calendar_sync_freq = :{str(calendar_sync_freq)};"
-                 f"WHERE user_id_ = :{str(user_id_)};")
+                 f"SET calendar_sync_freq = :{str(0)} "
+                 f"WHERE user_id_ = :{str(1)};")
         params = param_to_sql_param([calendar_sync_freq, user_id_])
         response = client.execute_statement(resourceArn=rds_config.ARN,
                                             secretArn=rds_config.SECRET_ARN,
