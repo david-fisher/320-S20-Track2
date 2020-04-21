@@ -1,6 +1,56 @@
+mat-grid-tile {
+  background: lightblue;
+}
+
+.avatar-card {
+  max-width: 400px;
+  margin: 40px 80px;
+}
+
+.information-card {
+  max-width: 1200px;
+  margin: 40px 80px;
+}
+
+.personal-description-card{
+  max-width: 1200px;
+  margin: 40px 80px;
+}
+
+.links-files-card{
+  max-width: 1200px;
+  margin: 40px 80px;
+}
+
+img {
+  border-radius: 100%;
+}
+
+.avatar {
+  background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
+  background-size: cover;
+}
+
+.settingsbox {
+  background-color: white;
+  width: 800px;
+  margin-left: 30px;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.mat-expansion-panel-header {
+  background-color: lightgrey;
+}
+
+.input {
+  min-width: 150px;
+  max-width: 200px;
+}
+
 mat-card-header{
   text-align: center;
-  color: blue;
+  color: black;
   font-size: xx-large;
 }
 
@@ -17,11 +67,6 @@ h2{
   font-size: large;
 }
 
-h1 {
-  background-color: whitesmoke;
-  color: black;
-  font-size: large;
-}
 h3{
   text-align: right;
   background-color: whitesmoke;
