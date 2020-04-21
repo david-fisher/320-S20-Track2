@@ -53,6 +53,7 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import {MatFileUploadModule} from 'mat-file-upload';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import {MatGridListModule} from '@angular/material/grid-list';
 
 
 
@@ -114,6 +115,7 @@ import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
     MatFileUploadModule,
     HttpClientModule,
     BrowserModule,
+    MatGridListModule,
   ],
   providers: [CookieService, AuthService, CanActivateRouteGuard],
   bootstrap: [AppComponent]

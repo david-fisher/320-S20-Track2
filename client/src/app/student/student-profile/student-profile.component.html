@@ -1,94 +1,67 @@
-<h1><b>Profile</b></h1><hr />
+<mat-grid-list [cols]="4" rowHeight="8rem">
+  <!--Profile picture-->
+  <mat-grid-tile [colspan]="1" [rowspan]="2">
+    <mat-card class="avatar-card" >
+      <img src = "assets/umasslogo.png" alt = "avatar">
+    </mat-card>
+  </mat-grid-tile>
 
-<!--
-<style>
-  span{
-    color: blue;
-    font-size: xx-large;
-  }
-</style>
--->
+  <!--Info/Personal Links: currently contains names, pronouns, major, graduate year, GPA, email-->
+  <mat-grid-tile [colspan]="3" [rowspan]="2">
+    <mat-card class="information-card" >
+      <mat-card-header>
+        <mat-card-title>{{studentInfo.PreferredName}} {{studentInfo.LastName}}</mat-card-title>
+        <mat-card-subtitle>{{studentInfo.Pronouns}} </mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <p>
+          <b>Major: </b> {{studentInfo.Major}}
+          <br>
+          <b>Graduation Year:</b> {{studentInfo.GraduateYear}}
+          <b>GPA: {{studentInfo.GPA}}</b>
+          <br>
+          <b>Email:</b> {{studentInfo.Email}}
+        </p>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-fab (click) = "run()">EDIT</button>
+      </mat-card-actions>
+    </mat-card>
+  </mat-grid-tile>
 
-<!--
-<ul>
-  <li *ngFor="let item of studentInfo">
-    {{item}
-  </li>
-</ul>
--->
-<img src = "assets/umasslogo.png" alt = "logo">
+  <!--Personal Description-->
+  <mat-grid-tile [colspan]="3" [rowspan]="3">
+    <mat-card class="information-card" >
+      <mat-card-header>
+        <mat-card-title>Personal Description</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <p>
+          {{studentInfo.PersonalDescription}} <!--Character Limit Needed-->
+        </p>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-fab (click) = "run()">EDIT</button>
+      </mat-card-actions>
+    </mat-card>
+  </mat-grid-tile>
 
-<mat-card-content>
-<h1 *ngIf = "flag">
-  <div>
-    <ul>
-      <li><b>First Name: </b>{{studentInfo.FirstName}}</li>
-      <br>
-      <li><b>Last Name: </b>{{studentInfo.LastName}}</li>
-      <br>
-      <li><b>Preferred Name: </b>{{studentInfo.PreferredName}}</li>
-      <br>
-      <li><b>Identity: </b> {{studentInfo.Identity}}</li>
-      <br>
-      <li><b>GraduationYear: </b> {{studentInfo.GraduateYear}}</li>
-      <br>
-      <li><b>SpireID: </b> {{studentInfo.spireID}}</li>
-      <br>
-      <li><b>Email: </b> {{studentInfo.Email}}</li>
-      <br>
-      <li><b>GitHub: </b> {{studentInfo.GitHub}}</li>
-      <br>
-      <li><b>Resume: </b>{{studentInfo.Resume}}</li>
-      <mat-card-actions><button mat-fab >Open</button></mat-card-actions>
-      <br>
-    </ul>
-  </div>
-</h1>
-</mat-card-content>
-
-<mat-card-content>
-<h4>
-  <div *ngIf = "!flag">
-    <ul>
-      <mat-form-field>First Name: {{studentInfo.FirstName}}</mat-form-field>>
-      <input type = "text" id = "FirstName" [(ngModel)]="studentInfo.FirstName"/>
-      <br>
-      <mat-form-field>Last Name: {{studentInfo.LastName}}</mat-form-field>>
-      <input type = "text" id = "LastName" [(ngModel)]="studentInfo.LastName"/>
-      <br>
-      <mat-form-field>Preferred Name: {{studentInfo.PreferredName}}</mat-form-field>>
-      <input type = "text" id = "PreferredName" [(ngModel)]="studentInfo.PreferredName"/>
-      <br>
-      <mat-form-field><b>Identity: </b> {{studentInfo.Identity}}</mat-form-field>>
-      <br>
-        <mat-form-field><b>GraduationYear: </b> </mat-form-field>>
-      <select name = "GraduationYear" [(ngModel)]="studentInfo.GraduateYear">
-        <option [value] = "item" *ngFor = "let item of studentInfo.GraduationYearList" >{{item}}</option>
-      </select>
-      <br>
-          <mat-form-field><b>SpireID: </b> {{studentInfo.spireID}}</mat-form-field>>
-      <input type = "text" id = "spireID" [(ngModel)]="studentInfo.spireID"/>
-      <br>
-            <mat-form-field><b>Email: </b> {{studentInfo.Email}}</mat-form-field>>
-      <input type = "text" id = "Email" [(ngModel)]="studentInfo.Email"/>
-      <br>
-              <mat-form-field><b>GitHub: </b> {{studentInfo.GitHub}}</mat-form-field>>
-      <input type = "text" id = "Github" [(ngModel)]="studentInfo.GitHub"/>
-      <br>
-      <mat-form-field><b>Resume: </b> {{studentInfo.Resume}}</mat-form-field>>
-      <mat-card-actions><button mat-fab >Upload</button></mat-card-actions>
-      <br>
-      <mat-card-actions><button mat-fab (click) = "submit()">Submit</button></mat-card-actions>
-    </ul>
-  </div>
-</h4>
-</mat-card-content>
-
-<h2><p>Last modification</p>{{today | date:'yyyy-MM-dd HH:mm'}}</h2>
-
-<mat-card-actions>
-<h3>
-  <button mat-fab (click) = "run()">Modify</button>
-</h3>
-</mat-card-actions>
-
+  <!--Personal Links/Files-->
+  <mat-grid-tile [colspan]="1"[rowspan]="3">
+    <mat-card class="links-files-card" >
+      <mat-card-header>
+        <mat-card-title>Links/Files</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <p>
+          {{studentInfo.GitHub}} <!--Dynamic implementation needed-->
+          <br>
+          {{studentInfo.Resume}}
+        </p>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-fab (click) = "run()">EDIT</button>
+      </mat-card-actions>
+    </mat-card>
+  </mat-grid-tile>
+</mat-grid-list>

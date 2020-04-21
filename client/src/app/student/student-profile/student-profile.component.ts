@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MatGridListModule} from '@angular/material/grid-list';
 
 @Component({
   selector: 'app-profile',
@@ -11,17 +12,17 @@ export class StudentProfileComponent implements OnInit {
   public flag = true;
   public studentInfo =
     {
-      FirstName: 'Rukai',
-      LastName: 'Cai',
-      PreferredName: 'RK' ,
-      Identity: 'Student',
+      PreferredName: 'John' ,
+      LastName: 'Doe',
+      Pronouns: 'He/Him/His' ,
+      Major: 'Computer Science' ,
       GraduateYear: '2021' ,
-      Resume: '',
+      Resume: 'resume.pdf',
       GraduationYearList: ['2020', '2021', '2022', '2023', '2024'],
-      spireID: '3140xxxx',
-      Email: 'rukaixxx@umass.edu',
-      GitHub: 'GitHub.com/Rukai',
-      selfDescription: ''
+      GPA: '4.0',
+      Email: 'johnd@umass.edu',
+      GitHub: 'github.com/john',
+      PersonalDescription: 'A brief personal description'
     };
 
   constructor() { }
