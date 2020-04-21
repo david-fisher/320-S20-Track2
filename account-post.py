@@ -7,8 +7,23 @@ import rds_config
 def param_to_sql_param(params, existing_sql_params=None):
     sql_params = []
     for param in params:
+
+        type = type(param)
+        if type is string:
+            value = {
+                'stringValue': param
+            }
+        elif type is int or type is long:
+            value = {
+                'longValue': param
+            }
+        elif type is double:
+            value = {
+                'doubleValue': param
+            }
+
         sql_params.append({
-            'value': param
+            'value': value
         })
     if existing_sql_params:
         return existing_sql_params + sql_params
@@ -35,7 +50,7 @@ def update_account(event, context):
                                             secretArn=rds_config.SECRET_ARN,
                                             sql=supporter_exists_query,
                                             parameters=supporter_exists_param)
-    if(supporter_query_response.rowcount != 0):
+    if supporter_query_response.rowcount != 0:
         is_supporter = True
 
     is_student = false
