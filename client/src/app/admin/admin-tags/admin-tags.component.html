@@ -17,7 +17,7 @@
 
   <h3 color="primary">Removing Tags</h3>
   <mat-selection-list [(ngModel)]="selectedTags">
-    <mat-list-option *ngFor="let tag of tags_https" [value]="tag.name">
+    <mat-list-option *ngFor="let tag of pageTags" [value]="tag.name">
       {{tag.name}}
     </mat-list-option>
   </mat-selection-list>
