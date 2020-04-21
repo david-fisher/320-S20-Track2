@@ -24,19 +24,25 @@ def put_tag(tag_name):
 
 
 
-
-
-
 def lambda_handler(event, context):
 
     # extract the tag_name
-    tag_name = event["body"]["tag_name"]
+    request_body = json.loads(event["body"])
+    # print(request_body)
+    if (not 'tag_name' in request_body):
+        statusCode = 400
+        response_body = {
+        'message' : 'Invalid request format: request body must contain a value for tag_name.',
+        'request body' : json.dumps(request_body)
+        }
+    else:
+        response_body = put_tag(request_body['tag_name'])
+        statusCode = 201
 
-    response = put_tag(tag_name)
-
-    statusCode = 200
 
     return {
         'statusCode': statusCode,
-        'body': {}
+        'headers' : {},
+        'body': json.dumps(response_body),
+        'isBase64Encoded' : False
     }

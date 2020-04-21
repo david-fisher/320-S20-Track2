@@ -17,11 +17,11 @@ def get_tags():
 
 
 def lambda_handler(event, context):
-    response = get_tags()
 
+    response_body = get_tags()
     statusCode = 200
 
     return {
         'statusCode': statusCode,
-        'body': json.dumps(response)
+        'body': json.dumps(response_body)
     }

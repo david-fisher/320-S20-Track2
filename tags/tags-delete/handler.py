@@ -32,11 +32,11 @@ def lambda_handler(event, context):
 
     # extract the tag id
     tag_id = int(event["pathParameters"]["id"])
-    response = remove_tag(tag_id)
+    response_body = remove_tag(tag_id)
 
-    statusCode = 200
+    statusCode = 204
 
     return {
         'statusCode': statusCode,
-        'body': {}
+        'body': json.dumps(response_body)
     }
