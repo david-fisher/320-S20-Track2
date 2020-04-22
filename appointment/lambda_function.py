@@ -71,8 +71,6 @@ def lambda_handler(event, context):
     # Updating the appointment table
     update = execute_statement(query, sql_params)
 
-    # Update the student-appointment relationship row in some table
-
     return {
         'statusCode': 201,
         'body': json.dumps('Appointment created!')
