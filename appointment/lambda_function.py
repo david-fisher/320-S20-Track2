@@ -44,6 +44,20 @@ def lambda_handler(event, context):
             'body': json.dumps("Supporter not found!"),
             'statusCode': 404
         }
+        
+    #Finding the given type_id
+    query = "SELECT type_id FROM appointment_type WHERE type_id = :type"
+    sql_params = [
+       {'name' : 'type', 'value': {'longValue': type}}
+    ]
+    type_check = execute_statement(query, sql_params)
+    
+    #Checking if the given type_id exists
+    if(supporter_check['records'] == []):
+        return{
+           'body': json.dumps("type not found!"),
+            'statusCode': 404
+        }
     
     # Generating a new appointment_id for the current appointment by adding 1 to the last id
     query = "SELECT appointment_id FROM appointments ORDER BY appointment_id DESC LIMIT 1"
@@ -67,10 +81,8 @@ def lambda_handler(event, context):
     #Updating the appointment table
     update = execute_statement(query, sql_params)
     
-    #Update the student-appointment relationship row in some table
     
     return {
         'statusCode': 201,
         'body': json.dumps('Appointment created!')
     }
-
