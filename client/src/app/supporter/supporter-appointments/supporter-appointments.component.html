@@ -3,7 +3,7 @@
 <h1>Up Coming Appointments</h1>
 
 <div *ngFor="let appointment of appointments">
-  <ul *ngIf="appointment.date > date ">
+  <ul *ngIf="appointment.date >= date ">
     <mat-card [class.mat-elevation-z5]="true" class="appointment-card">
       <mat-card-header>
         <div mat-card-avatar class="example-header-image"></div>
@@ -24,7 +24,7 @@
 <h1>Previous Appointments</h1>
 
 <div *ngFor="let appointment of appointments">
-  <ul *ngIf="appointment.date <= date ">
+  <ul *ngIf="appointment.date < date ">
     <mat-card [class.mat-elevation-z5]="true" class="appointment-card">
       <mat-card-header>
         <div mat-card-avatar class="example-header-image"></div>
