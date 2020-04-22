@@ -9,7 +9,6 @@ import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import {OwlDateTimeModule} from "ng-pick-datetime";
-import {MatListModule} from "@angular/material/list";
 
 @NgModule({
     imports: [
@@ -22,7 +21,6 @@ import {MatListModule} from "@angular/material/list";
             useFactory: adapterFactory,
         }),
         OwlDateTimeModule,
-        MatListModule,
     ],
   declarations: [StudentMakeappointmentComponent],
   exports: [StudentMakeappointmentComponent],

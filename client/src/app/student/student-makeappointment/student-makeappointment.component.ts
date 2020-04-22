@@ -38,8 +38,6 @@ export class CustomEventTitleFormatter extends CalendarEventTitleFormatter {
   }
 }
 
-
-
 // tslint:disable-next-line max-classes-per-file
 @Component({
   selector: 'app-student-makeappointment',
@@ -68,7 +66,6 @@ export class StudentMakeappointmentComponent {
   weekStartsOn: 0 = 0;
   excludeDays: number[] = [0, 6];
 
-  selectedSupporters;
   selectedTags;
   get supporters(): Supports[] {
 
@@ -97,7 +94,6 @@ export class StudentMakeappointmentComponent {
     }
     return list;
   }
-
 
   get tags(): Tags {
     return TAGS;
@@ -151,11 +147,7 @@ export class StudentMakeappointmentComponent {
           dragToSelectEvent.end = newEnd;
         }
         this.refresh();
-        console.log(segment.date);
-        console.log(newEnd);
-        console.log(this.selectedSupporters[0]);
       });
-
   }
 
   private refresh() {

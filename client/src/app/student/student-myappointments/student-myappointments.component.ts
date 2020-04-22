@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {APPOINTMENTS} from './mock-appointments';
 import {Appointments} from './appointments';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { HttpParams } from '@angular/common/http';
 
 @Component({
@@ -12,17 +12,8 @@ import { HttpParams } from '@angular/common/http';
 export class StudentMyappointmentsComponent implements OnInit {
 
 
-  public test1;
 
-  constructor(private http: HttpClient) {
-  }
-
-  test() { // Function which you can call to make a request
-    const headers = new HttpHeaders().set('user_id', '2');
-    this.http.get('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/supporters', { headers }).subscribe(res => {
-      console.log(res);
-      this.test1 = res;
-    });
+  constructor() {
   }
 
 
