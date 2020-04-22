@@ -46,15 +46,30 @@ def update_account(event, context):
     if 'user_id_' in event:
         user_id_ = event['user_id_']
     else:
-        return {'statusCode': 400}
+        return {'statusCode': 404}
 
     client = boto3.client('rds-data')
+
+    # verify user exists
+    user_exists_query = (f"SELECT * "
+                         f"FROM user "
+                         f"WHERE user_id_ = :0;")
+
+    user_exists_param = param_to_sql_param([user_id_])
+    user_query_response = client.execute_statement(resourceArn=rds_config.ARN,
+                                                   secretArn=rds_config.SECRET_ARN,
+                                                   database=rds_config.DB_NAME,
+                                                   sql=user_exists_query,
+                                                   parameters=user_exists_param)
+    if user_query_response["numberOfRecordsUpdated"] == 0:
+        return {'statusCode': 404}
+
 
     is_supporter = False
     # query to check if supporter or student
     supporter_exists_query = (f"SELECT * "
                               f"FROM supporter "
-                              f"WHERE user_id_ = :{str(0)};")
+                              f"WHERE user_id_ = :0;")
 
     supporter_exists_param = param_to_sql_param([user_id_])
     supporter_query_response = client.execute_statement(resourceArn=rds_config.ARN,
@@ -68,7 +83,7 @@ def update_account(event, context):
     is_student = False
     student_exists_query = (f"SELECT * "
                             f"FROM student "
-                            f"WHERE user_id_ = :{str(0)};")
+                            f"WHERE user_id_ = :0;")
     student_exists_param = param_to_sql_param([user_id_])
     student_query_response = client.execute_statement(resourceArn=rds_config.ARN,
                                                       secretArn=rds_config.SECRET_ARN,
