@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import {APPOINTMENTS} from './appointments';
+import {TEST_APPOINTMENTS} from './appointments';
 import {Appointments} from './appointments';
-import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import {InterestTags} from '../../admin/admin-tags/interest-tag';
+import {InterestTags} from "../../admin/admin-tags/interest-tag";
+import {HttpClient, HttpResponse} from '@angular/common/http';
 
 @Component({
   selector: 'app-supporter-appointments',
@@ -11,34 +11,43 @@ import {InterestTags} from '../../admin/admin-tags/interest-tag';
   styleUrls: ['./supporter-appointments.component.css']
 })
 export class SupporterAppointmentsComponent implements OnInit {
-  public test1;
+
+  pageAppointments;
+  userID;
+
   constructor(private http: HttpClient) {
-    this.test1 = this.test;
+    this.pageAppointments = this.appointments;
   }
 
   get appointments(): Array<Appointments> {
-    return APPOINTMENTS;
+    return TEST_APPOINTMENTS;
   }
 
   get date(): object {
     return new Date();
   }
 
-  test() { // Function which you can call to make a request
-    console.log('Are we live?');
-    this.http.get('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/appointments').subscribe(res => {
-      console.log(res);
-      this.test1 = res;
-    });
-  }
+  // get appointments(): Array<Appointments> {
+  //   const result = [];
+  //   this.http.get('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/appointments/1', {}).subscribe(res => {
+  //     console.log(res)
+  //     // @ts-ignore
+  //     for (const appt of res) {
+  //       const newAppt = {name: appt[1]}
+  //       result.push(newAppt);
+  //     }
+  //   });
+  //   console.log(result);
+  //   return result;
+  // }
 
   verify(appointment) {
     if (confirm('Are you sure you want to cancel?')) {
-      prompt('Please state a reason for cancelation.');
-      for (const x in APPOINTMENTS) {
-        if (APPOINTMENTS[x] === appointment) {
+      prompt('Please state a reason for cancellation.');
+      for (const x in TEST_APPOINTMENTS) {
+        if (TEST_APPOINTMENTS[x] === appointment) {
           console.log(parseInt(x));
-          APPOINTMENTS.splice(parseInt(x), 1);
+          TEST_APPOINTMENTS.splice(parseInt(x), 1);
         }
       }
     }
