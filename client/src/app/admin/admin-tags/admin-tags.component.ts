@@ -14,6 +14,7 @@ export class AdminTagsComponent implements OnInit {
   tagInput;
   selectedTags;
   pageTags;
+  deleteList;
 
   constructor(private http: HttpClient) {
     this.pageTags = this.tags_https;
@@ -22,8 +23,9 @@ export class AdminTagsComponent implements OnInit {
   get tags_https(): Array<InterestTags> {
     const result = [];
     this.http.get('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/tags', {}).subscribe(res => {
-      for (const tag of res) {
-        const newTag = {name: tag[1]}
+      console.log(Object.values(res));
+      for (const tag of Object.values(res)) {
+        const newTag = {name: tag[1]};
         result.push(newTag);
       }
     });
@@ -32,38 +34,37 @@ export class AdminTagsComponent implements OnInit {
   }
 
   push_tag() {
-    if (this.tagInput.length > 0) {
-      for (const entry of this.pageTags) {
-        if (entry.name === this.tagInput) {
-          alert('This tag already exists, please input another..');
-        }
-      }
-      if (confirm('Is this the tag you want? Tag: ' + this.tagInput)) {
-        this.http.put('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/tags', {tag_name: this.tagInput}).subscribe();
+    console.log('Is this thing on?');
+    for (const entry of this.pageTags) {
+      if (entry.name === this.tagInput) {
+        alert('This tag already exists, please input another..');
+        return;
       }
     }
-    this.pageTags = this.tags_https;
-  }
+    if (confirm('Is this the tag you want? Tag: ' + this.tagInput)) {
+      this.http.post<InterestTags>('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/tags',
+        {tag_name: this.tagInput}).subscribe(tag => this.pageTags.push(tag));
+      }
+    }
 
-  delete_tag(): Array<InterestTags> {
-    const array = [];
-    for (const entry of this.selectedTags) {
-      array.push(entry);
-   }
-    if (confirm('Are these the tags you wish to delete? Tags: ' + array)) {
-      for (let i = 0; i < array.length; i++) {
-        let index = -1;
-        for (let j = 0; j < TAGS.length; j++) {
-          if (TAGS[j].name === array[i]) {
-            index = j;
+  delete_tag_https() {
+    let deleteId = 0;
+    if (this.selectedTags.length === 0) {
+      alert('No tags selected.');
+      return;
+    }
+    this.http.get('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/tags', {}).subscribe(res => {
+      for (const tag of Object.values(res)) {
+        for (const deleteName of this.selectedTags) {
+          if (tag[1] === deleteName) {
+            deleteId = tag[0];
+            const url = 'https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/tags/' + deleteId.toString();
+            console.log(url);
+            this.http.delete(url).subscribe();
           }
         }
-        if (index > -1) {
-          TAGS.splice(index, 1);
-        }
       }
-    }
-    return TAGS;
+    });
   }
 
   ngOnInit(): void {
