@@ -43,7 +43,11 @@ def lambda_handler(event, context):
         response_body = { 'message' : 'tag successfully created, see Location header for URI' }
         response_headers['Location'] = f'/tags/{tag_id}'
         statusCode = 201
+
+    response_headers["X-Requested-With"] = "*"
     response_headers["Access-Control-Allow-Origin"] = "*"
+    response_headers["Access-Control-Allow-Headers"] = "Content-Type,X-Amz-Date,Authorization,X-Api-Key,x-requested-with'"
+    response_headers["Access-Control-Allow-Methods"] = "OPTIONS,POST,GET,PUT,DELETE"
 
     return {
         'statusCode': statusCode,

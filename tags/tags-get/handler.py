@@ -24,7 +24,10 @@ def lambda_handler(event, context):
     response_body = get_tags()
     statusCode = 200
 
+    response_headers["X-Requested-With"] = "*"
     response_headers["Access-Control-Allow-Origin"] = "*"
+    response_headers["Access-Control-Allow-Headers"] = "Content-Type,X-Amz-Date,Authorization,X-Api-Key,x-requested-with'"
+    response_headers["Access-Control-Allow-Methods"] = "OPTIONS,POST,GET,PUT,DELETE"
 
     return {
         'statusCode': statusCode,
