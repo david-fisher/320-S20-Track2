@@ -20,11 +20,14 @@ def put_tag(tag_name):
     query_result = execute_statement(client, sql, sql_parameters)
     print(query_result)
 
-    return {}
+    return tag_id
 
 
 
 def lambda_handler(event, context):
+
+    response_headers = {}
+    response_body = {}
 
     # extract the tag_name
     request_body = json.loads(event["body"])
@@ -36,13 +39,15 @@ def lambda_handler(event, context):
         'request body' : json.dumps(request_body)
         }
     else:
-        response_body = put_tag(request_body['tag_name'])
+        tag_id = put_tag(request_body['tag_name'])
+        response_body = { 'message' : 'tag successfully created, see Location header for URI' }
+        response_headers['Location'] = f'/tags/{tag_id}'
         statusCode = 201
-
+    response_headers["Access-Control-Allow-Origin"] = "*"
 
     return {
         'statusCode': statusCode,
-        'headers' : {},
+        'headers' : response_headers,
         'body': json.dumps(response_body),
         'isBase64Encoded' : False
     }

@@ -9,19 +9,23 @@ def remove_tag(tag_id):
 
     # delete the tag from the tags table
     sql = "DELETE FROM `tags` WHERE `tag_id` = :tag_id;"
-    sql_parameters = [ {'name':'tag_id', 'value':{'longValue': tag_id} ]
+    sql_parameters = [ {'name':'tag_id', 'value':{'longValue': tag_id} } ]
     query_result = execute_statement(client, sql, sql_parameters)
     print("delete from tags table")
     print(query_result)
+    print(query_result['numberOfRecordsUpdated'])
+    # tag_id didn't actually delete anything
+    if ( query_result['numberOfRecordsUpdated'] == 0 ):
+        return False
 
     # delete the tag from the supporter_tags table
     sql = "DELETE FROM `supporter_tags` WHERE `tag_id` = :tag_id;"
-    sql_parameters = [ {'name':'tag_id', 'value':{'longValue': tag_id} ]
+    sql_parameters = [ {'name':'tag_id', 'value':{'longValue': tag_id} } ]
     query_result = execute_statement(client, sql, sql_parameters)
     print("delete from supporter_tags table")
     print(query_result)
 
-    return {}
+    return True
 
 
 
@@ -30,13 +34,27 @@ def remove_tag(tag_id):
 
 def lambda_handler(event, context):
 
+    response_body = {}
+    response_headers = {}
+
     # extract the tag id
     tag_id = int(event["pathParameters"]["id"])
-    response_body = remove_tag(tag_id)
 
-    statusCode = 204
+    if ( remove_tag(tag_id) ):
+        response_body = { 'message' : 'tag successfully deleted' }
+        statusCode = 200
+    else:
+        statusCode = 404
+        response_body = {
+            'message' : 'Could not find tag associated with specified tag_id',
+            'tag_id' : tag_id
+        }
+
+    response_headers["Access-Control-Allow-Origin"] = "*"
 
     return {
         'statusCode': statusCode,
-        'body': json.dumps(response_body)
+        'headers' : response_headers,
+        'body': json.dumps(response_body),
+        'isBase64Encoded' : False
     }

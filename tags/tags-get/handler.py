@@ -18,10 +18,17 @@ def get_tags():
 
 def lambda_handler(event, context):
 
+    response_headers = {}
+    response_body = {}
+
     response_body = get_tags()
     statusCode = 200
 
+    response_headers["Access-Control-Allow-Origin"] = "*"
+
     return {
         'statusCode': statusCode,
-        'body': json.dumps(response_body)
+        'headers' : response_headers,
+        'body': json.dumps(response_body),
+        'isBase64Encoded' : False
     }
