@@ -2,8 +2,6 @@
 <body>
 <h1>Up Coming Appointments</h1>
 
-<button mat-raised-button color="warn" (click)="test()">Test</button>
-
 <div *ngFor="let appointment of appointments">
   <ul *ngIf="appointment.date >= date ">
     <mat-card [class.mat-elevation-z5]="true" class="appointment-card">
