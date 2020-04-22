@@ -1,5 +1,5 @@
 <!-- TO IMPLEMENT:
-Character limit on description
+Character limit on description（done）
 Clickable links
 Dynamic display for certain attributes
 Edit/update profile picture
@@ -18,6 +18,15 @@ Maybe GraduationYear-->
   <!--Profile picture-->
     <header>Personal Avatar</header>
     <img src = "assets/umasslogo.png" alt = "avatar">
+  <mat-file-upload
+    [labelText]="'Upload Picture:'"
+    [selectButtonText]="'Choose File'"
+    [allowMultipleFiles]="false"
+    [showUploadButton]="true"
+    [customSvgIcon]="'close_custom'"
+    [acceptedTypes]="'.png'"
+  >
+  </mat-file-upload>
   <br>
 
   <!--Info/Personal Links: currently contains names, pronouns, major, graduate year, GPA, email-->
@@ -32,7 +41,7 @@ Maybe GraduationYear-->
         <li>GPA: {{studentInfo.GPA}}</li><br>
         <li>Email: {{studentInfo.Email}}</li><br>
       <mat-card-actions>
-        <button mat-raised-button (click) = "runInformation()">EDIT</button>
+        <button mat-raised-button (click) = "runInformation()" color="primary">EDIT</button>
       </mat-card-actions>
       </ul>
     <!--Edit mode-->
@@ -63,7 +72,7 @@ Maybe GraduationYear-->
           </mat-select>
         </li><br>
         <mat-card-actions>
-          <button mat-raised-button (click) = "submitInformation()">SUBMIT</button>
+          <button mat-raised-button (click) = "submitInformation()" color="primary">SUBMIT</button>
         </mat-card-actions>
       </ul>
   </mat-expansion-panel><br>
@@ -75,7 +84,7 @@ Maybe GraduationYear-->
     <ul *ngIf = "personalDescriptionFlag">
       <li>{{studentInfo.PersonalDescription}}</li><br> <!--Character Limit Needed-->
       <mat-card-actions>
-        <button mat-raised-button (click) = "runPersonalDescription()">EDIT</button>
+        <button mat-raised-button (click) = "runPersonalDescription()" color="primary">EDIT</button>
       </mat-card-actions>
     </ul>
     <!--Edit mode-->
@@ -85,7 +94,7 @@ Maybe GraduationYear-->
                [(ngModel)]="studentInfo.PersonalDescription"  maxlength="50">
       </mat-form-field><br>
       <mat-card-actions>
-        <button mat-raised-button (click) = "submitPersonalDescription()">SUBMIT</button>
+        <button mat-raised-button (click) = "submitPersonalDescription()" color="primary">SUBMIT</button>
       </mat-card-actions>
   </ul>
   </mat-expansion-panel><br>
@@ -95,20 +104,29 @@ Maybe GraduationYear-->
     <mat-expansion-panel-header>Linked File</mat-expansion-panel-header>
     <!--View mode-->
     <ul *ngIf = "linksFilesFlag">
-      <li>Personal Link: {{studentInfo.Links}}</li> <!--Dynamic implementation needed-->
+      <li>Personal Link: {{studentInfo.Links}}</li><br> <!--Dynamic implementation needed-->
       <li>Resume: {{studentInfo.Resume}}</li><br>
       <mat-card-actions>
-        <button mat-raised-button (click) = "runLinksFiles()">EDIT</button>
+        <button mat-raised-button (click) = "runLinksFiles()" color="primary">EDIT</button>
       </mat-card-actions>
     </ul>
     <!--Edit mode-->
     <ul *ngIf = "!linksFilesFlag">
+      Personal link:
       <mat-form-field class="input" appearance="fill">
         <input matInput placeholder="Personal link" [(ngModel)]="studentInfo.Links">
       </mat-form-field><br>
+      <mat-file-upload
+        [labelText]="'Upload File:'"
+        [selectButtonText]="'Choose File'"
+        [allowMultipleFiles]="false"
+        [showUploadButton]="true"
+        [customSvgIcon]="'close_custom'"
+        [acceptedTypes]="'.pdf, .docx'"
+      >
+      </mat-file-upload>
       <mat-card-actions>
-        <button mat-raised-button (click) = "submitLinksFiles()">SUBMIT</button>
-        <button mat-button> UPLOAD </button>
+        <button mat-raised-button (click) = "submitLinksFiles()" color="primary">SUBMIT</button>
       </mat-card-actions>
     </ul>
   </mat-expansion-panel><br>
