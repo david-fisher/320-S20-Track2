@@ -18,27 +18,27 @@ export class SupporterAppointmentsComponent implements OnInit {
     this.pageAppointments = this.appointments;
   }
 
-  // get appointments(): Array<Appointments> {
-  //   return APPOINTMENTS;
-  // }
+  get appointments(): Array<Appointments> {
+    return APPOINTMENTS;
+  }
 
   get date(): object {
     return new Date();
   }
 
-  get appointments(): Array<Appointments> {
-    const result = [];
-    this.http.get('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/appointments/1', {}).subscribe(res => {
-      console.log(res)
-      // @ts-ignore
-      for (const appt of res) {
-        const newAppt = {name: appt[1]}
-        result.push(newAppt);
-      }
-    });
-    console.log(result);
-    return result;
-  }
+  // get appointments(): Array<Appointments> {
+  //   const result = [];
+  //   this.http.get('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/appointments/1', {}).subscribe(res => {
+  //     console.log(res)
+  //     // @ts-ignore
+  //     for (const appt of res) {
+  //       const newAppt = {name: appt[1]}
+  //       result.push(newAppt);
+  //     }
+  //   });
+  //   console.log(result);
+  //   return result;
+  // }
 
   verify(appointment) {
     if (confirm('Are you sure you want to cancel?')) {
