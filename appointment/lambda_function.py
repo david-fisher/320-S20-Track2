@@ -1,6 +1,7 @@
 import json
 import time
 import datetime
+import re
 from db_wrapper import execute_statement, extract_records
 
 #Created by Nishant Acharya
@@ -16,8 +17,10 @@ def lambda_handler(event, context):
     duration_min = int(event['duration'])
     type = int(event['type'])
     cancelled = bool(event['cancelled'])
+    rating = int(event['rating'])
+    recommended = bool(event['recommended'])
     
-    #Findinf the given student_id to check
+    #Finding the given student_id to check
     query = "SELECT user_id_ FROM student WHERE user_id_ = :student_id"
     sql_params = [
         {'name' : 'student_id', 'value': {'longValue': student_id}}
@@ -53,11 +56,14 @@ def lambda_handler(event, context):
     type_check = execute_statement(query, sql_params)
     
     #Checking if the given type_id exists
-    if(supporter_check['records'] == []):
+    if(type_check['records'] == []):
         return{
            'body': json.dumps("type not found!"),
             'statusCode': 404
         }
+    
+    #Checking if the given date string is in the correct format or not
+    
     
     # Generating a new appointment_id for the current appointment by adding 1 to the last id
     query = "SELECT appointment_id FROM appointments ORDER BY appointment_id DESC LIMIT 1"
@@ -65,6 +71,7 @@ def lambda_handler(event, context):
     new_id = execute_statement(query, sql_params)
     appointment_id = new_id['records'][0][0]['longValue'] + 1
     
+    #Inserting the values in the appointments table
     query = """INSERT INTO appointments(appointment_id, supporter_id, date_of_appointment, start_time, duration_in_min, type_id, cancelled) \
         VALUES (:appointment_id, :supporter_id, :appt_date, :start_time, :duration_min, :type, :cancelled)"""
     
@@ -75,12 +82,25 @@ def lambda_handler(event, context):
         {'name' : 'start_time', 'typeHint': 'TIME' ,'value':{'stringValue': start_time}},
         {'name' : 'duration_min', 'value': {'longValue' : duration_min}},
         {'name' : 'type', 'value':{'longValue': type}},
-        {'name':'cancelled', 'value':{'booleanValue': cancelled}},
+        {'name':'cancelled', 'value':{'booleanValue': cancelled}}
     ]  
     
     #Updating the appointment table
     update = execute_statement(query, sql_params)
     
+    #Inserting the values in the student_feedback table
+    query = """INSERT INTO student_feedback(appointment_id, student_id, rating, recommended) \
+        VALUES (:appointment_id, :student_id, :rating, recommended)"""
+    
+    sql_params = [
+        {'name' : 'appointment_id', 'value': {'longValue' : appointment_id}},
+        {'name' : 'student_id', 'value':{'longValue': student_id}},
+        {'name' : 'rating', 'value': {'longValue' : rating}},
+        {'name':'recommended', 'value':{'booleanValue': recommended}}
+    ] 
+    
+    #Updating the student_feedback table
+    update = execute_statement(query, sql_params)
     
     return {
         'statusCode': 201,
