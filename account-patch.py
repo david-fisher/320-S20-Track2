@@ -156,7 +156,7 @@ def update_account(event, context):
         # verify email is not already in database
         already_exists_query = (f"SELECT * "
                                 f"FROM user "
-                                f"WHERE email = :{str(0)};")
+                                f"WHERE email = :0;")
         exists_param = param_to_sql_param([email])
         exists_response = client.execute_statement(resourceArn=rds_config.ARN,
                                                    secretArn=rds_config.SECRET_ARN,
