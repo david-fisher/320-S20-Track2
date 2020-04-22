@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {APPOINTMENTS} from './appointments';
+import {TEST_APPOINTMENTS} from './appointments';
 import {Appointments} from './appointments';
 import { Router } from '@angular/router';
 import {InterestTags} from "../../admin/admin-tags/interest-tag";
@@ -13,13 +13,14 @@ import {HttpClient, HttpResponse} from '@angular/common/http';
 export class SupporterAppointmentsComponent implements OnInit {
 
   pageAppointments;
+  userID;
 
   constructor(private http: HttpClient) {
     this.pageAppointments = this.appointments;
   }
 
   get appointments(): Array<Appointments> {
-    return APPOINTMENTS;
+    return TEST_APPOINTMENTS;
   }
 
   get date(): object {
@@ -43,10 +44,10 @@ export class SupporterAppointmentsComponent implements OnInit {
   verify(appointment) {
     if (confirm('Are you sure you want to cancel?')) {
       prompt('Please state a reason for cancellation.');
-      for (const x in APPOINTMENTS) {
-        if (APPOINTMENTS[x] === appointment) {
+      for (const x in TEST_APPOINTMENTS) {
+        if (TEST_APPOINTMENTS[x] === appointment) {
           console.log(parseInt(x));
-          APPOINTMENTS.splice(parseInt(x), 1);
+          TEST_APPOINTMENTS.splice(parseInt(x), 1);
         }
       }
     }
