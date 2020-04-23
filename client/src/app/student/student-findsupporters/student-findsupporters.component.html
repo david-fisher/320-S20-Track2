@@ -2,16 +2,15 @@
 
   <div class="box">
     <mat-selection-list [(ngModel)]="selectedTags" >
-      <mat-list-option *ngFor="let tag of tags.tags"  [value]="tag">
-        {{tag}}
+      <mat-list-option *ngFor="let tag of pageTags" [value]="tag.name">
+        {{tag.name}}
       </mat-list-option>
     </mat-selection-list>
 
   </div>
   <div class="box">
     <mat-selection-list >
-      <mat-list-option *ngFor="let supporter of supporters"
-      >
+      <mat-list-option *ngFor="let supporter of supporters">
         <p> {{supporter.firstname + ' ' + supporter.lastname }} </p>
       </mat-list-option>
       <mat-action-list>

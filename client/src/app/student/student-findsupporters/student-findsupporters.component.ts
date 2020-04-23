@@ -4,6 +4,8 @@ import {Supports} from '../student-makeappointment/supports';
 import {TAGS} from '../student-makeappointment/mock-tags';
 //import {Tags} from './tags';
 import {Tags} from '../student-makeappointment/tags';
+import {InterestTags} from "../../admin/admin-tags/interest-tag";
+import {HttpClient} from "@angular/common/http";
 
 
 @Component({
@@ -13,9 +15,11 @@ import {Tags} from '../student-makeappointment/tags';
 })
 export class StudentFindsupportersComponent implements OnInit {
   selectedTags;
+  pageTags;
 
-  constructor() { }
-
+  constructor(private http: HttpClient) {
+    this.pageTags = this.tags_https;
+  }
   get supporters(): Supports[] {
 
     let list: Array<any> = [];
@@ -23,7 +27,7 @@ export class StudentFindsupportersComponent implements OnInit {
       return SUPPORTERS;
     }
 
-    if (this.selectedTags.length == 0) {
+    if (this.selectedTags.length === 0) {
       return SUPPORTERS;
     }
 
@@ -31,13 +35,12 @@ export class StudentFindsupportersComponent implements OnInit {
     for (const x in SUPPORTERS) {
       // tslint:disable-next-line:prefer-for-of
       let count: number = 0;
-      for (let i = 0; i <  this.selectedTags.length; i++  ) {
-
+      for (let i = 0; i <  this.selectedTags.length; i++ ) {
           if (SUPPORTERS[x].tags.includes(this.selectedTags[i])) {
             count++;
           }
       }
-      if(count == this.selectedTags.length){
+      if(count === this.selectedTags.length){
         list.push(SUPPORTERS[x]);
       }
     }
@@ -46,6 +49,19 @@ export class StudentFindsupportersComponent implements OnInit {
 
   get tags(): Tags {
     return TAGS;
+  }
+
+  get tags_https(): Array<InterestTags> {
+    const result = [];
+    this.http.get('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/tags', {}).subscribe(res => {
+      console.log(Object.values(res));
+      for (const tag of Object.values(res)) {
+        const newTag = {name: tag[1]};
+        result.push(newTag);
+      }
+    });
+    console.log(result);
+    return result;
   }
 
   ngOnInit(): void {

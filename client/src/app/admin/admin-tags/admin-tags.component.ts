@@ -14,7 +14,6 @@ export class AdminTagsComponent implements OnInit {
   tagInput;
   selectedTags;
   pageTags;
-  deleteList;
 
   constructor(private http: HttpClient) {
     this.pageTags = this.tags_https;
