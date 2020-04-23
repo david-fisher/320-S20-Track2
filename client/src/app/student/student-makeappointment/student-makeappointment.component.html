@@ -16,7 +16,7 @@
         <div class="col-md-12 h-50">
           <h4 class=".mat-h4, .mat-subheading-1" align="center">Choose a Supporter</h4>
           <div class="sidebox">
-            <mat-selection-list >
+            <mat-selection-list multiple="false" >
               <mat-list-option *ngFor="let supporter of supporters"
               >
                 <p> {{supporter.firstname + ' ' + supporter.lastname }} </p>
