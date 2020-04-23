@@ -48,7 +48,7 @@ def update_account(event, context):
     response_headers["Access-Control-Allow-Origin"] = "*"
     response_headers[
         "Access-Control-Allow-Headers"] = "Content-Type,X-Amz-Date,Authorization,X-Api-Key,x-requested-with'"
-    response_headers["Access-Control-Allow-Methods"] = "OPTIONS,POST,GET,PUT,DELETE"
+    response_headers["Access-Control-Allow-Methods"] = "OPTIONS,POST,GET,PUT,DELETE,PATCH"
 
     # identify user
     try:
