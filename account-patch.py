@@ -51,7 +51,21 @@ def update_account(event, context):
     response_headers["Access-Control-Allow-Methods"] = "OPTIONS,POST,GET,PUT,DELETE"
 
     # identify user
-    user_id_ = int(event['pathParameters']['id'])
+    try:
+        if not isinstance(int(event["pathParameters"]["id"]), int):
+            return {
+                'statusCode': 404,
+                'headers': response_headers,
+                'body': "Input is not a valid id"
+            }
+    except:
+        return {
+            'statusCode': 404,
+            'headers': response_headers,
+            'body': "User ID Input Error"
+    }
+
+    user_id_ = int(event["pathParameters"]["id"])
 
     client = boto3.client('rds-data')
 
