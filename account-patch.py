@@ -128,60 +128,60 @@ def update_account(event, context):
     email = password_ = first_name = last_name = preferred_name = phone_number \
         = profile_picture = request_supporter = active_account = None
 
-    if 'email' in event:
-        email = event['email']
-    if 'password_' in event:
-        password_ = event['password_']
-    if 'first_name' in event:
-        first_name = event['first_name']
-    if 'last_name' in event:
-        last_name = event['last_name']
-    if 'preferred_name' in event:
-        preferred_name = event['preferred_name']
-    if 'phone_number' in event:
-        phone_number = event['phone_number']
-    if 'profile_picture' in event:
-        profile_picture = event['profile_picture']
-    if 'request_supporter' in event:
-        request_supporter = event['request_supporter']
-    if 'active_account' in event:
-        active_account = event['active_account']
+    if 'email' in event['body']:
+        email = json.dumps(event['body']['email'])
+    if 'password_' in event['body']:
+        password_ = json.dumps(event['body']['password_'])
+    if 'first_name' in event['body']:
+        first_name = json.dumps(event['body']['first_name'])
+    if 'last_name' in event['body']:
+        last_name = json.dumps(event['body']['last_name'])
+    if 'preferred_name' in event['body']:
+        preferred_name = json.dumps(event['body']['preferred_name'])
+    if 'phone_number' in event['body']:
+        phone_number = json.dumps(event['body']['phone_number'])
+    if 'profile_picture' in event['body']:
+        profile_picture = json.dumps(event['body']['profile_picture'])
+    if 'request_supporter' in event['body']:
+        request_supporter = json.dumps(event['body']['request_supporter'])
+    if 'active_account' in event['body']:
+        active_account = json.dumps(event['body']['active_account'])
 
     # student update info
     GPA = grad_year = resume_ref = transcript_ref = github_link = linkedin_link = is_undergrad = None
 
     if is_student:
-        if 'GPA' in event:
-            GPA = event['GPA']
-        if 'grad_year' in event:
-            grad_year = event['grad_year']
-        if 'resume_ref' in event:
-            resume_ref = event['resume_ref']
-        if 'transcript_ref' in event:
-            transcript_ref = event['transcript_ref']
-        if 'github_link' in event:
-            github_link = event['github_link']
-        if 'linkedin_link' in event:
-            linkedin_link = event['linkedin_link']
-        if 'is_undergrad' in event:
-            is_undergrad = event['is_undergrad']
+        if 'GPA' in event['body']:
+            GPA = json.dumps(event['body']['GPA'])
+        if 'grad_year' in event['body']:
+            grad_year = json.dumps(event['body']['grad_year'])
+        if 'resume_ref' in event['body']:
+            resume_ref = json.dumps(event['body']['resume_ref'])
+        if 'transcript_ref' in event['body']:
+            transcript_ref = json.dumps(event['body']['transcript_ref'])
+        if 'github_link' in event['body']:
+            github_link = json.dumps(event['body']['github_link'])
+        if 'linkedin_link' in event['body']:
+            linkedin_link = json.dumps(event['body']['linkedin_link'])
+        if 'is_undergrad' in event['body']:
+            is_undergrad = json.dumps(event['body']['is_undergrad'])
 
     # supporter update info
     title = current_employer = supporter_type = calendar_ref = calendar_sync = calendar_sync_freq = None
 
     if is_supporter:
-        if 'title' in event:
-            title = event['title']
-        if 'current_employer' in event:
-            current_employer = event['current_employer']
-        if 'supporter_type' in event:
-            supporter_type = event['supporter_type']
-        if 'calendar_ref' in event:
-            calendar_ref = event['calendar_ref']
-        if 'calendar_sync' in event:
-            calendar_sync = event['calendar_sync']
-        if 'calendar_sync_freq' in event:
-            calendar_sync_freq = event['calendar_sync_freq']
+        if 'title' in event['body']:
+            title = json.dumps(event['body']['title'])
+        if 'current_employer' in event['body']:
+            current_employer = json.dumps(event['body']['current_employer'])
+        if 'supporter_type' in event['body']:
+            supporter_type = json.dumps(event['body']['supporter_type'])
+        if 'calendar_ref' in event['body']:
+            calendar_ref = json.dumps(event['body']['calendar_ref'])
+        if 'calendar_sync' in event['body']:
+            calendar_sync = json.dumps(event['body']['calendar_sync'])
+        if 'calendar_sync_freq' in event['body']:
+            calendar_sync_freq = json.dumps(event['body']['calendar_sync_freq'])
 
     if email is not None:
         # verify email is not already in database
