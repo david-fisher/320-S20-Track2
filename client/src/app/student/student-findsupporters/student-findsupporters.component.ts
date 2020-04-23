@@ -1,11 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {SUPPORTERS} from '../student-makeappointment/mock-supporters';
 import {Supports} from '../student-makeappointment/supports';
-import {TAGS} from '../student-makeappointment/mock-tags';
-//import {Tags} from './tags';
-import {Tags} from '../student-makeappointment/tags';
-import {InterestTags} from "../../admin/admin-tags/interest-tag";
-import {HttpClient} from "@angular/common/http";
+import {InterestTags} from '../../admin/admin-tags/interest-tag';
+import {HttpClient} from '@angular/common/http';
 
 
 @Component({
@@ -46,11 +43,6 @@ export class StudentFindsupportersComponent implements OnInit {
     }
     return list;
   }
-
-  get tags(): Tags {
-    return TAGS;
-  }
-
   get tags_https(): Array<InterestTags> {
     const result = [];
     this.http.get('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/tags', {}).subscribe(res => {

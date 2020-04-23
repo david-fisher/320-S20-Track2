@@ -1,8 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {APPOINTMENTS} from './mock-appointments';
-import {Appointments} from './appointments';
 import { HttpClient } from '@angular/common/http';
-import { HttpParams } from '@angular/common/http';
+import {Appointment} from "../../supporter/supporter-appointments/appointments";
 
 @Component({
   selector: 'app-myappointments',
@@ -11,14 +10,27 @@ import { HttpParams } from '@angular/common/http';
 })
 export class StudentMyappointmentsComponent implements OnInit {
 
+  appointments;
 
-
-  constructor() {
+  constructor(private http: HttpClient) {
+    this.appointments = this.getAppointments;
   }
 
 
-  get appointments(): Array<Appointments> {
-    return APPOINTMENTS;
+
+
+
+  get getAppointments(): Array<Appointment> {
+    const result = [];
+    this.http.get('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/appointments/1', {}).subscribe(res => {
+      console.log(Object.values(res));
+      for (const appt of Object.values(res)) {
+        const newAppt : Appointment = {date: new Date(appt[2].split("-")[0], appt[2].split("-")[1], appt[2].split("-")[2], appt[3].split(":")[0], appt[3].split(":")[1], appt[3].split(":")[2], 0), type: "Meeting Type: "+appt[6], student: 'User-ID: '+appt[0], location: "Meeting Location", duration: appt[4], appt_id: appt[0]};
+        result.push(newAppt);
+      }
+    });
+    console.log(result);
+    return result;
   }
 
   get date(): object {
@@ -27,13 +39,12 @@ export class StudentMyappointmentsComponent implements OnInit {
 
   varify(appointment) {
     if (confirm('Are you sure you want to cancel this appointment?')) {
-      prompt('Please state a reason for cancelation.');
-      for (let x in APPOINTMENTS) {
-        if (APPOINTMENTS[x] === appointment) {
-          console.log(parseInt(x));
-          APPOINTMENTS.splice(parseInt(x), 1);
-        }
-      }
+      const arr = prompt('Please state a reason for cancelation.');
+      console.log(arr);
+      console.log(appointment);
+      this.http.patch('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/cancel_appt/1', {}).subscribe(res => {
+        console.log(Object.values(res));
+      });
     }
   }
 

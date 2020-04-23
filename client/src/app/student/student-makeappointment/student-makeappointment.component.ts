@@ -14,6 +14,8 @@ import { WeekViewHourSegment } from 'calendar-utils';
 import { fromEvent } from 'rxjs';
 import { finalize, takeUntil } from 'rxjs/operators';
 import { addDays, addMinutes, endOfWeek } from 'date-fns';
+import {HttpClient} from '@angular/common/http';
+import {InterestTags} from "../../admin/admin-tags/interest-tag";
 
 function floorToNearest(amount: number, precision: number) {
   return Math.floor(amount / precision) * precision;
@@ -57,7 +59,6 @@ export class CustomEventTitleFormatter extends CalendarEventTitleFormatter {
       }
     `,
   ],
-  encapsulation: ViewEncapsulation.None,
 })
 export class StudentMakeappointmentComponent {
   viewDate = new Date();
@@ -65,10 +66,41 @@ export class StudentMakeappointmentComponent {
   dragToCreateActive = false;
   weekStartsOn: 0 = 0;
   excludeDays: number[] = [0, 6];
-
   selectedTags;
-  get supporters(): Supports[] {
+  pageTags;
+  pageSupporters;
 
+  constructor(private cdr: ChangeDetectorRef, private http: HttpClient) {
+    this.pageTags = this.tags_https;
+    this.pageSupporters = this.supporter_https;
+  }
+
+  get tags_https(): Array<InterestTags> {
+    const result = [];
+    this.http.get('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/tags', {}).subscribe(res => {
+      for (const tag of Object.values(res)) {
+        const newTag = {name: tag[1]};
+        result.push(newTag);
+      }
+    });
+    return result;
+  }
+
+  get supporter_https() {
+    const result = [];
+    this.http.get('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/supporters', {params: this.selectedTags}).subscribe(res => {
+      console.log(Object.values(res));
+      for (const tag of Object.values(res)) {
+        const newTag = {name: tag[1]};
+        result.push(newTag);
+      }
+    });
+    console.log(result);
+    return result;
+  }
+
+  get supporters(): Supports[] {
+    console.log(this.selectedTags);
     let list: Array<any> = [];
     if (this.selectedTags == null) {
       return SUPPORTERS;
@@ -81,7 +113,7 @@ export class StudentMakeappointmentComponent {
     // tslint:disable-next-line:forin
     for (const x in SUPPORTERS) {
       // tslint:disable-next-line:prefer-for-of
-      let count: number = 0;
+      let count = 0;
       for (let i = 0; i <  this.selectedTags.length; i++  ) {
 
         if (SUPPORTERS[x].tags.includes(this.selectedTags[i])) {
@@ -95,11 +127,8 @@ export class StudentMakeappointmentComponent {
     return list;
   }
 
-  get tags(): Tags {
-    return TAGS;
-  }
 
-  constructor(private cdr: ChangeDetectorRef) {}
+
 
   startDragToCreate(
     segment: WeekViewHourSegment,

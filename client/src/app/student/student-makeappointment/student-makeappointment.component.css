@@ -1,4 +1,5 @@
 @import "~ng-pick-datetime/assets/style/picker.min.css";
+@import '~bootstrap/dist/css/bootstrap.min.css';
 
 button.btn:focus {
   border-width: 0;
