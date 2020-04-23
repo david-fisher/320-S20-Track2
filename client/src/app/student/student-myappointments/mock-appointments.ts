@@ -1,4 +1,4 @@
-import {Appointments} from './appointments';
+import {Appointment} from "../../student/student-myappointments/appointments";
 
 // month starts at 0
 const app1 = new Date(2020, 3, 23, 15, 20, 0, 0);
@@ -7,9 +7,9 @@ const app3 = new Date(2020, 1, 11, 9, 10, 0, 0);
 const app4 = new Date(2020, 1, 15, 9, 10, 0, 0);
 
 
-export const APPOINTMENTS: Appointments[] = [
-  {date: app1, type: 'Resume Help', supporter: 'Brian Smith'},
-  {date: app2, type: 'Interview Help', supporter: 'John Doe'},
-  {date: app3, type: 'Career Guidance', supporter: 'John Doe'},
-  {date: app4, type: 'Job Search', supporter: 'David Fisher'}
+export const APPOINTMENTS: Appointment[] = [
+  {date: app1, type: 'Resume Help', supporter: 'Brian Smith', appt_id: '1', duration: '60', location: 'lederle 123', cancelled: false},
+  {date: app2, type: 'Interview Help', supporter: 'John Doe', appt_id: '2', duration: '60', location: 'lederle 123', cancelled: false},
+  {date: app3, type: 'Career Guidance', supporter: 'John Doe', appt_id: '3', duration: '60', location: 'lederle 123', cancelled: false},
+  {date: app4, type: 'Job Search', supporter: 'David Fisher', appt_id: '1', duration: '60', location: 'lederle 123', cancelled: false}
 ];
