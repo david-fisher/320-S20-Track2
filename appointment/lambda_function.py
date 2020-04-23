@@ -10,15 +10,15 @@ from db_wrapper import execute_statement, extract_records
 def lambda_handler(event, context):
     
     #Getting the values to put into the row
-    student_id = int(event['student_id'])
-    supporter_id = int(event['supporter_id'])
-    appt_date = event['appt_date']
-    start_time = event['start_time']
-    duration_min = int(event['duration'])
-    type = int(event['type'])
-    cancelled = bool(event['cancelled'])
-    rating = int(event['rating'])
-    recommended = bool(event['recommended'])
+    student_id = int(json.loads(event["body"])["student_id"])
+    supporter_id = int(json.loads(event["body"])["supporter_id"])
+    appt_date = json.loads(event["body"])["appt_date"]
+    start_time = json.loads(event["body"])["student_id"]
+    duration_min = int(json.loads(event["body"])["duration"])
+    type = int(json.loads(event["body"])["type"])
+    cancelled = bool(json.loads(event["body"])["cancelled"])
+    rating = int(json.loads(event["body"])["rating"])
+    recommended = bool(json.loads(event["body"])["recommended"])
     
     #Finding the given student_id to check
     query = "SELECT user_id_ FROM student WHERE user_id_ = :student_id"
