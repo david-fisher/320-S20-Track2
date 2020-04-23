@@ -42,11 +42,16 @@ def param_to_sql_param(params, existing_sql_params=None):
 
 
 def update_account(event, context):
+
+    response_headers = {}
+    response_headers["X-Requested-With"] = "*"
+    response_headers["Access-Control-Allow-Origin"] = "*"
+    response_headers[
+        "Access-Control-Allow-Headers"] = "Content-Type,X-Amz-Date,Authorization,X-Api-Key,x-requested-with'"
+    response_headers["Access-Control-Allow-Methods"] = "OPTIONS,POST,GET,PUT,DELETE"
+
     # identify user
-    if 'user_id_' in event:
-        user_id_ = event['user_id_']
-    else:
-        return {'statusCode': 404}
+    user_id_ = int(event['pathParameters']['id'])
 
     client = boto3.client('rds-data')
 
@@ -62,7 +67,10 @@ def update_account(event, context):
                                                    sql=user_exists_query,
                                                    parameters=user_exists_param)
     if user_query_response['records'] == []:
-        return {'statusCode': 404}
+        return {
+            'statusCode': 404,
+            'headers': response_headers
+        }
 
 
     is_supporter = False
@@ -396,5 +404,6 @@ def update_account(event, context):
                                             parameters=params)
 
     return {
-        'statusCode': 200
+        'statusCode': 200,
+        'headers': response_headers
     }
