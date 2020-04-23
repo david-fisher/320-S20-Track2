@@ -3,7 +3,7 @@ import {InterestTags} from './interest-tag';
 import {TAGS} from './tag-list';
 import {HttpClient, HttpResponse} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {stringify} from "querystring";
+import {stringify} from 'querystring';
 
 @Component({
   selector: 'app-admin-tags',
@@ -44,6 +44,7 @@ export class AdminTagsComponent implements OnInit {
       this.http.post<InterestTags>('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/tags',
         {tag_name: this.tagInput}).subscribe(tag => this.pageTags.push(tag));
       }
+    setTimeout(() => this.pageTags = this.tags_https, 1000);
     }
 
   delete_tag_https() {
@@ -63,6 +64,7 @@ export class AdminTagsComponent implements OnInit {
           }
         }
       }
+      setTimeout(() => this.pageTags = this.tags_https, 1000);
     });
   }
 
