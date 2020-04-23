@@ -5,7 +5,7 @@
       <mat-card-content>
         <h2>Create a Student Account</h2>
 
-        <div class="container" *ngIf="!post; else forminfo" novalidate>
+        <div class="container" novalidate>
           <form [formGroup]="formStudentGroup" (ngSubmit)="onSubmit(formStudentGroup.value)" class="form">
 
             <mat-form-field class="form-element">
@@ -91,11 +91,11 @@
           </form>
         </div>
 
-        <ng-template #forminfo>
-          <div class="container">
-            {{ post | json }}
-          </div>
-        </ng-template>
+<!--        <ng-template #forminfo>-->
+<!--          <div class="container">-->
+<!--            {{ post | json }}-->
+<!--          </div>-->
+<!--        </ng-template>-->
       </mat-card-content>
     </mat-card>
   </div>
@@ -108,7 +108,7 @@
     <mat-card [class.mat-elevation-z5]="true">
       <mat-card-content>
         <h2>Create a Supporter Account</h2>
-        <div class="container" *ngIf="!post; else forminfo" novalidate>
+        <div class="container" novalidate>
           <form [formGroup]="formSupporterGroup" (ngSubmit)="onSubmit(formSupporterGroup.value)" class="form">
 
             <mat-form-field class="form-element">
@@ -177,11 +177,11 @@
           </form>
         </div>
 
-        <ng-template #forminfo>
-          <div class="container">
-            {{ post | json }}
-          </div>
-        </ng-template>
+<!--        <ng-template #forminfo>-->
+<!--          <div class="container">-->
+<!--            {{ post | json }}-->
+<!--          </div>-->
+<!--        </ng-template>-->
       </mat-card-content>
     </mat-card>
   </div>

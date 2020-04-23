@@ -4,6 +4,7 @@ import {FormBuilder, FormControl, FormGroup, Validators, ValidatorFn} from '@ang
 import { HttpClient } from '@angular/common/http';
 import {requireCheckboxesToBeCheckedValidator} from './require-checkboxes-to-be-checked.validator';
 import {Observable} from "rxjs";
+import {InterestTags} from "../admin/admin-tags/interest-tag";
 
 @Component({
   selector: 'app-createaccount',
@@ -173,6 +174,7 @@ export class CreateaccountComponent implements OnInit {
 
   onSubmit(post) {
     this.post = post;
+    this.sendData()
   }
 
   sendData() {
@@ -201,9 +203,12 @@ export class CreateaccountComponent implements OnInit {
       'supporter_type': supporterTypes
     };
 
+    this.http.post<JSON>('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/account',
+      data).subscribe(res => {
+        console.log(Object.values(res))
+      });
 
 
-    this.http.post<JSON>("https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/account", data)
   }
 
 }
