@@ -13,6 +13,7 @@
       </mat-card-header>
       <mat-card-content>
         <h4> {{appointment.date | date:'HH:mm a  MMM dd yyyy '}} </h4>
+        <h4> Duration: {{appointment.duration}} Minutes</h4>
       </mat-card-content>
       <mat-card-actions>
         <button (click)="verify(appointment)" mat-button routerLink="/supporter-appointments" >Cancel</button>
@@ -34,6 +35,7 @@
       </mat-card-header>
       <mat-card-content>
         <h4> {{appointment.date | date:'HH:mm a  MMM dd yyyy '}} </h4>
+        <h4> Duration: {{appointment.duration}} Minutes </h4>
       </mat-card-content>
     </mat-card>
   </ul>

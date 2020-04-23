@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import {TEST_APPOINTMENTS} from './appointments';
 import {Appointment} from './appointments';
 import { Router } from '@angular/router';
 import {InterestTags} from "../../admin/admin-tags/interest-tag";
@@ -32,7 +31,7 @@ export class SupporterAppointmentsComponent implements OnInit {
     this.http.get('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/appointments/1', {}).subscribe(res => {
       console.log(Object.values(res));
       for (const appt of Object.values(res)) {
-        const newAppt : Appointment = {date: new Date(appt[2].split("-")[0], appt[2].split("-")[1], appt[2].split("-")[2], appt[3].split(":")[0], appt[3].split(":")[1], appt[3].split(":")[2], 0), type: "Meeting Type: "+appt[6], student: 'User-ID: '+appt[0], location: "Meeting Location", duration: appt[4]};
+        const newAppt : Appointment = {date: new Date(appt[2].split("-")[0], appt[2].split("-")[1], appt[2].split("-")[2], appt[3].split(":")[0], appt[3].split(":")[1], appt[3].split(":")[2], 0), type: "Meeting Type: " + appt[6], student: 'User-ID: '+appt[0], location: "Meeting Location", duration: appt[4], appt_id: appt[0], cancelled: appt[7]};
         result.push(newAppt);
       }
     });
@@ -43,10 +42,14 @@ export class SupporterAppointmentsComponent implements OnInit {
   verify(appointment) {
     if (confirm('Are you sure you want to cancel?')) {
       prompt('Please state a reason for cancellation.');
-      for (const x in TEST_APPOINTMENTS) {
-        if (TEST_APPOINTMENTS[x] === appointment) {
-          console.log(parseInt(x));
-          TEST_APPOINTMENTS.splice(parseInt(x), 1);
+      for (const x in this.pageAppointments) {
+        if (this.pageAppointments[x] === appointment) {
+          this.http.patch('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/appointments/' + appointment.appt_id, {}).subscribe(res => {
+            console.log(Object.values(res));
+            console.log(appointment.appt_id);
+          });
+          this.pageAppointments.splice(parseInt(x), 1);
+          console.log(x);
         }
       }
     }
