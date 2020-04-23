@@ -65,7 +65,15 @@ def update_account(event, context):
             'body': "User ID Input Error"
     }
 
-    user_id_ = int(event["pathParameters"]["id"])
+    user_id_ = ""
+    try:
+        user_id_ = int(event["pathParameters"]["id"])
+    except:
+        return {
+            'statusCode': 404,
+            'headers': response_headers,
+            'body': "Unable to parse User ID"
+        }
 
     client = boto3.client('rds-data')
 
@@ -83,7 +91,8 @@ def update_account(event, context):
     if user_query_response['records'] == []:
         return {
             'statusCode': 404,
-            'headers': response_headers
+            'headers': response_headers,
+            'body': "User does not exist"
         }
 
 
@@ -188,6 +197,7 @@ def update_account(event, context):
         if exists_response['records'] != []:
             return {
                 'statusCode': 204,
+                'headers': response_headers,
                 'body': "Email already registered under different user"
             }
 
