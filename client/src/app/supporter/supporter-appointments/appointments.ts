@@ -5,6 +5,7 @@ export interface Appointment {
   type: string;
   student: string;
   location: string;
+  cancelled: boolean;
 }
 
 // month starts at 0
