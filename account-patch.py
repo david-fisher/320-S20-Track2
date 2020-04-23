@@ -61,7 +61,7 @@ def update_account(event, context):
                                                    database=rds_config.DB_NAME,
                                                    sql=user_exists_query,
                                                    parameters=user_exists_param)
-    if user_query_response["numberOfRecordsUpdated"] == 0:
+    if user_query_response['records'] == []:
         return {'statusCode': 404}
 
 
@@ -77,7 +77,7 @@ def update_account(event, context):
                                                         database=rds_config.DB_NAME,
                                                         sql=supporter_exists_query,
                                                         parameters=supporter_exists_param)
-    if supporter_query_response["numberOfRecordsUpdated"] != 0:
+    if supporter_query_response['records'] != []:
         is_supporter = True
 
     is_student = False
@@ -90,7 +90,7 @@ def update_account(event, context):
                                                       database=rds_config.DB_NAME,
                                                       sql=student_exists_query,
                                                       parameters=student_exists_param)
-    if student_query_response["numberOfRecordsUpdated"] != 0:
+    if student_query_response['records'] != []:
         is_student = True
 
     # account update info
@@ -163,9 +163,10 @@ def update_account(event, context):
                                                    database=rds_config.DB_NAME,
                                                    sql=already_exists_query,
                                                    parameters=exists_param)
-        if exists_response["numberOfRecordsUpdated"] != 0:
+        if exists_response['records'] != []:
             return {
-                'statusCode': 204
+                'statusCode': 204,
+                'body': "Email already registered under different user"
             }
 
         query = (f"UPDATE user "
