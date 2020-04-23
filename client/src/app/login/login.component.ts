@@ -75,8 +75,10 @@ export class LoginComponent implements OnInit {
 
   sendData() {
     let data = {
-      'email': this.encryptData(this.post['email']),
-      'password':this.encryptData(this.post['password']),
+      'username': this.encryptData(this.post['email']),
+      'password':this.encryptData(this.post['password'])
+      // 'username': 'isabelle@gmail.com',
+      // 'password': 'TY&h6y'
     };
     console.log(data);
 
