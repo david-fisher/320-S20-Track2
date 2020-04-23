@@ -1,25 +1,27 @@
 <div *ngIf = "!flag">
-  <mat-card>
+  <mat-card [class.mat-elevation-z5]="true">
     <mat-card-content>
-      <form [formGroup]="form">
-        <h2 class = "log-in-h2">Log In</h2>
-        <mat-error *ngIf="loginInvalid">
-          The username and password were not recognised
-        </mat-error>
-        <mat-form-field class="full-width-input">
-          <input matInput placeholder="Email" formControlName="username" required>
-          <mat-error>
-            Please provide a valid email address
+      <h2 class = "log-in-h2">Log In</h2>
+      <form [formGroup]="formGroup" (ngSubmit)="onSubmit(formGroup.value)">
+<!--        <mat-error *ngIf="loginInvalid">-->
+<!--          The username and password were not recognised-->
+<!--        </mat-error>-->
+        <mat-form-field class="form-element">
+          <input matInput placeholder="Email Address" formControlName="email">
+          <mat-error *ngIf="!formGroup.controls['email'].valid && formGroup.controls['email'].touched">
+            {{ getErrorEmail() }}
           </mat-error>
         </mat-form-field>
-        <mat-form-field class="full-width-input">
-          <input matInput type="password" placeholder="Password" formControlName="password" required>
-          <mat-error>
-            Please provide a valid password
+        <mat-form-field class="form-element">
+          <input matInput placeholder="Password" formControlName="password" [type]="hide ? 'password' : 'text'">
+          <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+          <mat-error *ngIf="!formGroup.controls['password'].valid && formGroup.controls['password'].touched">
+            {{ getErrorPassword() }}
           </mat-error>
         </mat-form-field>
-        <div>
-          <button mat-raised-button (click)="login()" routerLink="/home" color="primary">Login</button>
+        <br>
+        <div class="form-element">
+          <button mat-raised-button color="primary" type="submit" class="button" [disabled]="!formGroup.valid">Login</button>
         </div>
         <div class="account">
           <button mat-raised-button (click)="toggleFlag()" color="accent">Don't have an account?</button>
@@ -30,45 +32,44 @@
 </div>
 
 <div *ngIf = "flag">
-  <div *ngIf = "!inputEmail">
-    <div class="alignment">
-      <div>
-        <h1 class = "log-in-h1">
-          Who are you?
-        </h1>
-      </div>
-    </div>
-    <div class="center-alignment">
-      <div class="users">
-        <button mat-raised-button (click)="select('student')" color="primary">Student</button>
-        <button mat-raised-button (click)="select('supporter')" color="primary">Supporter</button>
-      </div>
+<!--  <div *ngIf = "!inputEmail">-->
+  <div class="alignment">
+    <div>
+      <h1 class = "log-in-h1">
+        Who are you?
+      </h1>
     </div>
   </div>
-
-  <div *ngIf = "inputEmail">
-    <mat-card>
-      <mat-card-content>
-        <form [formGroup]="form">
-          <h3 class = "log-in-h3">Please state an email and a password</h3>
-          <mat-form-field class="full-width-input">
-            <input matInput placeholder="Email" formControlName="email" required>
-            <mat-error>
-              Please provide a valid email address
-            </mat-error>
-          </mat-form-field>
-          <mat-form-field class="full-width-input">
-            <input matInput type="password" placeholder="Password" formControlName="password" required>
-            <mat-error>
-              Please provide a valid password
-            </mat-error>
-          </mat-form-field>
-          <div>
-            <button mat-raised-button (click)="register()" [routerLink]="['/createaccount', userType]" color="primary">Register</button>
-          </div>
-        </form>
-      </mat-card-content>
-    </mat-card>
+  <div class="center-alignment">
+    <div class="users">
+      <button mat-raised-button [routerLink]="['/createaccount', 'student']" color="primary">Student</button>
+      <button mat-raised-button [routerLink]="['/createaccount', 'supporter']" color="primary">Supporter</button>
+    </div>
   </div>
-
+<!--  </div>-->
 </div>
+
+<!--  <div *ngIf = "inputEmail">-->
+<!--    <mat-card>-->
+<!--      <mat-card-content>-->
+<!--        <form [formGroup]="form">-->
+<!--          <h3 class = "log-in-h3">Please state an email and a password</h3>-->
+<!--          <mat-form-field class="full-width-input">-->
+<!--            <input matInput placeholder="Email" formControlName="email" required>-->
+<!--            <mat-error>-->
+<!--              Please provide a valid email address-->
+<!--            </mat-error>-->
+<!--          </mat-form-field>-->
+<!--          <mat-form-field class="full-width-input">-->
+<!--            <input matInput type="password" placeholder="Password" formControlName="password" required>-->
+<!--            <mat-error>-->
+<!--              Please provide a valid password-->
+<!--            </mat-error>-->
+<!--          </mat-form-field>-->
+<!--          <div>-->
+<!--            <button mat-raised-button (click)="register()" [routerLink]="['/createaccount', userType]" color="primary">Register</button>-->
+<!--          </div>-->
+<!--        </form>-->
+<!--      </mat-card-content>-->
+<!--    </mat-card>-->
+<!--  </div>-->
