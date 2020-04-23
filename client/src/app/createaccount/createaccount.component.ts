@@ -3,6 +3,7 @@ import {ActivatedRoute} from '@angular/router';
 import {FormBuilder, FormControl, FormGroup, Validators, ValidatorFn} from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import {requireCheckboxesToBeCheckedValidator} from './require-checkboxes-to-be-checked.validator';
+import * as CryptoJS from 'crypto-js';
 import {Observable} from "rxjs";
 import {InterestTags} from "../admin/admin-tags/interest-tag";
 
@@ -13,54 +14,16 @@ import {InterestTags} from "../admin/admin-tags/interest-tag";
 })
 
 export class CreateaccountComponent implements OnInit {
-  // userType;
-  // typeOfUser;
-  // userName: string;
-  // preferredName: string;
-  // gpa: string;
-  // gradYear: string;
-  // github: string;
-  // linkedin: string;
-  // phoneNum: string;
-  // supporterType: Array<string>;
-  // userTitle: string;
-  // currentEmployer: string;
-  // form: FormGroup;
-  // public myGroup;
-  //
-  // constructor(private activatedRoute: ActivatedRoute, private http: HttpClient) {
-  //   this.userType = this.activatedRoute.snapshot.params.type === 'student';
-  //   this.typeOfUser = this.activatedRoute.snapshot.params.type;
-  //   this.myGroup = new FormGroup({
-  //     firstName: new FormControl()
-  //   });
-  // }
-  //
-  // ngOnInit(): void {
-  // }
-  // sendData() {
-  //   const data = {
-  //     'userType': this.typeOfUser,
-  //     'userName': this.userName,
-  //     'preferredName': this.preferredName,
-  //     'gpa': this.gpa,
-  //     'gradYear': this.gradYear,
-  //     'github': this.github,
-  //     'linkedin': this.linkedin,
-  //     'supporterType': this.supporterType,
-  //     'userTitle': this.userTitle,
-  //     'currentEmployer': this.currentEmployer
-  //   };
-  //   this.http.post<JSON>("https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/account", data)
-  // }
   userType;
   typeOfUser;
+  hide = true;
+  encryptSecretKey = 'SUPER_SECRET';
   formSupporterGroup: FormGroup;
   formStudentGroup: FormGroup;
   titleAlert: string = 'This field is required';
   post: any = '';
 
-  constructor(private formBuilder: FormBuilder,private activatedRoute: ActivatedRoute, private http: HttpClient) {
+  constructor(private formBuilder: FormBuilder, private activatedRoute: ActivatedRoute, private http: HttpClient) {
     this.userType = this.activatedRoute.snapshot.params.type === 'student';
     this.typeOfUser = this.activatedRoute.snapshot.params.type;
   }
@@ -68,16 +31,16 @@ export class CreateaccountComponent implements OnInit {
   ngOnInit() {
     this.createSupporterForm();
     this.createStudentForm();
-    // this.setChangeValidate()
   }
 
   createSupporterForm() {
-    // let emailregex: RegExp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    let emailregex: RegExp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
     this.formSupporterGroup = this.formBuilder.group({
-      // 'email': [null, [Validators.required, Validators.pattern(emailregex)], this.checkInUseEmail],
       'first_name': [null, Validators.required],
       'last_name': [null, Validators.required],
       'preferredName': [null, Validators.required],
+      'email': [null, [Validators.required, Validators.pattern(emailregex)]],
+      'password': [null, [Validators.required, this.checkPassword]],
       'phoneNum': [null],
       'currentEmployer': [null],
       'userTitle': [null],
@@ -85,20 +48,18 @@ export class CreateaccountComponent implements OnInit {
         'Alumni': new FormControl(false),
         'Industry Affiliate': new FormControl(false),
         'Professor': new FormControl(false),
-      }, requireCheckboxesToBeCheckedValidator(this.userType)),
-      // 'password': [null, [Validators.required, this.checkPassword]],
-      // 'description': [null, [Validators.required, Validators.minLength(5), Validators.maxLength(10)]],
-      // 'validate': ''
+      }, requireCheckboxesToBeCheckedValidator(this.userType))
     });
   }
 
   createStudentForm() {
-    // let emailregex: RegExp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    let emailregex: RegExp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
     this.formStudentGroup = this.formBuilder.group({
-      // 'email': [null, [Validators.required, Validators.pattern(emailregex)], this.checkInUseEmail],
       'first_name': [null, Validators.required],
       'last_name': [null, Validators.required],
       'preferredName': [null, Validators.required],
+      'email': [null, [Validators.required, Validators.pattern(emailregex)]],
+      'password': [null, [Validators.required, this.checkPassword]],
       'phoneNum': [null],
       'gpa': [null],
       'gradYear': [null],
@@ -106,21 +67,6 @@ export class CreateaccountComponent implements OnInit {
       'linkedin': [null]
     });
   }
-
-
-  // setChangeValidate() {
-  //   this.formGroup.get('validate').valueChanges.subscribe(
-  //     (validate) => {
-  //       if (validate == '1') {
-  //         this.formGroup.get('name').setValidators([Validators.required, Validators.minLength(3)]);
-  //         this.titleAlert = "You need to specify at least 3 characters";
-  //       } else {
-  //         this.formGroup.get('name').setValidators(Validators.required);
-  //       }
-  //       this.formGroup.get('name').updateValueAndValidity();
-  //     }
-  //   )
-  // }
 
   get first_name() {
     return (this.userType ? this.formStudentGroup.get('first_name') as FormControl : this.formSupporterGroup.get('first_name') as FormControl)
@@ -134,47 +80,49 @@ export class CreateaccountComponent implements OnInit {
     return (this.userType ? this.formStudentGroup.get('preferredName') as FormControl : this.formSupporterGroup.get('preferredName') as FormControl)
   }
 
+  encryptData(data) {
+    try {
+      return CryptoJS.AES.encrypt(JSON.stringify(data), this.encryptSecretKey).toString();
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
   onUploadClicked(data: any) {
     console.log(data);
   }
 
-  // checkPassword(control) {
-  //   let enteredPassword = control.value
-  //   let passwordCheck = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/;
-  //   return (!passwordCheck.test(enteredPassword) && enteredPassword) ? { 'requirements': true } : null;
-  // }
+
   checkPassword(control) {
-    let enteredPassword = control.value
+    let enteredPassword = control.value;
     let passwordCheck = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/;
     return (!passwordCheck.test(enteredPassword) && enteredPassword) ? { 'requirements': true } : null;
   }
-  //
-  // checkInUseEmail(control) {
-  //   // mimic http database access
-  //   let db = ['tony@gmail.com'];
-  //   return new Observable(observer => {
-  //     setTimeout(() => {
-  //       let result = (db.indexOf(control.value) !== -1) ? { 'alreadyInUse': true } : null;
-  //       observer.next(result);
-  //       observer.complete();
-  //     }, 4000)
-  //   })
-  // }
 
-  // getErrorEmail() {
-  //   return this.formGroup.get('email').hasError('required') ? 'Field is required' :
-  //     this.formGroup.get('email').hasError('pattern') ? 'Not a valid emailaddress' :
-  //       this.formGroup.get('email').hasError('alreadyInUse') ? 'This emailaddress is already in use' : '';
-  // }
+  getErrorEmail() {
+    if (this.userType) {
+      return this.formStudentGroup.get('email').hasError('required') ? 'Field is required' :
+        this.formStudentGroup.get('email').hasError('pattern') ? 'Not a valid emailaddress' : '';
+    } else {
+      return this.formSupporterGroup.get('email').hasError('required') ? 'Field is required' :
+        this.formSupporterGroup.get('email').hasError('pattern') ? 'Not a valid emailaddress' : '';
+    }
 
-  // getErrorPassword() {
-  //   return this.formGroup.get('password').hasError('required') ? 'Field is required (at least eight characters, one uppercase letter and one number)' :
-  //     this.formGroup.get('password').hasError('requirements') ? 'Password needs to be at least eight characters, one uppercase letter and one number' : '';
-  // }
+  }
+
+  getErrorPassword() {
+    if (this.userType) {
+      return this.formStudentGroup.get('password').hasError('required') ? 'Field is required (at least eight characters, one uppercase letter and one number)' :
+        this.formStudentGroup.get('password').hasError('requirements') ? 'Password needs to be at least eight characters, one uppercase letter and one number' : '';
+    } else {
+      return this.formSupporterGroup.get('password').hasError('required') ? 'Field is required (at least eight characters, one uppercase letter and one number)' :
+        this.formSupporterGroup.get('password').hasError('requirements') ? 'Password needs to be at least eight characters, one uppercase letter and one number' : '';
+    }
+  }
 
   onSubmit(post) {
     this.post = post;
-    this.sendData()
+    this.sendData();
   }
 
   sendData() {
@@ -193,6 +141,8 @@ export class CreateaccountComponent implements OnInit {
       'first_name': this.post['first_name'],
       'last_name': this.post['last_name'],
       'preferred_name': this.post['preferredName'],
+      'email': this.encryptData(this.post['email']),
+      'password':this.encryptData(this.post['password']),
       'phone_number': this.post['phoneNum'],
       'current_employer': this.post['currentEmployer'],
       'title': this.post['userTitle'],
@@ -202,10 +152,11 @@ export class CreateaccountComponent implements OnInit {
       'linkedin_link': this.post['linkedin'],
       'supporter_type': supporterTypes
     };
+    console.log(data);
 
     this.http.post<JSON>('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/account',
       data).subscribe(res => {
-        console.log(Object.values(res))
+        console.log(Object.values(res));
       });
 
 

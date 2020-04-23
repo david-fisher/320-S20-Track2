@@ -30,6 +30,23 @@
             </mat-form-field>
             <br>
             <mat-form-field class="form-element">
+              <input matInput placeholder="Email Address *" formControlName="email">
+              <mat-error *ngIf="!formStudentGroup.controls['email'].valid && formStudentGroup.controls['email'].touched">
+                {{ getErrorEmail() }}
+              </mat-error>
+            </mat-form-field>
+            <br>
+            <mat-form-field class="form-element">
+              <input matInput placeholder="Password *" formControlName="password" [type]="hide ? 'password' : 'text'">
+              <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+              <mat-hint>Choose a password of at least eight characters, one uppercase letter and one number</mat-hint>
+              <mat-error *ngIf="!formStudentGroup.controls['password'].valid && formStudentGroup.controls['password'].touched">
+                {{ getErrorPassword() }}
+              </mat-error>
+            </mat-form-field>
+            <br>
+            <br>
+            <mat-form-field class="form-element">
               <input matInput placeholder="Phone Number" formControlName="phoneNum">
             </mat-form-field>
             <br>
@@ -131,6 +148,23 @@
                 {{ titleAlert }}
               </mat-error>
             </mat-form-field>
+            <br>
+            <mat-form-field class="form-element">
+              <input matInput placeholder="Email Address *" formControlName="email">
+              <mat-error *ngIf="!formSupporterGroup.controls['email'].valid && formSupporterGroup.controls['email'].touched">
+                {{ getErrorEmail() }}
+              </mat-error>
+            </mat-form-field>
+            <br>
+            <mat-form-field class="form-element">
+              <input matInput placeholder="Password *" formControlName="password" [type]="hide ? 'password' : 'text'">
+              <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+              <mat-hint>Choose a password of at least eight characters, one uppercase letter and one number</mat-hint>
+              <mat-error *ngIf="!formSupporterGroup.controls['password'].valid && formSupporterGroup.controls['password'].touched">
+                {{ getErrorPassword() }}
+              </mat-error>
+            </mat-form-field>
+            <br>
             <br>
             <mat-form-field class="form-element">
               <input matInput placeholder="Phone Number" formControlName="phoneNum">
