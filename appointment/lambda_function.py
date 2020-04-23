@@ -13,7 +13,7 @@ def lambda_handler(event, context):
     student_id = int(json.loads(event["body"])["student_id"])
     supporter_id = int(json.loads(event["body"])["supporter_id"])
     appt_date = json.loads(event["body"])["appt_date"]
-    start_time = json.loads(event["body"])["student_id"]
+    start_time = json.loads(event["body"])["start_time"]
     duration_min = int(json.loads(event["body"])["duration"])
     type = int(json.loads(event["body"])["type"])
     cancelled = bool(json.loads(event["body"])["cancelled"])
