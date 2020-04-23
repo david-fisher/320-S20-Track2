@@ -16,14 +16,20 @@ def get_tags():
 
 
 def lambda_handler(event, context):
-    response_body = json.dumps(get_tags())
-    # There's no input, so statusCode should be 200 unleses get_tags() throws an error
-    response_status = 200
+    response_headers = {}
+    response_body = {}
 
-    response = {
-        'statusCode' : response_status,
-        'body' : response_body
+    response_body = get_tags()
+    statusCode = 200
+
+    response_headers["X-Requested-With"] = "*"
+    response_headers["Access-Control-Allow-Origin"] = "*"
+    response_headers["Access-Control-Allow-Headers"] = "Content-Type,X-Amz-Date,Authorization,X-Api-Key,x-requested-with'"
+    response_headers["Access-Control-Allow-Methods"] = "OPTIONS,POST,GET,PUT,DELETE"
+
+    return {
+        'statusCode': statusCode,
+        'headers' : response_headers,
+        'body': json.dumps(response_body),
+        'isBase64Encoded' : False
     }
-    print(response)
-
-    return response
