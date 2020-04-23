@@ -135,59 +135,59 @@ def update_account(event, context):
         = profile_picture = request_supporter = active_account = None
 
     if 'email' in event['body']:
-        email = json.loads(event['body']['email'])
+        email = json.loads(event['body'])['email']
     if 'password_' in event['body']:
-        password_ = json.loads(event['body']['password_'])
+        password_ = json.loads(event['body'])['password_']
     if 'first_name' in event['body']:
-        first_name = json.loads(event['body']['first_name'])
+        first_name = json.loads(event['body'])['first_name']
     if 'last_name' in event['body']:
-        last_name = json.loads(event['body']['last_name'])
+        last_name = json.loads(event['body'])['last_name']
     if 'preferred_name' in event['body']:
-        preferred_name = json.loads(event['body']['preferred_name'])
+        preferred_name = json.loads(event['body'])['preferred_name']
     if 'phone_number' in event['body']:
-        phone_number = json.loads(event['body']['phone_number'])
+        phone_number = json.loads(event['body'])['phone_number']
     if 'profile_picture' in event['body']:
-        profile_picture = json.loads(event['body']['profile_picture'])
+        profile_picture = json.loads(event['body'])['profile_picture']
     if 'request_supporter' in event['body']:
-        request_supporter = json.loads(event['body']['request_supporter'])
+        request_supporter = json.loads(event['body'])['request_supporter']
     if 'active_account' in event['body']:
-        active_account = json.loads(event['body']['active_account'])
+        active_account = json.loads(event['body'])['active_account']
 
     # student update info
     GPA = grad_year = resume_ref = transcript_ref = github_link = linkedin_link = is_undergrad = None
 
     if is_student:
         if 'GPA' in event['body']:
-            GPA = json.loads(event['body']['GPA'])
+            GPA = json.loads(event['body'])['GPA']
         if 'grad_year' in event['body']:
-            grad_year = json.loads(event['body']['grad_year'])
+            grad_year = json.loads(event['body'])['grad_year']
         if 'resume_ref' in event['body']:
-            resume_ref = json.loads(event['body']['resume_ref'])
+            resume_ref = json.loads(event['body'])['resume_ref']
         if 'transcript_ref' in event['body']:
-            transcript_ref = json.loads(event['body']['transcript_ref'])
+            transcript_ref = json.loads(event['body'])['transcript_ref']
         if 'github_link' in event['body']:
-            github_link = json.loads(event['body']['github_link'])
+            github_link = json.loads(event['body'])['github_link']
         if 'linkedin_link' in event['body']:
-            linkedin_link = json.loads(event['body']['linkedin_link'])
+            linkedin_link = json.loads(event['body'])['linkedin_link']
         if 'is_undergrad' in event['body']:
-            is_undergrad = json.loads(event['body']['is_undergrad'])
+            is_undergrad = json.loads(event['body'])['is_undergrad']
 
     # supporter update info
     title = current_employer = supporter_type = calendar_ref = calendar_sync = calendar_sync_freq = None
 
     if is_supporter:
         if 'title' in event['body']:
-            title = json.loads(event['body']['title'])
+            title = json.loads(event['body'])['title']
         if 'current_employer' in event['body']:
-            current_employer = json.loads(event['body']['current_employer'])
+            current_employer = json.loads(event['body'])['current_employer']
         if 'supporter_type' in event['body']:
-            supporter_type = json.loads(event['body']['supporter_type'])
+            supporter_type = json.loads(event['body'])['supporter_type']
         if 'calendar_ref' in event['body']:
-            calendar_ref = json.loads(event['body']['calendar_ref'])
+            calendar_ref = json.loads(event['body'])['calendar_ref']
         if 'calendar_sync' in event['body']:
-            calendar_sync = json.loads(event['body']['calendar_sync'])
+            calendar_sync = json.loads(event['body'])['calendar_sync']
         if 'calendar_sync_freq' in event['body']:
-            calendar_sync_freq = json.loads(event['body']['calendar_sync_freq'])
+            calendar_sync_freq = json.loads(event['body'])['calendar_sync_freq']
 
     if email is not None:
         # verify email is not already in database
@@ -435,5 +435,6 @@ def update_account(event, context):
 
     return {
         'statusCode': 200,
+        'body': json.dumps('Account successfully updated'),
         'headers': response_headers
     }
