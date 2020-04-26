@@ -27,40 +27,93 @@ from db_wrapper import execute_statement, extract_records
 
 
 def student_create(event, context):
-
-    username = json.loads(event["body"])["username"]
-    password = json.loads(event["body"])["password"]
-
-    #Connect to Database
-    client = boto3.client('rds-data')
-    
-    sql = "SELECT email FROM `user` WHERE `email` = :username;"
-    sql_parameters = [ {'name':'username', 'value':{'stringValue': username}} ]
-    user = execute_statement(client, sql, sql_parameters)
     
     statusCode = 200
-    loginResponse = {}
+    body = json.loads(event["body"])
+    if ("email" not in body.keys()):
+        statusCode = 400
+    if ("password" not in body.keys()):
+        statusCode = 400
+    if ("first_name" not in body.keys()):
+        statusCode = 400
+    if ("last_name" not in body.keys()):
+        statusCode = 400
+    if ("preferred_name" not in body.keys()):
+        statusCode = 400
+    if ("phone_number" not in body.keys()):
+        statusCode = 400
+    if ("profile_picture" not in body.keys()):
+        statusCode = 400
+    if ("request_supporter" not in body.keys()):
+        statusCode = 400
+    if ("active_account" not in body.keys()):
+        statusCode = 400
+    if ("GPA" not in body.keys()):
+        statusCode = 400
+    if ("grad_year" not in body.keys()):
+        statusCode = 400
+    if ("resume_ref" not in body.keys()):
+        statusCode = 400
+    if ("transcript_ref" not in body.keys()):
+        statusCode = 400
+    if ("github_link" not in body.keys()):
+        statusCode = 400
+    if ("linkedin_link" not in body.keys()):
+        statusCode = 400
+    if ("is_undergrad" not in body.keys()):
+        statusCode = 400
     
-    #Check if user exists
-    if(extract_records(user) == []):
-        loginResponse['message'] = 'User DNE'
-        statusCode = 404
+    if statusCode == 200:
+        client = boto3.client('rds-data')
+        
+        email = body["email"]
+        password = body["password"]
+        first_name = body["first_name"]
+        last_name = body["last_name"]
+        preferred_name = body["preferred_name"]
+        phone_number = body["profile_picture"]
+        profile_picture = body["profile_picture"]
+        request_supporter = body["request_supporter"]
+        active_account = body["active_account"]
+        GPA = body["GPA"]
+        grad_year = body["grad_year"]
+        resume_ref = body["resume_ref"]
+        transcript_ref = body["transcript_ref"]
+        github_link = body["github_link"]
+        linkedin_link = body["linkedin_link"]
+        is_undergrad = body["is_undergrad"]
     
-    #Check if password is correct
-    else:
-        sql = "SELECT password_ FROM `user` WHERE `email` = :username;"
-        sql_parameters = [ {'name':'username', 'value':{'stringValue': username}} ]
-        pw = execute_statement(client, sql, sql_parameters)
-     
-        if(not(password == pw['records'][0][0]['stringValue'])):
-            loginResponse['message'] = 'Password Does Not Match'
-            statusCode = 404
+        sql = "SELECT MAX(user_id_) FROM user;"
+        try:
+            query_result = execute_statement(client, sql)
+        except:
+            return {
+                'statusCode': 404,
+                'body': "User ID Input Error",
+                'isBase64Encoded': False
+            }
+        max_id = extract_records(query_result)
+        user_id = 0 if len(max_id) == 0 else max_id[0][0]+1
     
-    if(statusCode == 200):
-        loginResponse["username"] = username
-        loginResponse["password"] = password
-        loginResponse["message"] = 'Login Success'
-        loginResponse["token"] = token()
+        sql = "INSERT INTO user VALUES (:user_id, :email, :password, :first_name, :last_name, :preferred_name, :phone_number, :profile_picture, :request_supporter, :active_account);"
+        sql_parameters = [ {'name':'user_id', 'value':{'longValue': user_id}} ,
+        {'name':'email', 'value':{'stringValue': email}},
+        {'name':'password', 'value':{'stringValue': password}},
+        {'name':'first_name', 'value':{'stringValue': first_name}},
+        {'name':'last_name', 'value':{'stringValue': last_name}},
+        {'name':'preferred_name', 'value':{'stringValue': preferred_name}},
+        {'name':'phone_number', 'value':{'stringValue': phone_number}},
+        {'name':'profile_picture', 'value':{'stringValue': profile_picture}},
+        {'name':'request_supporter', 'value':{'booleanValue': request_supporter}},
+        {'name':'active_account', 'value':{'booleanValue': active_account}}
+        ]
+        
+        query_result = execute_statement(client, sql, sql_parameters)
+        
+        sql = "SELECT user_id_ FROM user WHERE user_id_ = :user_id;"
+        sql_parameters = [{'name':'user_id', 'value':{'longValue': user_id}}]
+        query_result = execute_statement(client, sql, sql_parameters)
+        user = extract_records(query_result)
     
     # Headers to avoid CORS issues
     response_headers = {}
@@ -69,11 +122,12 @@ def student_create(event, context):
     response_headers["Access-Control-Allow-Headers"] = "Content-Type,X-Amz-Date,Authorization,X-Api-Key,x-requested-with'"
     response_headers["Access-Control-Allow-Methods"] = "OPTIONS,POST,GET,PUT,DELETE"
     
+    user_return = {}
+    user_return["user-id"] = user[0][0]
     response = {}
     response["statusCode"] = statusCode
-    # response["headers"] = {"Content-Type": "application/json"}
     response["headers"] = response_headers
-    response["body"] = json.dumps(loginResponse)
+    response["body"] = json.dumps(user_return)
     response["isBase64Encoded"] = False
 
     return response
