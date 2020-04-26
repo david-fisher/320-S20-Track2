@@ -72,11 +72,11 @@ def lambda_handler(event, context):
     table_name = event["queryStringParameters"]["resource"]
     request_body = json.loads(event["body"])
 
-    # does the request body have a value for "name"?
-    if (not 'name' in request_body):
+    # does the request body have a value for "new_option"?
+    if (not 'new_option' in request_body):
         statusCode = 400
         response_body = {
-            'message' : 'Invalid request format: request body must contain a value for "name"',
+            'message' : 'Invalid request format: request body must contain a value for "new_option"',
             'request body' : json.dumps(request_body)
         }
         return {
@@ -88,7 +88,7 @@ def lambda_handler(event, context):
 
 
     # if everything passes, we're good!
-    id = put_option(table_name, request_body["name"])
+    id = put_option(table_name, request_body["new_option"])
     response_body = { 'message' : "resource successfully created, see 'Location' header for URI" }
     response_headers['Location'] = f'/options/{id}'
     statusCode = 201
