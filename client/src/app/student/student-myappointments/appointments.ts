@@ -1,4 +1,4 @@
-export interface Appointment {
+export interface StudentAppointment {
   appt_id: string;
   duration: string;
   date: Date;
