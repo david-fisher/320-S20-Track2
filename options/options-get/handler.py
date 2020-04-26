@@ -4,7 +4,7 @@ import rds_config
 from db_wrapper import execute_statement, extract_records
 
 
-def get_tags(table_name):
+def get_options(table_name):
 
     # query the database for all current tags
     sql = f"SELECT * FROM {table_name};"
@@ -34,7 +34,7 @@ def lambda_handler(event, context):
         statusCode = 400
         response_body = {'message' : 'Unknown resource', 'resource' : f'{query_params['resource']}'}
     else:
-        response_body = get_options(table_name)
+        response_body = get_options(query_params['resource'])
         statusCode = 200
 
 
