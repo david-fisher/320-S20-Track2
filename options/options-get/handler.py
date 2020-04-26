@@ -24,18 +24,34 @@ def lambda_handler(event, context):
     response_headers["Access-Control-Allow-Headers"] = "Content-Type,X-Amz-Date,Authorization,X-Api-Key,x-requested-with'"
     response_headers["Access-Control-Allow-Methods"] = "OPTIONS,POST,GET,PUT,DELETE"
 
-    # get query string parameters
-    query_params = event["queryStringParameters"]
+    # does the necessary query string exist?
+    if (event["queryStringParameters"] == None or not 'resource' in event["queryStringParameters"]):
+        statusCode = 400
+        response_body = {'message' : 'Must include a query parameter "resource" set to "tags", "type_of_supporter", or "appointment_type"'}
+        return {
+            'statusCode': statusCode,
+            'headers' : response_headers,
+            'body': json.dumps(response_body),
+            'isBase64Encoded' : False
+        }
 
-    if (not 'resource' in query_params):
+    table_name = event["queryStringParameters"]["resource"]
+
+    # does the query string have an acceptable value?
+    if (not (table_name == 'tags' or table_name == 'type_of_supporter' or table_name == 'appointment_type') ):
         statusCode = 400
-        response_body = {'message' : 'Must include a query parameter "resource" set to "tags", "type_of_supporters", or "appointment_type"'}
-    elif ( not (query_params['resource'] == 'tags' or query_params['resource'] == 'type_of_supporters' or query_params['resource'] == 'appointment_type') ):
-        statusCode = 400
-        response_body = {'message' : 'Unknown resource', 'resource' : f'{query_params['resource']}'}
-    else:
-        response_body = get_options(query_params['resource'])
-        statusCode = 200
+        response_body = {'message' : 'Unknown resource', 'resource' : f'{table_name}'}
+        return {
+            'statusCode': statusCode,
+            'headers' : response_headers,
+            'body': json.dumps(response_body),
+            'isBase64Encoded' : False
+        }
+
+
+    # if both pass, we're good!
+    response_body = get_options(table_name)
+    statusCode = 200
 
 
     return {
