@@ -1,6 +1,8 @@
 import json
 from db_wrapper import execute_statement, extract_records
 
+# input: none
+# output: a csv string with the frequency of appointment types
 def getAnalytics(event, context):
     
     response_headers = {}
