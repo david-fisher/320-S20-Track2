@@ -28,15 +28,15 @@ export class LoginComponent implements OnInit {
     let emailregex: RegExp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
     this.formGroup = this.formBuilder.group({
       'email': [null, [Validators.required, Validators.pattern(emailregex)]],
-      'password': [null, [Validators.required, this.checkPassword]],
+      'password': [null, Validators.required],
     });
   }
 
-  checkPassword(control) {
-    let enteredPassword = control.value;
-    let passwordCheck = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/;
-    return (!passwordCheck.test(enteredPassword) && enteredPassword) ? { 'requirements': true } : null;
-  }
+  // checkPassword(control) {
+  //   let enteredPassword = control.value;
+  //   let passwordCheck = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/;
+  //   return (!passwordCheck.test(enteredPassword) && enteredPassword) ? { 'requirements': true } : null;
+  // }
 
   test() {
     console.log('test1');
@@ -44,12 +44,12 @@ export class LoginComponent implements OnInit {
 
   getErrorEmail() {
     return this.formGroup.get('email').hasError('required') ? 'Field is required' :
-      this.formGroup.get('email').hasError('pattern') ? 'Not a valid emailaddress' : '';
+      this.formGroup.get('email').hasError('pattern') ? 'Not a valid email address' : '';
   }
 
   getErrorPassword() {
-    return this.formGroup.get('password').hasError('required') ? 'Field is required (at least eight characters, one uppercase letter and one number)' :
-      this.formGroup.get('password').hasError('requirements') ? 'Password needs to be at least eight characters, one uppercase letter and one number' : '';
+    return this.formGroup.get('password').hasError('required') ? 'Field is required' : '';
+      // this.formGroup.get('password').hasError('requirements') ? 'Password needs to be at least eight characters, one uppercase letter and one number' : '';
   }
   onSubmit(post) {
     console.log('test');
