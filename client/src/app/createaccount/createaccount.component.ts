@@ -80,14 +80,6 @@ export class CreateaccountComponent implements OnInit {
     return (this.userType ? this.formStudentGroup.get('preferredName') as FormControl : this.formSupporterGroup.get('preferredName') as FormControl)
   }
 
-  encryptData(data) {
-    try {
-      return CryptoJS.AES.encrypt(JSON.stringify(data), this.encryptSecretKey).toString();
-    } catch (e) {
-      console.log(e);
-    }
-  }
-
   onUploadClicked(data: any) {
     console.log(data);
   }
@@ -141,8 +133,8 @@ export class CreateaccountComponent implements OnInit {
       'first_name': this.post['first_name'],
       'last_name': this.post['last_name'],
       'preferred_name': this.post['preferredName'],
-      'email': this.encryptData(this.post['email']),
-      'password':this.encryptData(this.post['password']),
+      'email': CryptoJS.SHA3(this.post['email']).toString(CryptoJS.enc.Hex),
+      'password': CryptoJS.SHA3(this.post['password']).toString(CryptoJS.enc.Hex),
       'phone_number': this.post['phoneNum'],
       'current_employer': this.post['currentEmployer'],
       'title': this.post['userTitle'],

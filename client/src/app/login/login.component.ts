@@ -13,7 +13,7 @@ import {HttpClient} from "@angular/common/http";
 export class LoginComponent implements OnInit {
   formGroup: FormGroup;
   hide = true;
-  encryptSecretKey = '';
+  encryptSecretKey = 'test';
   loginInvalid = false;
   post: any = '';
   public flag = false;
@@ -30,14 +30,6 @@ export class LoginComponent implements OnInit {
       'email': [null, [Validators.required, Validators.pattern(emailregex)]],
       'password': [null, [Validators.required, this.checkPassword]],
     });
-  }
-
-  encryptData(data) {
-    try {
-      return CryptoJS.AES.encrypt(JSON.stringify(data), this.encryptSecretKey).toString();
-    } catch (e) {
-      console.log(e);
-    }
   }
 
   checkPassword(control) {
@@ -75,10 +67,10 @@ export class LoginComponent implements OnInit {
 
   sendData() {
     let data = {
-      // 'username': this.encryptData(this.post['email']),
-      // 'password': this.encryptData(this.post['password'])
-      'username': this.post['email'],
-      'password': this.post['password']
+      'username': CryptoJS.SHA3(this.post['email']).toString(CryptoJS.enc.Hex),
+      'password': CryptoJS.SHA3(this.post['password']).toString(CryptoJS.enc.Hex)
+      // 'username': this.post['email'],
+      // 'password': this.post['password']
     };
     console.log(data);
 
@@ -90,8 +82,7 @@ export class LoginComponent implements OnInit {
         this.router.navigate(['/home']);
       }
     });
-    this.cookieService.set('logged-in', '');
-    this.router.navigate(['/home']);
+    this.router.navigate(['/login']);
 
 
 
