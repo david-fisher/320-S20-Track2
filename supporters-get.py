@@ -5,10 +5,10 @@ import rds_config
 def get_supporters(event, context):
 
     query = ("SELECT user_id_, title, current_employer, supporter_type "
-             "FROM supporter_tags "
+             "FROM supporter "
              "UNION SELECT email, first_name, last_name, preferred_name, profile_picture, request_supporter "
              "FROM user "
-             "WHERE active_account = True")
+             "WHERE supporter.user_id_ = user.user_id_")
 
     # access client and execute query
     client = boto3.client('rds-data')
