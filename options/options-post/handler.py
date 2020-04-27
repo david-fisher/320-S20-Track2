@@ -10,7 +10,7 @@ def put_option(table_name, option_name):
     if (table_name == 'tags'):
         id = 'tag_id'
         name = 'tag_name'
-    elif (table_name == 'type_of_supporters'):
+    elif (table_name == 'type_of_supporter'):
         id = 'supp_type_id'
         name = 'supp_type'
     else:
@@ -18,7 +18,7 @@ def put_option(table_name, option_name):
         name = 'appointment_name'
 
     # insert the new tag into the database
-    sql = f"INSERT INTO {table_name} ({name}) VALUES :option_name;"
+    sql = f"INSERT INTO {table_name} ({name}) VALUES (:option_name);"
     sql_parameters = [ {'name':'option_name', 'value':{'stringValue': f'{option_name}'}}  ]
 
     query_result = execute_statement(sql, sql_parameters)
@@ -31,7 +31,7 @@ def put_option(table_name, option_name):
     print(id_result)
 
     # return list(id_result['records'][0][0].values())[0]
-    return 0
+    return id_result['records'][0][0]['longValue']
 
 
 
@@ -70,6 +70,20 @@ def lambda_handler(event, context):
         }
 
     table_name = event["queryStringParameters"]["resource"]
+
+    # does the request body exist?
+    if (event["body"] == None):
+        statusCode = 400
+        response_body = {
+            'message' : 'Invalid request format: must include request body with value for key "new_option"'
+        }
+        return {
+            'statusCode': statusCode,
+            'headers' : response_headers,
+            'body': json.dumps(response_body),
+            'isBase64Encoded' : False
+        }
+
     request_body = json.loads(event["body"])
 
     # does the request body have a value for "new_option"?
@@ -87,10 +101,11 @@ def lambda_handler(event, context):
         }
 
 
+
     # if everything passes, we're good!
     id = put_option(table_name, request_body["new_option"])
     response_body = { 'message' : "resource successfully created, see 'Location' header for URI" }
-    response_headers['Location'] = f'/options/{id}'
+    response_headers['Location'] = f'/options/{id}?resource={table_name}'
     statusCode = 201
 
 
