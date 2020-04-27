@@ -7,7 +7,7 @@ def supporter_feedback(event, context):
         appointment_id = event['appointment_id']
      
     get_feedback_rating_query= (f"SELECT * FROM student_feedback" 
-    f"where appointment_id = :0;")
+    f"WHERE appointment_id = :0;")
 
     info = param_to_sql_param([appointment_id])
 
@@ -18,11 +18,16 @@ def supporter_feedback(event, context):
     database=rds_config.DB_NAME,
     sql=get_feedback_rating_query,
     parameters=info)
-
-    return {
-        'body': json.dumps(response),
-        'statusCode': 200
-    }
+    if(response.len() == 0):
+        return{
+            'body': "No such appointment_id",
+            'statusCode': 404
+        }
+    else:
+        return {
+            'body': json.dumps(response),
+            'statusCode': 200
+        }
 
 #Mitch created this function for his other lambdas:
 def param_to_sql_param(params, existing_sql_params=None):
