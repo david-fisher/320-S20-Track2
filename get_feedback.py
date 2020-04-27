@@ -16,7 +16,7 @@ def supporter_feedback(event, context):
     response = client.execute_statement(resourceArn=rds_config.ARN,
     secretArn=rds_config.SECRET_ARN,
     database=rds_config.DB_NAME,
-    sql=add_supporter_rating_query,
+    sql=get_feedback_rating_query,
     parameters=info)
 
     return {
