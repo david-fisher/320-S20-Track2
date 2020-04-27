@@ -14,7 +14,7 @@ def supporter_feedback(event, context):
         
     add_supporter_rating_query= (f"INSERT INTO student_feedback" 
     f"(appointment_id,student_id,rating,recommended) "
-    f"VALUES(%s,%s,%s,%s)")
+    f"VALUES(:0,:1,:2,:3);")
 
     info = param_to_sql_param([appointment_id, student_id, rating, recommended])
 
