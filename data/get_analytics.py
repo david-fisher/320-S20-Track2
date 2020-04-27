@@ -3,6 +3,12 @@ from db_wrapper import execute_statement, extract_records
 
 def getAnalytics(event, context):
     
+    response_headers = {}
+    response_headers["X-Requested-With"] = "*"
+    response_headers["Access-Control-Allow-Origin"] = "*"
+    response_headers["Access-Control-Allow-Headers"] = "Content-Type,X-Amz-Date,Authorization,X-Api-Key,x-requested-with'"
+    response_headers["Access-Control-Allow-Methods"] = "OPTIONS,POST,GET,PUT,DELETE"
+
     # query db for the types of appts and their frequencies
     query = "SELECT DISTINCT type_id, COUNT(type_id) FROM appointments GROUP BY type_id;"
     appt_freqs = execute_statement(query)
@@ -27,7 +33,7 @@ def getAnalytics(event, context):
         type_names[key] = value
     
     # Build the csv string
-    csv = "Appointment type,frequency"
+    csv = "Appointment type,Frequency"
     for tuple in appt_freqs['records']:
         type_id = tuple[0].get("longValue")
         frequency = tuple[1].get("longValue")
@@ -38,5 +44,6 @@ def getAnalytics(event, context):
     
     return {
         'statusCode': 200,
-        'body': json.dumps(csv)
+        'body': json.dumps(csv),
+        'headers': response_headers
     }
