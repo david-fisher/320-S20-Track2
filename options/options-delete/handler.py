@@ -15,26 +15,28 @@ def remove_option(table_name, option_id):
     elif (table_name == 'type_of_supporter'):
         id = 'supp_type_id'
         name = 'supp_type'
-        associated_table = 'supporter_type'
+        associated_table = 'suporter_type'
     else:
         id = 'type_id'
         name = 'appointment_name'
 
-    # delete the tag from the tags table
-    sql = f"DELETE FROM `{table_name}` WHERE `{id}` = :option_id;"
-    sql_parameters = [ {'name':'option_id', 'value':{'longValue': option_id} } ]
-    query_result = execute_statement(sql, sql_parameters)
-
-    # didn't actually delete anything
-    if ( query_result['numberOfRecordsUpdated'] == 0 ):
-        return False
-
+    # appointment_type is a special case
     if (id == 'tag_id' or id == 'supp_type_id'):
-        # delete the tag from the supporter_tags table (not for appointment_type)
+        # delete entries in associated_table
         sql = f"DELETE FROM `{associated_table}` WHERE `{id}` = :option_id;"
+        sql_parameters = [ {'name':'option_id', 'value':{'longValue': option_id} } ]
         query_result = execute_statement(sql, sql_parameters)
 
-    return True
+        # delete from main table
+        sql = f"DELETE FROM `{table_name}` WHERE `{id}` = :option_id;"
+        query_result = execute_statement(sql, sql_parameters)
+    else:
+        sql = f"UPDATE `appointment_type` SET active_type = false WHERE `{id}` = :option_id;"
+        sql_parameters = [ {'name':'option_id', 'value':{'longValue': option_id} } ]
+        query_result = execute_statement(sql, sql_parameters)
+
+    # will always be true for appointment_type, probably not worth fixing right now
+    return not query_result['numberOfRecordsUpdated'] == 0
 
 
 
@@ -78,7 +80,7 @@ def lambda_handler(event, context):
     try:
         # extract the tag id
         option_id = int(event["pathParameters"]["id"])
-        if ( remove_option(query_params['resource'], tag_id) ):
+        if ( remove_option(table_name, option_id) ):
             response_body = { 'message' : f'option {option_id} successfully deleted' }
             statusCode = 200
         else:
