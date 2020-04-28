@@ -4,6 +4,8 @@ import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import * as CryptoJS from 'crypto-js';
 import { ActivatedRoute, Router } from '@angular/router';
 import {HttpClient} from "@angular/common/http";
+import {DialogContentExampleDialog, UhOhDialog} from "../createaccount/createaccount.component";
+import {MatDialog} from "@angular/material/dialog";
 
 @Component({
   selector: 'app-login',
@@ -18,7 +20,7 @@ export class LoginComponent implements OnInit {
   post: any = '';
   public flag = false;
 
-  constructor(private formBuilder: FormBuilder, private cookieService: CookieService, private router: Router, private http: HttpClient) { }
+  constructor(private formBuilder: FormBuilder, private cookieService: CookieService, private router: Router, public dialog: MatDialog, private http: HttpClient) { }
 
   ngOnInit() {
     this.createForm();
@@ -65,9 +67,12 @@ export class LoginComponent implements OnInit {
   }
 
   sendData() {
+    let email_split = this.post['email'].split('@');
+    let email = email_split[0] + '@' + email_split[1].toLowerCase();
+
     let data = {
-      'username': CryptoJS.SHA3(this.post['email']).toString(CryptoJS.enc.Hex),
-      'password': CryptoJS.SHA3(this.post['password']).toString(CryptoJS.enc.Hex)
+      'username': CryptoJS.SHA3(email, { outputLength: 224 }).toString(CryptoJS.enc.Hex),
+      'password': CryptoJS.SHA3(this.post['password'], { outputLength: 224 }).toString(CryptoJS.enc.Hex)
       // 'username': this.post['email'],
       // 'password': this.post['password']
     };
@@ -89,18 +94,34 @@ export class LoginComponent implements OnInit {
         this.cookieService.set('logged-in', '');
         this.router.navigate(['/home']);
       }
+    }, error => {
+        console.log(error);
+        console.log(error['error']['message']);
+        if (error['error']['message'] === 'Password Does Not Match') {
+          this.dialog.open(IncorrectPasswordDialog);
+        } else if (error['error']['message'] === 'User DNE') {
+          this.dialog.open(IncorrectEmailDialog);
+        } else {
+          this.dialog.open(UhOhDialog);
+        }
+        this.formGroup.reset();
     });
-    // this.router.navigate(['/login']);
-    this.cookieService.set('user_id', '');
-    this.cookieService.set('logged-in', '');
-    this.router.navigate(['/home']);
+
+
 
 
 
   }
-
-
-
-
-
 }
+
+@Component({
+  selector: 'incorrect-password-dialog',
+  templateUrl: 'incorrect-password-dialog.html',
+})
+export class IncorrectPasswordDialog {}
+
+@Component({
+  selector: 'incorrect-email-dialog',
+  templateUrl: 'incorrect-email-dialog.html',
+})
+export class IncorrectEmailDialog {}
