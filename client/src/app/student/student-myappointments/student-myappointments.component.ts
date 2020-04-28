@@ -18,14 +18,17 @@ export class StudentMyappointmentsComponent implements OnInit {
 
   get getAppointments(): Array<StudentAppointment> {
     const result = [];
+    const resarray = [];
     this.http.get('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/appointments/1', {}).subscribe(res => {
       console.log(Object.values(res));
+      console.log(Object.values(res));
       for (const appt of Object.values(res)) {
-        const newAppt : StudentAppointment = {date: new Date(appt[2].split("-")[0], appt[2].split("-")[1], appt[2].split("-")[2], appt[3].split(":")[0], appt[3].split(":")[1], appt[3].split(":")[2], 0), type: "Meeting Type: "+appt[5], location: "Meeting Location", duration: appt[4], appt_id: appt[0], cancelled: appt[6], supporter_name: appt[7]};
+        const newAppt : StudentAppointment = {date: new Date(appt[2].split("-")[0], appt[2].split("-")[1], appt[2].split("-")[2], appt[3].split(":")[0], appt[3].split(":")[1], appt[3].split(":")[2], 0), type: appt[9], location: "Meeting Location", duration: appt[4], appt_id: appt[0], cancelled: appt[6], supporter_name: appt[7] + ' ' + appt[8]};
         result.push(newAppt);
+        resarray.push(appt);
       }
     });
-    console.log(result);
+    // console.log(result);
     return result;
   }
 
