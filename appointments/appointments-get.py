@@ -14,20 +14,13 @@ def get_appointments(event, context):
     response_headers["Access-Control-Allow-Methods"] = "OPTIONS,POST,GET,PUT,DELETE"
     
     try:
-        if not isinstance(int(event["pathParameters"]["id"]), int):
-            return {
-                'statusCode' : 400,
-                'headers' : response_headers,
-                'body' : "Input is not a valid id"
-            }
+        u_id = int(event["pathParameters"]["id"])
     except:
         return {
             'statusCode' : 400,
             'headers' : response_headers,
-            'body' : "No input"
+            'body' : json.dumps({'message' : 'Invalid input'})
         }
-   
-    u_id = int(event["pathParameters"]["id"])
    
     query = "SELECT A.*, U.first_name, U.last_name, T.appointment_name, S.location FROM appointments A NATURAL JOIN user U NATURAL JOIN appointment_type T NATURAL JOIN supporter S WHERE A.supporter_id = :u_id AND U.user_id_ = :u_id;"
     sql_params = [{'name': 'u_id', 'value':{'longValue': u_id}}]
@@ -37,9 +30,8 @@ def get_appointments(event, context):
         return {
          'statusCode' : 404,
          'headers' : response_headers,
-         'body' : "No appointments found"
+         'body' : json.dumps({'message' : 'No appointments found'})
         }
-   
    
     return {
         'statusCode' : 200,
