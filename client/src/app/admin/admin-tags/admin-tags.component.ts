@@ -110,6 +110,29 @@ export class AdminTagsComponent implements OnInit {
     });
   }
 
+  delete_appointment_type() {
+    let deleteId = 0;
+    if (this.selectedTags.length === 0) {
+      alert('No appointment types selected.');
+      return;
+    }
+    this.http.get('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/options?resource=appointment_type', {}).subscribe(res => {
+      for (const type of Object.values(res)) {
+        for (const deleteName of this.selectedTags) {
+          if (type[1] === deleteName) {
+            deleteId = type[0];
+            // tslint:disable-next-line:max-line-length
+            const url = 'https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/options?resource=appointment_type/' + deleteId.toString();
+            console.log(url);
+            this.http.delete(url).subscribe();
+          }
+        }
+      }
+      setTimeout(() => this.pageAppointmentTypes =
+        this.content_https('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/options?resource=appointment_type'), 1700);
+    });
+  }
+
   display_tags() {
     this.showTags = true;
     this.showAppointmentTypes = false;
