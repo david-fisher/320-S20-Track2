@@ -11,35 +11,26 @@ def getAnalytics(event, context):
     response_headers["Access-Control-Allow-Headers"] = "Content-Type,X-Amz-Date,Authorization,X-Api-Key,x-requested-with'"
     response_headers["Access-Control-Allow-Methods"] = "OPTIONS,POST,GET,PUT,DELETE"
 
-    # query db for the types of appts and their frequencies
-    query = "SELECT DISTINCT type_id, COUNT(type_id) FROM appointments GROUP BY type_id;"
-    appt_freqs = execute_statement(query)
-    
+    # query db for the types of appts, their frequencies and the appt names
+    query = "SELECT type_id, COUNT(type_id), AT.appointment_name \
+            FROM appointments A NATURAL JOIN appointment_type AT \
+            WHERE A.type_id = AT.type_id GROUP BY type_id"
+    result = execute_statement(query)
+
     # no appt data in db
-    if appt_freqs['records'] == []:
+    if result['records'] == []:
         return {
             'statusCode': 404,
             'body': json.dumps("No data found"),
             'headers': response_headers
         }
     
-    # query db for the name of the types of appts
-    query = "SELECT * FROM appointment_type;"
-    result = execute_statement(query)
-    
-    # extract the data from the query to make it easier to handle
-    type_names = {}
-    for tuple in result['records']:
-        key = tuple[0].get("longValue")
-        value = tuple[1].get("stringValue")
-        type_names[key] = value
-    
-    # Build the csv string
+    # build the csv string
     csv = "Appointment type,Frequency"
-    for tuple in appt_freqs['records']:
-        type_id = tuple[0].get("longValue")
+    for tuple in result['records']:
+        appt_type = tuple[2].get("stringValue")
         frequency = tuple[1].get("longValue")
-        csv += "\n" + type_names.get(type_id) + "," + str(frequency)
+        csv += "\n" + appt_type + "," + str(frequency)
     
     body = {}
     body["csv"] = csv
