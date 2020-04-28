@@ -64,7 +64,7 @@ export class CreateaccountComponent implements OnInit {
       'password': [null, [Validators.required, this.checkPassword]],
       'phoneNum': [null],
       'gpa': [null],
-      'gradYear': [null],
+      'gradYear': [null, Validators.required],
       'is_undergrad': [null, Validators.required],
       'github': [null],
       'linkedin': [null]
@@ -134,32 +134,48 @@ export class CreateaccountComponent implements OnInit {
     }
     let email_split = this.post['email'].split('@');
     let email = email_split[0] + '@' + email_split[1].toLowerCase();
-    let data = {
-      'kind': this.typeOfUser,
-      'first_name': this.post['first_name'],
-      'last_name': this.post['last_name'],
-      'preferred_name': this.post['preferredName'],
-      'email': CryptoJS.SHA3(email).toString(CryptoJS.enc.Hex),
-      'password': CryptoJS.SHA3(this.post['password']).toString(CryptoJS.enc.Hex),
-      'phone_number': this.post['phoneNum'],
-      'current_employer': this.post['currentEmployer'],
-      'title': this.post['userTitle'],
-      'GPA': this.post['gpa'],
-      'grad_year': this.post['gradYear'],
-      'github_link': this.post['github'],
-      'linkedin_link': this.post['linkedin'],
-      'supporter_type': supporterTypes,
-      'profile_picture': "",
-      'request_supporter': !this.userType,
-      'active_account': true,
-      'resume_ref': '',
-      'transcript_ref': '',
-      'is_undergrad': this.post['is_undergrad'] === 'Yes',
-      'location': '',
-      'calendar_ref': this.post['calendar_ref'],
-      'calendar_sync': true,
-      'calendar_sync_freq': this.post['calendar_sync_freq']
-    };
+    let data = {};
+    if (this.userType) {
+      data = {
+        'kind': this.typeOfUser,
+        'first_name': this.post['first_name'],
+        'last_name': this.post['last_name'],
+        'preferred_name': this.post['preferredName'],
+        'email': CryptoJS.SHA3(email).toString(CryptoJS.enc.Hex),
+        'password': CryptoJS.SHA3(this.post['password']).toString(CryptoJS.enc.Hex),
+        'phone_number': parseInt(this.post['phoneNum']),
+        'GPA': parseInt(this.post['gpa']),
+        'grad_year': parseInt(this.post['gradYear']),
+        'github_link': this.post['github'],
+        'linkedin_link': this.post['linkedin'],
+        'profile_picture': "",
+        'request_supporter': false,
+        'active_account': true,
+        'resume_ref': '',
+        'transcript_ref': '',
+        'is_undergrad': this.post['is_undergrad'] === 'Yes'
+      };
+    } else {
+      data = {
+        'kind': this.typeOfUser,
+        'first_name': this.post['first_name'],
+        'last_name': this.post['last_name'],
+        'preferred_name': this.post['preferredName'],
+        'email': CryptoJS.SHA3(email).toString(CryptoJS.enc.Hex),
+        'password': CryptoJS.SHA3(this.post['password']).toString(CryptoJS.enc.Hex),
+        'phone_number': parseInt(this.post['phoneNum']),
+        'current_employer': this.post['currentEmployer'] == null ? '' : this.post['currentEmployer'],
+        'title': this.post['userTitle'] == null ? '' : this.post['userTitle'],
+        'supporter_type': supporterTypes,
+        'profile_picture': "",
+        'request_supporter': true,
+        'active_account': true,
+        'location': '',
+        'calendar_ref': 'gmail',
+        'calendar_sync': true,
+        'calendar_sync_freq': 3
+      };
+    }
     console.log(data);
 
     this.http.post<JSON>('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/account',
