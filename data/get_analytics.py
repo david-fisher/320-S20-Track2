@@ -14,7 +14,7 @@ def getAnalytics(event, context):
     # query db for the types of appts, their frequencies and the appt names
     query = "SELECT type_id, COUNT(type_id), AT.appointment_name \
             FROM appointments A NATURAL JOIN appointment_type AT \
-            WHERE A.type_id = AT.type_id GROUP BY type_id"
+            WHERE A.type_id = AT.type_id GROUP BY type_id;"
     result = execute_statement(query)
 
     # no appt data in db
@@ -37,6 +37,6 @@ def getAnalytics(event, context):
     
     return {
         'statusCode': 200,
-        'body': json.dumps(csv),
+        'body': json.dumps(body),
         'headers': response_headers
     }
