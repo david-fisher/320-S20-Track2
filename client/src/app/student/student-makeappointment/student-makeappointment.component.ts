@@ -16,6 +16,7 @@ import { finalize, takeUntil } from 'rxjs/operators';
 import { addDays, addMinutes, endOfWeek } from 'date-fns';
 import {HttpClient} from '@angular/common/http';
 import {InterestTags} from '../../admin/admin-tags/interest-tag';
+import {CookieService} from "ngx-cookie-service";
 
 function floorToNearest(amount: number, precision: number) {
   return Math.floor(amount / precision) * precision;
@@ -70,7 +71,7 @@ export class StudentMakeappointmentComponent {
   pageTags;
   pageSupporters;
 
-  constructor(private cdr: ChangeDetectorRef, private http: HttpClient) {
+  constructor(private cdr: ChangeDetectorRef, private http: HttpClient, private cookieService: CookieService) {
     this.pageTags = this.tags_https;
     this.pageSupporters = this.supporter_https;
   }
@@ -187,7 +188,7 @@ export class StudentMakeappointmentComponent {
   generate_appointment_object() {
     const appointment = {
       student_id: 2,
-      supporter_id: 1,
+      supporter_id: this.cookieService.get('user_id'),
       appt_date: '2014-12-12',
       start_time: '13:50:22',
       duration: 999,
