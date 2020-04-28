@@ -1,0 +1,58 @@
+
+  <mat-toolbar color="primary">
+    <button mat-button class="logo_button" routerLink="/home">Trellis</button>
+    <button mat-button routerLink="/home">Home</button>
+
+    <!-- Logged in -->
+    <ng-template [ngIf]="getAuth().isUserAuthenticated()" [ngIfElse]="elseBlock">
+
+
+      <!-- Appointment Menu -->
+      <button mat-button [matMenuTriggerFor]="appointmentsMenu">Appointments</button>
+      <mat-menu #appointmentsMenu="matMenu" xPosition="before">
+        <button mat-menu-item routerLink="/student-myappointments">My Appointments</button>
+        <button mat-menu-item routerLink="/student-makeappointment">Find a Supporter</button>
+      </mat-menu>
+
+      <!-- Admin Menu -->
+      <button mat-button [matMenuTriggerFor]="adminMenu">Admin</button>
+      <mat-menu #adminMenu="matMenu" xPosition="before">
+        <button mat-menu-item routerLink="/admin-landing">Landing</button>
+        <button mat-menu-item routerLink="/admin-discipline">Discipline</button>
+        <button mat-menu-item routerLink="/admin-applications">Applications</button>
+        <button mat-menu-item routerLink="/admin-reports">Reports</button>
+        <button mat-menu-item routerLink="/admin-tags">Tags</button>
+      </mat-menu>
+
+      <!-- Supporter Menu -->
+      <button mat-button [matMenuTriggerFor]="supporterMenu">Supporter</button>
+      <mat-menu #supporterMenu="matMenu" xPosition="before">
+        <button mat-menu-item routerLink="/supporter-landing">Landing</button>
+        <button mat-menu-item routerLink="/supporter-appointments">Appointments</button>
+        <button mat-menu-item routerLink="/supporter-settings">Settings</button>
+        <button mat-menu-item routerLink="/supporter-availability">Availability</button>
+      </mat-menu>
+      <!-- This fills the remaining space of the current row -->
+      <span class="example-fill-remaining-space"></span>
+
+      <button mat-button [matMenuTriggerFor]="accountMenu">Account</button>
+      <mat-menu #accountMenu="matMenu" xPosition="before">
+        <button mat-menu-item routerLink="/student-profile">Profile</button>
+        <button mat-menu-item (click)="logout()" routerLink="/home">Logout</button>
+      </mat-menu>
+    </ng-template>
+
+    <!-- Not logged in -->
+    <ng-template #elseBlock>
+      <button mat-button routerLink="/faq">FAQ</button>
+
+      <!-- This fills the remaining space of the current row -->
+      <span class="example-fill-remaining-space"></span>
+
+      <button mat-button routerLink="/login">Login</button>
+
+    </ng-template>
+  </mat-toolbar>
+
+
+

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="UTF-8">
+<title>"Supporter Landing!"</title>
+<body>
+<h1>Supporter Availability</h1>
+<h2> Current Availability:</h2>
+<div class = appointmentbox>
+  <ul>
+    <li>Sunday: Unavailable</li>
+    <li>Monday: 5 AM - 5 PM </li>
+    <li>Tuesday: Unavailable </li>
+    <li>Wednesday: Unavailable </li>
+    <li>Thursday: Unavailable </li>
+    <li>Friday: 12 PM - 6 PM </li>
+    <li>Saturday: 9 Am - 6 PM </li>
+  </ul>
+</div>
+
+<h2> Edit Availability:</h2>
+<div class = appointmentbox>
+  <h3>Select a Day:</h3>
+  <select matNativeControl required>
+    <option value="monday">Monday</option>
+    <option value="tuesday">Tuesday</option>
+    <option value="wednesday">Wednesday</option>
+    <option value="thursday">Thursday</option>
+    <option value="friday">Friday</option>
+    <option value="saturday">Saturday</option>
+    <option value="sunday">Sunday</option>
+  </select>
+  <br>
+  <br>
+  <h3>Choose Availability:</h3>
+  <p>Available from <input matInput placeholder="Start time" value=""> to <input matInput placeholder="End Time" value=""> </p>
+  <button mat-raised-button color="warn">Confirm</button>
+</div>
+
+</body>
+</html>

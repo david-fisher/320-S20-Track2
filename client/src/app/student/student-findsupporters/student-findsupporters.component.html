@@ -1,0 +1,26 @@
+<div>
+
+  <div class="box">
+    <mat-selection-list [(ngModel)]="selectedTags" >
+      <mat-list-option *ngFor="let tag of pageTags" [value]="tag.name">
+        {{tag.name}}
+      </mat-list-option>
+    </mat-selection-list>
+
+  </div>
+  <div class="box">
+    <mat-selection-list >
+      <mat-list-option *ngFor="let supporter of supporters">
+        <p> {{supporter.firstname + ' ' + supporter.lastname }} </p>
+      </mat-list-option>
+      <mat-action-list>
+        <button mat-list-item routerLink="/student-makeappointment"> Submit </button>
+      </mat-action-list>
+    </mat-selection-list>
+  </div>
+
+</div>
+
+
+
+

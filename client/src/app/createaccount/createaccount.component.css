@@ -1,0 +1,23 @@
+.main-div{
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/*.example-card {*/
+/*  max-width: 400px;*/
+/*}*/
+
+.form-element {
+  width: 20em;
+}
+
+br {
+  padding-bottom:1px;
+}
+
+.padding {
+  padding-right: 1em;
+}
+

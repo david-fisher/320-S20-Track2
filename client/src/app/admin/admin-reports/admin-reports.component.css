@@ -1,0 +1,19 @@
+
+
+.report {
+  width: 60%;
+}
+.complaint {
+  background-color: lightpink;
+  width: fit-content;
+  border: 2px solid lightcoral;
+  padding: 8px;
+}
+
+.open-report-status {
+  color: green;
+}
+
+.closed-report-status {
+  color: darkred;
+}

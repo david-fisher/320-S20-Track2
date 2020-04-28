@@ -1,0 +1,54 @@
+mat-card {
+  max-width: 400px;
+  margin: 2em auto;
+  text-align: center;
+}
+
+mat-form-field {
+  display: block;
+}
+
+.account {
+  padding-top: 1em;
+}
+
+.log-in-h1 {
+  align-content: center;
+  text-align: center;
+}
+
+.log-in-h2 {
+  background-color: #B71C1C;
+  color: white;
+  width: 380px;
+  margin-top: 10px;
+  border-radius: 5px;
+  align-content: center;
+}
+
+.log-in-h3 {
+  background-color: #B71C1C;
+  color: white;
+  width: 380px;
+  margin-top: 10px;
+  border-radius: 5px;
+  align-content: center;
+}
+
+.users button,
+.users a {
+  margin-right: 8px;
+}
+
+.alignment {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 10%;
+}
+.center-alignment {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+

@@ -1,0 +1,133 @@
+<!-- TO IMPLEMENT:
+Character limit on description（done）
+Clickable links
+Dynamic display for certain attributes
+Edit/update profile picture
+Uploading files
+Cancel button
+Maybe something better than a bunch of <br>s?
+
+Switch over to http requests once those are ready
+Only need to patch PreferredName, LastName, Pronouns and PersonalDescription, and Links for the time being
+Maybe GraduationYear-->
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="UTF-8">
+<h1>My Profile</h1>
+<body>
+  <!--Profile picture-->
+    <header>Personal Avatar</header>
+    <img src = "assets/umasslogo.png" alt = "avatar">
+  <mat-file-upload
+    [labelText]="'Upload Picture:'"
+    [selectButtonText]="'Choose File'"
+    [allowMultipleFiles]="false"
+    [showUploadButton]="true"
+    [customSvgIcon]="'close_custom'"
+    [acceptedTypes]="'.png'"
+  >
+  </mat-file-upload>
+  <br>
+
+  <!--Info/Personal Links: currently contains names, pronouns, major, graduate year, GPA, email-->
+  <mat-expansion-panel>
+    <!--View mode-->
+    <mat-expansion-panel-header>Personal Info</mat-expansion-panel-header>
+      <ul *ngIf = "informationFlag">
+        <li>Name: {{studentInfo.PreferredName}} {{studentInfo.LastName}}</li><br>
+        <li>Pronus: {{studentInfo.Pronouns}}</li><br>
+        <li>Major:  {{studentInfo.Major}}</li><br>
+        <li>Graduation Year: {{studentInfo.GraduationYear}}</li><br>
+        <li>GPA: {{studentInfo.GPA}}</li><br>
+        <li>Email: {{studentInfo.Email}}</li><br>
+      <mat-card-actions>
+        <button mat-raised-button (click) = "runInformation()" color="primary">EDIT</button>
+      </mat-card-actions>
+      </ul>
+    <!--Edit mode-->
+      <ul *ngIf = "!informationFlag">
+        <li>Preferred Name:
+          <mat-form-field class="input" appearance="fill">
+            <input matInput id = "PreferredName" [(ngModel)]="studentInfo.PreferredName" maxlength="15"/>
+          </mat-form-field>
+        </li>
+        <li>Last Name:
+          <mat-form-field class="input" appearance="fill">
+            <input type = "text"matInput id = "LastName" [(ngModel)]="studentInfo.LastName" maxlength="15"/>
+          </mat-form-field>
+        </li>
+        <li>Pronouns:
+          <mat-form-field class="input" appearance="fill">
+            <input matInput id = "Pronouns" [(ngModel)]="studentInfo.Pronouns" maxlength="15"/>
+          </mat-form-field>
+        </li>
+        <li>Major:
+          <mat-form-field class="input" appearance="fill">
+            <input matInput id = "Major" [(ngModel)]="studentInfo.Major" maxlength="20"/>
+          </mat-form-field>
+        </li>
+        <li >Graduation Year:
+          <mat-select name = "GraduationYear" [(ngModel)]="studentInfo.GraduationYear" >
+            <mat-option [value] = "item" *ngFor = "let item of studentInfo.GraduationYearList" >{{item}}</mat-option>
+          </mat-select>
+        </li><br>
+        <mat-card-actions>
+          <button mat-raised-button (click) = "submitInformation()" color="primary">SUBMIT</button>
+        </mat-card-actions>
+      </ul>
+  </mat-expansion-panel><br>
+
+  <!--Personal Description-->
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>Personal Description</mat-expansion-panel-header>
+    <!--View mode-->
+    <ul *ngIf = "personalDescriptionFlag">
+      <li>{{studentInfo.PersonalDescription}}</li><br> <!--Character Limit Needed-->
+      <mat-card-actions>
+        <button mat-raised-button (click) = "runPersonalDescription()" color="primary">EDIT</button>
+      </mat-card-actions>
+    </ul>
+    <!--Edit mode-->
+    <ul *ngIf = "!personalDescriptionFlag">
+      <mat-form-field class="input" appearance="fill">
+        <input matInput placeholder="Enter a brief description about yourself and your goals"
+               [(ngModel)]="studentInfo.PersonalDescription"  maxlength="50">
+      </mat-form-field><br>
+      <mat-card-actions>
+        <button mat-raised-button (click) = "submitPersonalDescription()" color="primary">SUBMIT</button>
+      </mat-card-actions>
+  </ul>
+  </mat-expansion-panel><br>
+
+  <!--Personal Links/Files-->
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>Linked File</mat-expansion-panel-header>
+    <!--View mode-->
+    <ul *ngIf = "linksFilesFlag">
+      <li>Personal Link: {{studentInfo.Links}}</li><br> <!--Dynamic implementation needed-->
+      <li>Resume: {{studentInfo.Resume}}</li><br>
+      <mat-card-actions>
+        <button mat-raised-button (click) = "runLinksFiles()" color="primary">EDIT</button>
+      </mat-card-actions>
+    </ul>
+    <!--Edit mode-->
+    <ul *ngIf = "!linksFilesFlag">
+      Personal link:
+      <mat-form-field class="input" appearance="fill">
+        <input matInput placeholder="Personal link" [(ngModel)]="studentInfo.Links">
+      </mat-form-field><br>
+      <mat-file-upload
+        [labelText]="'Upload File:'"
+        [selectButtonText]="'Choose File'"
+        [allowMultipleFiles]="false"
+        [showUploadButton]="true"
+        [customSvgIcon]="'close_custom'"
+        [acceptedTypes]="'.pdf, .docx'"
+      >
+      </mat-file-upload>
+      <mat-card-actions>
+        <button mat-raised-button (click) = "submitLinksFiles()" color="primary">SUBMIT</button>
+      </mat-card-actions>
+    </ul>
+  </mat-expansion-panel><br>
+</body>

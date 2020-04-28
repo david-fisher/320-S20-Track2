@@ -1,0 +1,34 @@
+<!-- Supporter wants star rating -->
+
+<ng-template [ngIf]="toggleStar()">
+  <h1>How would you rate {{supporterName}}</h1>
+  <star-rating [starType]="'svg'" [rating]="2.63"></star-rating>
+</ng-template>
+
+<!-- Supporter wants recommend/do not recommend -->
+<ng-template [ngIf]="toggleBinaryResponse()">
+  <h1>Would you recommend {{supporterName}} to other students?</h1>
+  <div class="buttons">
+    <mat-button-toggle-group>
+      <mat-button-toggle value="Recommend" class="recommend">Recommend</mat-button-toggle>
+      <mat-button-toggle value="Do Not Recommend" class="donotrecommend">Do Not Recommend</mat-button-toggle>
+    </mat-button-toggle-group>
+  </div>
+</ng-template>
+
+<!-- Supporter wants text feedback -->
+<ng-template [ngIf]="toggleQuestions()">
+  <h1>Please answer the following questions</h1>
+  <div *ngFor="let question of questions">
+    <div class="feedback">
+      <h3>{{question}}</h3>
+      <mat-form-field class="example-full-width">
+        <textarea matInput matTextareaAutosize placeholder="Type your response here"></textarea>
+      </mat-form-field>
+    </div>
+  </div>
+
+</ng-template>
+<div class="buttons">
+  <button mat-fab routerLink="/student-myappointments">Submit</button>
+</div>

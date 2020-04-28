@@ -1,0 +1,222 @@
+<!-- Student -->
+<div *ngIf = "userType">
+  <div class="main-div">
+    <mat-card [class.mat-elevation-z5]="true">
+      <mat-card-content>
+        <h2>Create a Student Account</h2>
+
+        <div class="container" novalidate>
+          <form [formGroup]="formStudentGroup" (ngSubmit)="onSubmit(formStudentGroup.value)" class="form">
+
+            <mat-form-field class="form-element">
+              <input matInput placeholder="First Name *" formControlName="first_name">
+              <mat-error *ngIf="!first_name.valid && first_name.touched">
+                {{ titleAlert }}
+              </mat-error>
+            </mat-form-field>
+            <br>
+            <mat-form-field class="form-element">
+              <input matInput placeholder="Last Name *" formControlName="last_name">
+              <mat-error *ngIf="!last_name.valid && last_name.touched">
+                {{ titleAlert }}
+              </mat-error>
+            </mat-form-field>
+            <br>
+            <mat-form-field class="form-element">
+              <input matInput placeholder="Preferred First Name *" formControlName="preferredName">
+              <mat-error *ngIf="!preferred_name.valid && preferred_name.touched">
+                {{ titleAlert }}
+              </mat-error>
+            </mat-form-field>
+            <br>
+            <mat-form-field class="form-element">
+              <input matInput placeholder="Email Address *" formControlName="email">
+              <mat-error *ngIf="!formStudentGroup.controls['email'].valid && formStudentGroup.controls['email'].touched">
+                {{ getErrorEmail() }}
+              </mat-error>
+            </mat-form-field>
+            <br>
+            <mat-form-field class="form-element">
+              <input matInput placeholder="Password *" formControlName="password" [type]="hide ? 'password' : 'text'">
+              <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+              <mat-hint>Choose a password of at least eight characters, one uppercase letter and one number</mat-hint>
+              <mat-error *ngIf="!formStudentGroup.controls['password'].valid && formStudentGroup.controls['password'].touched">
+                {{ getErrorPassword() }}
+              </mat-error>
+            </mat-form-field>
+            <br>
+            <br>
+            <mat-form-field class="form-element">
+              <input matInput placeholder="Phone Number" formControlName="phoneNum">
+            </mat-form-field>
+            <br>
+            <mat-form-field class="form-element">
+              <input matInput placeholder="GPA" formControlName="gpa">
+            </mat-form-field>
+            <br>
+            <mat-form-field class="form-element">
+              <mat-label>Graduation Year</mat-label>
+              <mat-select formControlName="gradYear">
+                <mat-option value="2020">2020</mat-option>
+                <mat-option value="2020">2021</mat-option>
+                <mat-option value="2020">2022</mat-option>
+                <mat-option value="2020">2023</mat-option>
+                <mat-option value="2020">2024</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <br>
+            <mat-form-field class="form-element">
+              <input matInput placeholder="GitHub" formControlName="github">
+            </mat-form-field>
+            <br>
+            <mat-form-field class="form-element">
+              <input matInput placeholder="LinkedIn" formControlName="linkedin">
+            </mat-form-field>
+            <br>
+            <mat-file-upload
+              [labelText]="'Upload resume:'"
+              [selectButtonText]="'Choose File'"
+              [uploadButtonText]="'Submit'"
+              [allowMultipleFiles]="false"
+              [showUploadButton]="true"
+              [acceptedTypes]="'.pdf, .docx'"
+            ></mat-file-upload>
+            <br>
+            <mat-file-upload
+              [labelText]="'Upload transcript:'"
+              [selectButtonText]="'Choose File'"
+              [uploadButtonText]="'Submit'"
+              [allowMultipleFiles]="false"
+              [showUploadButton]="true"
+              [acceptedTypes]="'.pdf, .docx'"
+            ></mat-file-upload>
+            <br>
+            <mat-file-upload
+              [labelText]="'Upload Profile Picture:'"
+              [selectButtonText]="'Choose File'"
+              [uploadButtonText]="'Submit'"
+              [allowMultipleFiles]="false"
+              [showUploadButton]="true"
+              [acceptedTypes]="'.png, .jpg, .jpeg'"
+              (uploadClicked)="onUploadClicked($event)"
+            ></mat-file-upload>
+
+            <div class="form-element">
+              <button mat-raised-button color="primary" type="submit" class="button" [disabled]="!formStudentGroup.valid">Submit Form</button>
+            </div>
+
+          </form>
+        </div>
+
+<!--        <ng-template #forminfo>-->
+<!--          <div class="container">-->
+<!--            {{ post | json }}-->
+<!--          </div>-->
+<!--        </ng-template>-->
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+</div>
+
+<!-- Supporter -->
+<div *ngIf = "!userType">
+  <div class="main-div">
+    <mat-card [class.mat-elevation-z5]="true">
+      <mat-card-content>
+        <h2>Create a Supporter Account</h2>
+        <div class="container" novalidate>
+          <form [formGroup]="formSupporterGroup" (ngSubmit)="onSubmit(formSupporterGroup.value)" class="form">
+
+            <mat-form-field class="form-element">
+              <input matInput placeholder="First Name *" formControlName="first_name">
+              <mat-error *ngIf="!first_name.valid && first_name.touched">
+                {{ titleAlert }}
+              </mat-error>
+            </mat-form-field>
+            <br>
+            <mat-form-field class="form-element">
+              <input matInput placeholder="Last Name *" formControlName="last_name">
+              <mat-error *ngIf="!last_name.valid && last_name.touched">
+                {{ titleAlert }}
+              </mat-error>
+            </mat-form-field>
+            <br>
+            <mat-form-field class="form-element">
+              <input matInput placeholder="Preferred First Name *" formControlName="preferredName">
+              <mat-error *ngIf="!preferred_name.valid && preferred_name.touched">
+                {{ titleAlert }}
+              </mat-error>
+            </mat-form-field>
+            <br>
+            <mat-form-field class="form-element">
+              <input matInput placeholder="Email Address *" formControlName="email">
+              <mat-error *ngIf="!formSupporterGroup.controls['email'].valid && formSupporterGroup.controls['email'].touched">
+                {{ getErrorEmail() }}
+              </mat-error>
+            </mat-form-field>
+            <br>
+            <mat-form-field class="form-element">
+              <input matInput placeholder="Password *" formControlName="password" [type]="hide ? 'password' : 'text'">
+              <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+              <mat-hint>Choose a password of at least eight characters, one uppercase letter and one number</mat-hint>
+              <mat-error *ngIf="!formSupporterGroup.controls['password'].valid && formSupporterGroup.controls['password'].touched">
+                {{ getErrorPassword() }}
+              </mat-error>
+            </mat-form-field>
+            <br>
+            <br>
+            <mat-form-field class="form-element">
+              <input matInput placeholder="Phone Number" formControlName="phoneNum">
+            </mat-form-field>
+            <br>
+            <mat-form-field class="form-element">
+              <input matInput placeholder="Title" formControlName="userTitle">
+            </mat-form-field>
+            <br>
+            <mat-form-field class="form-element">
+              <input matInput placeholder="Current Employer" formControlName="currentEmployer">
+            </mat-form-field>
+            <br>
+            <br>
+            <div class="form-group" formGroupName="supporterTypes">
+              <div class="label">Select at least one supporter type <span class="highlight">*</span></div>
+              <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" formControlName="Alumni" id="Alumni">
+                <label class="custom-control-label" for="Alumni">Alumni</label>
+              </div>
+              <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" formControlName="Industry Affiliate" id="Industry Affiliate">
+                <label class="custom-control-label" for="Industry Affiliate">Industry Affiliate</label>
+              </div>
+              <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" formControlName="Professor" id="Professor">
+                <label class="custom-control-label" for="Professor">Professor</label>
+              </div>
+            </div>
+            <mat-file-upload
+              [labelText]="'Upload Profile Picture:'"
+              [selectButtonText]="'Choose File'"
+              [uploadButtonText]="'Submit'"
+              [allowMultipleFiles]="false"
+              [showUploadButton]="true"
+              [acceptedTypes]="'.png, .jpg, .jpeg'"
+              (uploadClicked)="onUploadClicked($event)"
+            ></mat-file-upload>
+
+            <div class="form-element">
+              <button mat-raised-button color="primary" type="submit" class="button" [disabled]="!formSupporterGroup.valid">Submit Form</button>
+            </div>
+
+          </form>
+        </div>
+
+<!--        <ng-template #forminfo>-->
+<!--          <div class="container">-->
+<!--            {{ post | json }}-->
+<!--          </div>-->
+<!--        </ng-template>-->
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

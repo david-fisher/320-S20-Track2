@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="UTF-8">
+<title>"Admin Discipline!"</title>
+<body>
+<h1>Admin Discipline Dashboard</h1>
+<div class= "block1">
+
+  <h3>User ID</h3>
+  <mat-form-field class = "input">
+    <input matInput placeholder="Specify a user ID here" [value]=reportedID>
+  </mat-form-field>
+
+  <h3>Reason</h3>
+  <mat-form-field class="reason">
+    <textarea matInput placeholder="Specify reason for discipline"></textarea>
+  </mat-form-field>
+
+  <h3>Duration</h3>
+  <mat-form-field class="input">
+    <mat-select>
+      <mat-option value="3">3 Months</mat-option>
+     <mat-option value="6">6 Months</mat-option>
+      <mat-option value="12">1 Year</mat-option>
+      <mat-option value="24">2 Years</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <br>
+  <br>
+  <button mat-raised-button color="warn">Confirm</button>
+</div>
+</body>
+</html>

@@ -1,0 +1,68 @@
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<meta charset="UTF-8">-->
+<!--<title>"Reviewing Supporter Applications!"</title>-->
+<!--<body>-->
+<!--<h1>Review Supporter Applications</h1>-->
+<!--<div class = "subbox">-->
+
+<!--  <mat-expansion-panel>-->
+<!--    <mat-expansion-panel-header>Applicant #133</mat-expansion-panel-header>-->
+<!--    <ul>-->
+<!--      <li>Name: John Doe</li>-->
+<!--      <li>UMass Amherst</li>-->
+<!--      <li>Masters Degree in Computer Science and Culinary Arts</li>-->
+<!--      <li>Proficient in: Java, JavaScript, TypeScript, Technical Interviews</li>-->
+<!--    </ul>-->
+<!--    <button mat-raised-button color="primary">Download attached Resume (.pdf)</button>-->
+<!--    <br>-->
+<!--    <button mat-raised-button color="warn">Reject</button><button mat-raised-button color="accent">Accept</button>-->
+<!--  </mat-expansion-panel>-->
+<!--  <br>-->
+<!--  <mat-expansion-panel>-->
+<!--    <mat-expansion-panel-header>Applicant #12</mat-expansion-panel-header>-->
+<!--    <ul>-->
+<!--      <li>Name: Thomas Edward Patrick Brady, Junior</li>-->
+<!--      <li>University of Michigan</li>-->
+<!--      <li>Majored in general studies, minors in business management and psychology</li>-->
+<!--      <li>Proficient in: COBOL</li>-->
+<!--    </ul>-->
+<!--    <button mat-raised-button color="primary">Download attached Resume (.pdf)</button>-->
+<!--    <br>-->
+<!--    <button mat-raised-button color="warn">Reject</button><button mat-raised-button color="accent">Accept</button>-->
+<!--  </mat-expansion-panel>-->
+
+<!--</div>-->
+<!--</body>-->
+<!--</html>-->
+
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="UTF-8">
+<body>
+<h1>Review Supporter Applications</h1>
+
+<li *ngFor="let application of applications">
+  <ul>
+    <mat-card class="application-card">
+      <mat-card-header>
+        <mat-card-title>Name: {{application.name}}</mat-card-title>
+        <mat-card-subtitle>Submitted: {{application.date}}</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <b>Supporter Type:</b> {{application.supporter_type}} <br>
+        <b>Employer:</b> {{application.employer}} <br>
+        <b>Team:</b> {{application.team}} <br>
+        <b>Title:</b> {{application.title}} <br>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-raised-button color="accent">Download Resumé</button>
+        <button mat-raised-button color="accent">Approve</button>
+        <button mat-raised-button color="primary">Deny</button>
+      </mat-card-actions>
+    </mat-card>
+  </ul>
+</li>
+
+</body>
+</html>

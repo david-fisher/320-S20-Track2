@@ -1,0 +1,29 @@
+h1 {
+  padding-top: 1em;
+  text-align: center !important;
+}
+
+.feedback {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+mat-form-field {
+  width: 75%;
+}
+
+.recommend {
+  color: #2e7d32;
+}
+
+.donotrecommend {
+  color: #990000;
+}
+
+.buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

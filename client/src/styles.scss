@@ -1,0 +1,57 @@
+/* You can add global styles to this file, and also import other style files */
+@import '~css-star-rating/scss/star-rating';
+@import "../node_modules/angular-calendar/css/angular-calendar.css";
+/*  @import '~bootstrap/dist/css/bootstrap.min.css';c*/
+
+
+.button:active,
+button:active,
+.button:focus,
+button:focus,
+.button:hover,
+button:hover{
+  border:none !important;
+  outline:none !important;
+}
+
+
+html, body {
+  height: 100vh;
+  background-color: whitesmoke;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  margin: 0;
+}
+h1 {
+  color: white;
+  background-color: #B71C1C;
+  width: 900px;
+  margin-top: 10px;
+  padding: 10px;
+  margin-left: 10px;
+  border-radius: 10px;
+}
+mat-expansion-panel-header {
+  background-color: #B71C1C;
+}
+
+
+h2 {
+  background-color: #B71C1C;
+  color: white;
+  width: 800px;
+  margin-top: 10px;
+  padding: 10px;
+
+  border-radius: 5px;
+}
+
+h3 {
+  color: white;
+  background-color: #B71C1C;
+  width: 580px;
+  margin-top: 10px;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+
