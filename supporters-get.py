@@ -4,6 +4,14 @@ import rds_config
 
 def get_supporters(event, context):
 
+    response_headers = {}
+    response_headers["X-Requested-With"] = "*"
+    response_headers["Access-Control-Allow-Origin"] = "*"
+    response_headers[
+        "Access-Control-Allow-Headers"] = "Content-Type,X-Amz-Date,Authorization,X-Api-Key,x-requested-with'"
+    response_headers["Access-Control-Allow-Methods"] = "OPTIONS,POST,GET,PUT,DELETE,PATCH"
+
+
     query = ("SELECT user_id_, title, current_employer, supporter_type "
              "FROM supporter "
              "UNION SELECT email, first_name, last_name, preferred_name, profile_picture, request_supporter "
@@ -20,5 +28,6 @@ def get_supporters(event, context):
 
     return{
         'body': json.dumps(response),
+        'headers': response_headers
         'statusCode': 200
     }
