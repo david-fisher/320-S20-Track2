@@ -24,6 +24,7 @@ export class NavComponent implements OnInit {
   logout() {
     console.log('logged out');
     this.cookieService.delete('logged-in');
+    this.cookieService.delete('user_id');
     console.log('logged out');
   }
 
