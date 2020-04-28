@@ -46,8 +46,10 @@ export class CreateaccountComponent implements OnInit {
       'userTitle': [null],
       supporterTypes: new FormGroup ({
         'Alumni': new FormControl(false),
-        'Industry Affiliate': new FormControl(false),
-        'Professor': new FormControl(false),
+        'Student Staff': new FormControl(false),
+        'Faculty': new FormControl(false),
+        'Professional Staff': new FormControl(false),
+        'Other': new FormControl(false),
       }, requireCheckboxesToBeCheckedValidator(this.userType))
     });
   }
@@ -63,6 +65,7 @@ export class CreateaccountComponent implements OnInit {
       'phoneNum': [null],
       'gpa': [null],
       'gradYear': [null],
+      'is_undergrad': [null, Validators.required],
       'github': [null],
       'linkedin': [null]
     });
@@ -121,19 +124,22 @@ export class CreateaccountComponent implements OnInit {
     let supporterTypes;
     if (!this.userType) {
       supporterTypes = [];
-      for (const key in this.post) {
-        if (this.post.hasOwnProperty(key)) {
-          if (this.post[key]) {
-            supporterTypes.append(key);
+      for (const key in this.post['supporterTypes']) {
+        if (this.post['supporterTypes'].hasOwnProperty(key)) {
+          if (this.post['supporterTypes'][key]) {
+            supporterTypes.push(key);
           }
         }
       }
     }
+    let email_split = this.post['email'].split('@');
+    let email = email_split[0] + '@' + email_split[1].toLowerCase();
     let data = {
+      'kind': this.typeOfUser,
       'first_name': this.post['first_name'],
       'last_name': this.post['last_name'],
       'preferred_name': this.post['preferredName'],
-      'email': CryptoJS.SHA3(this.post['email']).toString(CryptoJS.enc.Hex),
+      'email': CryptoJS.SHA3(email).toString(CryptoJS.enc.Hex),
       'password': CryptoJS.SHA3(this.post['password']).toString(CryptoJS.enc.Hex),
       'phone_number': this.post['phoneNum'],
       'current_employer': this.post['currentEmployer'],
@@ -142,7 +148,17 @@ export class CreateaccountComponent implements OnInit {
       'grad_year': this.post['gradYear'],
       'github_link': this.post['github'],
       'linkedin_link': this.post['linkedin'],
-      'supporter_type': supporterTypes
+      'supporter_type': supporterTypes,
+      'profile_picture': "",
+      'request_supporter': !this.userType,
+      'active_account': true,
+      'resume_ref': '',
+      'transcript_ref': '',
+      'is_undergrad': this.post['is_undergrad'] === 'Yes',
+      'location': '',
+      'calendar_ref': this.post['calendar_ref'],
+      'calendar_sync': true,
+      'calendar_sync_freq': this.post['calendar_sync_freq']
     };
     console.log(data);
 

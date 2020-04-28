@@ -65,8 +65,11 @@ export class LoginComponent implements OnInit {
   }
 
   sendData() {
+    let email_split = this.post['email'].split('@');
+    let email = email_split[0] + '@' + email_split[1].toLowerCase();
+
     let data = {
-      'username': CryptoJS.SHA3(this.post['email']).toString(CryptoJS.enc.Hex),
+      'username': CryptoJS.SHA3(email).toString(CryptoJS.enc.Hex),
       'password': CryptoJS.SHA3(this.post['password']).toString(CryptoJS.enc.Hex)
       // 'username': this.post['email'],
       // 'password': this.post['password']
