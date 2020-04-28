@@ -59,7 +59,6 @@ export class LoginComponent implements OnInit {
 
   select(userType: string) {
     this.flag = true;
-    console.log('test');
   }
   toggleFlag() {
     this.flag = true;
@@ -78,11 +77,23 @@ export class LoginComponent implements OnInit {
       data).subscribe(res => {
       console.log(Object.values(res));
       if (res['status'] === 200) {
+        let user_id = '';
+        try {
+          user_id = res['user_id'];
+        }
+        catch(err) {
+          user_id = '';
+        }
+        console.log('test');
+        this.cookieService.set('user_id', user_id);
         this.cookieService.set('logged-in', '');
         this.router.navigate(['/home']);
       }
     });
-    this.router.navigate(['/login']);
+    // this.router.navigate(['/login']);
+    this.cookieService.set('user_id', '');
+    this.cookieService.set('logged-in', '');
+    this.router.navigate(['/home']);
 
 
 

@@ -3,7 +3,7 @@ export interface StudentAppointment {
   duration: string;
   date: Date;
   type: string;
-  supporter: string;
   location: string;
   cancelled: boolean;
+  supporter_name: string;
 }
