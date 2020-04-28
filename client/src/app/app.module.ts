@@ -20,7 +20,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { RouterModule, Routes } from '@angular/router';
 import { FaqComponent } from './faq/faq.component';
 import { CookieService } from 'ngx-cookie-service';
-import { LoginComponent } from './login/login.component';
+import { IncorrectEmailDialog, IncorrectPasswordDialog, LoginComponent } from './login/login.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatOptionModule } from '@angular/material/core';
@@ -44,17 +44,18 @@ import { SupporterAppointmentsComponent } from './supporter/supporter-appointmen
 import { SupporterAvailabilityComponent } from './supporter/supporter-availability/supporter-availability.component';
 import { SupporterLandingComponent } from './supporter/supporter-landing/supporter-landing.component';
 import { SupporterSettingsComponent } from './supporter/supporter-settings/supporter-settings.component';
-import {MatCheckboxModule} from '@angular/material/checkbox';
-import { StudentMyappointmentsComponent } from './student/student-myappointments/student-myappointments.component';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { StudentMyappointmentsComponent, StudentCancelAppointmentDialog } from './student/student-myappointments/student-myappointments.component';
 import { StudentRatesupporterComponent } from './student/student-ratesupporter/student-ratesupporter.component';
 import { StudentMakeappointmentComponent } from './student/student-makeappointment/student-makeappointment.component';
-import { CreateaccountComponent } from './createaccount/createaccount.component';
+import { CreateaccountComponent, DialogContentExampleDialog, EmailExistsDialog, UhOhDialog } from './createaccount/createaccount.component';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
-import {MatFileUploadModule} from 'mat-file-upload';
+import { MatFileUploadModule } from 'mat-file-upload';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
-import {MatGridListModule} from '@angular/material/grid-list';
-import {MatRadioModule} from "@angular/material/radio";
+import { MatGridListModule } from '@angular/material/grid-list';
+import { MatRadioModule } from "@angular/material/radio";
+import { MatDialogModule } from "@angular/material/dialog";
 
 
 
@@ -81,44 +82,51 @@ import {MatRadioModule} from "@angular/material/radio";
     StudentMyappointmentsComponent,
     StudentRatesupporterComponent,
     StudentMakeappointmentComponent,
-    CreateaccountComponent
+    CreateaccountComponent,
+    DialogContentExampleDialog,
+    EmailExistsDialog,
+    UhOhDialog,
+    StudentCancelAppointmentDialog,
+    IncorrectPasswordDialog,
+    IncorrectEmailDialog
   ],
-    imports: [
-        BrowserModule,
-        FormsModule,
-        BrowserAnimationsModule,
-        CalendarModule.forRoot({
-            provide: DateAdapter,
-            useFactory: adapterFactory,
-        }),
-        MatMenuModule,
-        MatIconModule,
-        MatCardModule,
-        MatToolbarModule,
-        MatButtonModule,
-        RouterModule,
-        FlexLayoutModule,
-        MatInputModule,
-        MatTableModule,
-        MatDividerModule,
-        MatSlideToggleModule,
-        MatSelectModule,
-        MatOptionModule,
-        MatProgressSpinnerModule,
-        ReactiveFormsModule,
-        AppRoutingModule,
-        MatExpansionModule,
-        MatListModule,
-        MatCheckboxModule,
-        NgbModule,
-        StarRatingModule.forRoot(),
-        MatButtonToggleModule,
-        MatFileUploadModule,
-        HttpClientModule,
-        BrowserModule,
-        MatGridListModule,
-        MatRadioModule,
-    ],
+  imports: [
+    BrowserModule,
+    FormsModule,
+    BrowserAnimationsModule,
+    CalendarModule.forRoot({
+      provide: DateAdapter,
+      useFactory: adapterFactory,
+    }),
+    MatMenuModule,
+    MatIconModule,
+    MatCardModule,
+    MatToolbarModule,
+    MatButtonModule,
+    RouterModule,
+    FlexLayoutModule,
+    MatInputModule,
+    MatTableModule,
+    MatDividerModule,
+    MatSlideToggleModule,
+    MatSelectModule,
+    MatOptionModule,
+    MatProgressSpinnerModule,
+    ReactiveFormsModule,
+    AppRoutingModule,
+    MatExpansionModule,
+    MatListModule,
+    MatCheckboxModule,
+    NgbModule,
+    StarRatingModule.forRoot(),
+    MatButtonToggleModule,
+    MatFileUploadModule,
+    HttpClientModule,
+    BrowserModule,
+    MatGridListModule,
+    MatRadioModule,
+    MatDialogModule,
+  ],
   providers: [CookieService, AuthService, CanActivateRouteGuard],
   bootstrap: [AppComponent]
 })

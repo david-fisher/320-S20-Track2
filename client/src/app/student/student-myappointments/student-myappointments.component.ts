@@ -1,8 +1,9 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import {APPOINTMENTS} from './mock-appointments';
 import { HttpClient } from '@angular/common/http';
 import {StudentAppointment} from "../../student/student-myappointments/appointments";
 import {SupporterAppointment} from "../../supporter/supporter-appointments/appointments";
+import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
 
 @Component({
   selector: 'app-myappointments',
@@ -13,7 +14,7 @@ export class StudentMyappointmentsComponent implements OnInit {
 
   appointments;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, public dialog: MatDialog) {
     this.appointments = this.getAppointments;
   }
 
@@ -38,21 +39,50 @@ export class StudentMyappointmentsComponent implements OnInit {
   }
 
   varify(appointment) {
-    if (confirm('Are you sure you want to cancel?')) {
-      prompt('Please state a reason for cancellation.');
-      for (const x in this.appointments) {
-        if (this.appointments[x] === appointment) {
-          this.http.patch('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/appointments/' + appointment.appt_id, {}).subscribe(res => {
-            console.log(Object.values(res));
-            console.log(appointment.appt_id);
-          });
-          this.appointments.splice(parseInt(x), 1);
-          console.log(x);
+    // if (confirm('Are you sure you want to cancel?')) {
+    //   prompt('Please state a reason for cancellation.');
+    let reason = '';
+    let cancelled = true;
+    const dialogRef = this.dialog.open(StudentCancelAppointmentDialog, {
+      width: '20em',
+      data: {reason: reason, cancelled: cancelled}
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result['cancelled']) {
+        reason = result['reason'];
+        console.log('cancelling!');
+        console.log(reason);
+        for (const x in this.appointments) {
+          if (this.appointments[x] === appointment) {
+            this.http.patch('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/appointments/' + appointment.appt_id, {}).subscribe(res => {
+              console.log(Object.values(res));
+              console.log(appointment.appt_id);
+            });
+            this.appointments.splice(parseInt(x), 1);
+            console.log(x);
+          }
         }
       }
-    }
+
+    });
+
+    // }
   }
 
   ngOnInit(): void {
+  }
+}
+
+@Component({
+  selector: 'student-cancel-appointment-dialog',
+  templateUrl: 'cancel-dialog.html',
+})
+export class StudentCancelAppointmentDialog {
+  constructor(public dialogRef: MatDialogRef<StudentCancelAppointmentDialog>, @Inject(MAT_DIALOG_DATA) public data: any) {}
+  onNoClick(reason) {
+    this.dialogRef.close({reason: reason, cancelled: false});
+  }
+  onCancelClick(reason) {
+    this.dialogRef.close({reason: reason, cancelled: true});
   }
 }

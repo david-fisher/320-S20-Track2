@@ -1,0 +1,12 @@
+<h4 mat-dialog-title>Are you sure you want to cancel this appointment?</h4>
+<div mat-dialog-content>
+  <p>Please give a reason for cancelling</p>
+  <mat-form-field>
+    <mat-label>Reason</mat-label>
+    <input matInput [(ngModel)]="data.reason">
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick(data.reason)" >Don't Cancel</button>
+  <button mat-button (click)="onCancelClick(data.reason)">Cancel</button>
+</div>

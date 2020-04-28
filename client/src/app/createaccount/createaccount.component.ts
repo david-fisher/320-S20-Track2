@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {FormBuilder, FormControl, FormGroup, Validators, ValidatorFn} from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import {requireCheckboxesToBeCheckedValidator} from './require-checkboxes-to-be-checked.validator';
 import * as CryptoJS from 'crypto-js';
 import {Observable} from "rxjs";
 import {InterestTags} from "../admin/admin-tags/interest-tag";
+import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 
 @Component({
   selector: 'app-createaccount',
@@ -23,7 +24,7 @@ export class CreateaccountComponent implements OnInit {
   titleAlert: string = 'This field is required';
   post: any = '';
 
-  constructor(private formBuilder: FormBuilder, private activatedRoute: ActivatedRoute, private http: HttpClient) {
+  constructor(private formBuilder: FormBuilder, private activatedRoute: ActivatedRoute, public dialog: MatDialog, private router: Router, private http: HttpClient) {
     this.userType = this.activatedRoute.snapshot.params.type === 'student';
     this.typeOfUser = this.activatedRoute.snapshot.params.type;
   }
@@ -141,9 +142,9 @@ export class CreateaccountComponent implements OnInit {
         'first_name': this.post['first_name'],
         'last_name': this.post['last_name'],
         'preferred_name': this.post['preferredName'],
-        'email': CryptoJS.SHA3(email).toString(CryptoJS.enc.Hex),
-        'password': CryptoJS.SHA3(this.post['password']).toString(CryptoJS.enc.Hex),
-        'phone_number': isNaN(parseInt(this.post['phoneNum'])) ? null : parseInt(this.post['phoneNum']),
+        'email': CryptoJS.SHA3(email, { outputLength: 224 }).toString(CryptoJS.enc.Hex),
+        'password': CryptoJS.SHA3(this.post['password'], { outputLength: 224 }).toString(CryptoJS.enc.Hex),
+        'phone_number': this.post['phoneNum'] == null ? '' : this.post['phoneNum'],
         'GPA': parseInt(this.post['gpa'] == null ? 0 : this.post['gpa']),
         'grad_year': parseInt(this.post['gradYear']),
         'github_link': this.post['github'] == null ? '' : this.post['github'],
@@ -161,9 +162,9 @@ export class CreateaccountComponent implements OnInit {
         'first_name': this.post['first_name'],
         'last_name': this.post['last_name'],
         'preferred_name': this.post['preferredName'],
-        'email': CryptoJS.SHA3(email).toString(CryptoJS.enc.Hex),
-        'password': CryptoJS.SHA3(this.post['password']).toString(CryptoJS.enc.Hex),
-        'phone_number': isNaN(parseInt(this.post['phoneNum'])) ? null : parseInt(this.post['phoneNum']),
+        'email': CryptoJS.SHA3(email, { outputLength: 224 }).toString(CryptoJS.enc.Hex),
+        'password': CryptoJS.SHA3(this.post['password'], { outputLength: 224 }).toString(CryptoJS.enc.Hex),
+        'phone_number': this.post['phoneNum'] == null ? '' : this.post['phoneNum'],
         'current_employer': this.post['currentEmployer'] == null ? '' : this.post['currentEmployer'],
         'title': this.post['userTitle'] == null ? '' : this.post['userTitle'],
         'supporter_type': supporterTypes,
@@ -180,10 +181,34 @@ export class CreateaccountComponent implements OnInit {
 
     this.http.post<JSON>('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/account',
       data).subscribe(res => {
-        console.log(Object.values(res));
-      });
-
-
+        console.log(res);
+        this.dialog.open(DialogContentExampleDialog);
+    }, error => {
+      console.log(error);
+      if (error['error'] === 'Email Exists!') {
+        this.dialog.open(EmailExistsDialog);
+      } else {
+        this.dialog.open(UhOhDialog)
+      }
+    });
   }
 
 }
+
+@Component({
+  selector: 'dialog-content-example-dialog',
+  templateUrl: 'dialog-content.html',
+})
+export class DialogContentExampleDialog {}
+
+@Component( {
+  selector: 'email-exists-dialog',
+  templateUrl: 'email-exists-dialog.html',
+})
+export class EmailExistsDialog {}
+
+@Component( {
+  selector: 'uh-oh-dialog',
+  templateUrl: 'uh-oh-dialog.html',
+})
+export class UhOhDialog {}
