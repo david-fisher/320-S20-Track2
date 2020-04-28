@@ -81,19 +81,16 @@ export class LoginComponent implements OnInit {
     this.http.post<JSON>('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/authentication',
       data).subscribe(res => {
       console.log(Object.values(res));
-      if (res['status'] === 200) {
-        let user_id = '';
-        try {
-          user_id = res['user_id'];
-        }
-        catch(err) {
-          user_id = '';
-        }
-        console.log('test');
-        this.cookieService.set('user_id', user_id);
-        this.cookieService.set('logged-in', '');
-        this.router.navigate(['/home']);
+      let user_id = '';
+      try {
+        user_id = res['user_id'];
       }
+      catch(err) {
+        user_id = '';
+      }
+      this.cookieService.set('user_id', user_id);
+      this.cookieService.set('logged-in', '');
+      this.router.navigate(['/home']);
     }, error => {
         console.log(error);
         console.log(error['error']['message']);
