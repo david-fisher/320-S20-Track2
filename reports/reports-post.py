@@ -9,9 +9,9 @@ def create_report(event, context):
     response_headers["Access-Control-Allow-Headers"] = "Content-Type,X-Amz-Date,Authorization,X-Api-Key,x-requested-with'"
     response_headers["Access-Control-Allow-Methods"] = "OPTIONS,POST,GET,PUT,DELETE"
 
-   
     request_body = json.loads(event["body"])
     values = ["reporter_id_", "reported_id_", "report_reason", "report_date", "report_time"]
+
     # Check request body has all required values
     if not all (x in request_body for x in values):
         return {
@@ -28,6 +28,7 @@ def create_report(event, context):
 
     # Check that the users exist
     query = "SELECT user_id_ FROM user WHERE user_id_ = :reporter_id_;"
+    sql_params = [ {'name': 'reporter_id_', 'value':{'longValue': reporter_id_}} ]
     result = execute_statement(query)
 
     if result['records'] == []:
@@ -36,7 +37,8 @@ def create_report(event, context):
             'body': json.dumps('reporter_id_ is not an existing user')
         }
     
-    query = "SELECT user_id_ FROM user WHERE user_id_ = :reporter_id_;"
+    query = "SELECT user_id_ FROM user WHERE user_id_ = :reported_id_;"
+    sql_params = [ {'name': 'reported_id_', 'value':{'longValue': reported_id_}} ]
     result = execute_statement(query)
 
     if result['records'] == []:
@@ -47,12 +49,12 @@ def create_report(event, context):
 
 
     # Insert the report into db
-    query = "INSERT INTO reports VALUES(:reporter_id_, :reported_id, :report_reason, :report_date, :report_time);"
-    sql_params = [ {'name':'reporter_id_', 'value'{'longValue': reporter_id_}},
-                   {'name':'reported_id_', 'value'{'longValue': reported_id_}},
-                   {'name':'report_reason', 'value'{'stringValue': report_reason}}, 
-                   {'name':'report_date', 'value'{'stringValue': report_date}},
-                   {'name':'report_time', 'value'{'stringValue': report_time}},]
+    query = "INSERT INTO reports VALUES(:reporter_id_, :reported_id_, :report_reason, :report_date, :report_time);"
+    sql_params = [ {'name':'reporter_id_', 'value':{'longValue': reporter_id_}},
+                   {'name':'reported_id_', 'value':{'longValue': reported_id_}},
+                   {'name':'report_reason', 'value':{'stringValue': report_reason}}, 
+                   {'name':'report_date', 'value':{'stringValue': report_date}},
+                   {'name':'report_time', 'value':{'stringValue': report_time}}]
     result = execute_statement(query, sql_params)
 
     # Check that the db was updated
