@@ -15,7 +15,7 @@ import { fromEvent } from 'rxjs';
 import { finalize, takeUntil } from 'rxjs/operators';
 import { addDays, addMinutes, endOfWeek } from 'date-fns';
 import {HttpClient} from '@angular/common/http';
-import {InterestTags} from "../../admin/admin-tags/interest-tag";
+import {InterestTags} from '../../admin/admin-tags/interest-tag';
 
 function floorToNearest(amount: number, precision: number) {
   return Math.floor(amount / precision) * precision;
@@ -101,7 +101,7 @@ export class StudentMakeappointmentComponent {
 
   get supporters(): Supports[] {
     console.log(this.selectedTags);
-    let list: Array<any> = [];
+    const list: Array<any> = [];
     if (this.selectedTags == null) {
       return SUPPORTERS;
     }
@@ -120,7 +120,7 @@ export class StudentMakeappointmentComponent {
           count++;
         }
       }
-      if(count == this.selectedTags.length){
+      if (count == this.selectedTags.length) {
         list.push(SUPPORTERS[x]);
       }
     }
@@ -183,7 +183,34 @@ export class StudentMakeappointmentComponent {
     this.events = [...this.events];
     this.cdr.detectChanges();
   }
+
+  generate_appointment_object() {
+    const appointment = {
+      student_id: 2,
+      supporter_id: 1,
+      appt_date: '2014-12-12',
+      start_time: '13:50:22',
+      duration: 999,
+      type: 1,
+      cancelled: false,
+      rating: 0,
+      recommended: false
+    };
+    return appointment;
+  }
+
+  make_appointment(appointment) {
+    console.log('Make appointment debug');
+    console.log(appointment);
+    if (confirm('Is this the appointment you wish to make?')) {
+      this.http.post('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/appointments',
+        appointment).subscribe();
+    }
+  }
+
 }
+
+
 
 
 
