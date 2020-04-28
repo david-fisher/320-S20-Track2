@@ -29,10 +29,10 @@ def get_appointments(event, context):
    
     u_id = int(event["pathParameters"]["id"])
    
-    query = "SELECT * FROM `appointments` WHERE `supporter_id` = :u_id;"
+    query = "SELECT A.*, U.first_name, U.last_name, T.appointment_name, S.location FROM appointments A NATURAL JOIN user U NATURAL JOIN appointment_type T NATURAL JOIN supporter S WHERE A.supporter_id = :u_id AND U.user_id_ = :u_id;"
     sql_params = [{'name': 'u_id', 'value':{'longValue': u_id}}]
     query_result = execute_statement(query, sql_params)
-   
+    
     if query_result['records'] == []:
         return {
          'statusCode' : 404,
@@ -46,3 +46,4 @@ def get_appointments(event, context):
         'headers' : response_headers,
         'body' : json.dumps(extract_records(query_result))
     }
+
