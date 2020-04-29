@@ -20,8 +20,7 @@ export class SupporterSettingsComponent implements OnInit {
   body;
   constructor(private http: HttpClient) {
     this.body = {};
-    //this.body.user_id = account.user_id;
-    this.body.user_id = 30;
+    this.body.user_id = account.user_id;
     console.log(this.body);
   }
   click(): void{
@@ -50,9 +49,6 @@ export class SupporterSettingsComponent implements OnInit {
       this.body.title = this.job_title;
     }
     this.http.patch('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/account/' + this.body.user_id, this.body).subscribe(res => {
-      console.log(res);
-    });
-    this.http.get('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/account/' + this.body.user_id, {}).subscribe(res => {
       console.log(res);
     });
   }
