@@ -22,10 +22,6 @@ export class SupporterAppointmentsComponent implements OnInit {
     this.tempFeedback = this.feedback(2);
   }
 
-  // get appointments(): Array<Appointment> {
-  //   return TEST_APPOINTMENTS;
-  // }
-
   get date(): object {
     return new Date();
   }
@@ -41,12 +37,10 @@ export class SupporterAppointmentsComponent implements OnInit {
         }
       }
     });
-    console.log(result);
     return result;
   }
 
   feedback(appt_id): SupporterFeedback {
-    //const result = {} as SupporterFeedback;
     const result : SupporterFeedback = {questions: ["q1", "q2"], answers: ["a1", "a2"], rating: appt_id, recommend: true};
     console.log(result);
     return result;
