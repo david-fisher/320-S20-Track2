@@ -2,7 +2,8 @@ import json
 from db_wrapper import execute_statement, extract_records
 
 # input: none
-# output: a csv string with the frequency of appointment types
+# output: json object with a csv string with the frequency of appointment types and 
+#         a csv string with the frequency of tag types
 def getAnalytics(event, context):
     
     response_headers = {}
@@ -15,25 +16,44 @@ def getAnalytics(event, context):
     query = "SELECT type_id, COUNT(type_id), AT.appointment_name \
             FROM appointments A NATURAL JOIN appointment_type AT \
             WHERE A.type_id = AT.type_id GROUP BY type_id;"
-    result = execute_statement(query)
+    appts_result = execute_statement(query)
 
-    # no appt data in db
-    if result['records'] == []:
+    # query db for the tags and their frequencies and the tag names
+    query = "SELECT ST.tag_id, COUNT(ST.tag_id), T.tag_name \
+             FROM supporter_tags ST NATURAL JOIN tags T \
+             WHERE ST.tag_id = T.tag_id \
+             GROUP BY ST.tag_id;"
+    tags_result = execute_statement(query)
+
+    # no appt data and tag data in db
+    if appts_result['records'] == [] and tags_result['records'] == []:
         return {
             'statusCode': 404,
             'body': json.dumps("No data found"),
             'headers': response_headers
         }
     
-    # build the csv string
-    csv = "Appointment type,Frequency"
-    for tuple in result['records']:
-        appt_type = tuple[2].get("stringValue")
-        frequency = tuple[1].get("longValue")
-        csv += "\n" + appt_type + "," + str(frequency)
+    appts_csv = "No appointment data"
+    if appts_result['records'] != []:
+        # build the appt csv string
+        appts_csv = "Appointment type,Frequency"
+        for tuple in appts_result['records']:
+            appt_type = tuple[2].get("stringValue")
+            frequency = tuple[1].get("longValue")
+            appts_csv += "\n" + appt_type + "," + str(frequency)
+    
+    tags_csv = "No tag data"
+    if tags_result['records'] != []:
+        # build the tag csv string
+        tags_csv = "Tag name,Frequency"
+        for tuple in tags_result['records']:
+            tag_name = tuple[2].get("stringValue")
+            frequency = tuple[1].get("longValue")
+            tags_csv += "\n" + tag_name + "," + str(frequency) 
     
     body = {}
-    body["csv"] = csv
+    body["csv for appointments"] = appts_csv
+    body["csv for tags"] = tags_csv
     
     return {
         'statusCode': 200,
