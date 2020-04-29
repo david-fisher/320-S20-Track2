@@ -6,6 +6,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import {HttpClient} from "@angular/common/http";
 import {DialogContentExampleDialog, UhOhDialog} from "../createaccount/createaccount.component";
 import {MatDialog} from "@angular/material/dialog";
+import {account} from './account'
 
 @Component({
   selector: 'app-login',
@@ -56,7 +57,7 @@ export class LoginComponent implements OnInit {
   onSubmit(post) {
     console.log('test');
     this.post = post;
-    this.sendData()
+    this.sendData();
   }
 
   select(userType: string) {
@@ -85,6 +86,8 @@ export class LoginComponent implements OnInit {
       console.log(res['user-id']);
       let user_id = res['user-id'].toString();
       let user_type = res['type'];
+      account.user_id = user_id;
+      account.user_type = user_type;
       this.cookieService.set('user_id', user_id);
       this.cookieService.set('user_type', user_type);
       this.cookieService.set('logged-in', '');
