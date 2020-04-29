@@ -2,7 +2,10 @@
 
 <ng-template [ngIf]="toggleStar()">
   <h1>How would you rate {{supporterName}}</h1>
-  <star-rating [starType]="'svg'" [rating]="2.63"></star-rating>
+  <form [formGroup]="formStarGroup">
+    <star-rating-control formControlName="stars"></star-rating-control>
+    <pre>{{ formStarGroup.value | json }}</pre>
+  </form>
 </ng-template>
 
 <!-- Supporter wants recommend/do not recommend -->

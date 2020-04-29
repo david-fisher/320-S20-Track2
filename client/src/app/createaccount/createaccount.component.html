@@ -47,15 +47,15 @@
             <br>
             <br>
             <mat-form-field class="form-element">
-              <input matInput placeholder="Phone Number" formControlName="phoneNum">
+              <mat-label>Are you an undergraduate student? *</mat-label>
+              <mat-select formControlName="is_undergrad">
+                <mat-option value="YES">Yes</mat-option>
+                <mat-option value="NO">No</mat-option>
+              </mat-select>
             </mat-form-field>
             <br>
             <mat-form-field class="form-element">
-              <input matInput placeholder="GPA" formControlName="gpa">
-            </mat-form-field>
-            <br>
-            <mat-form-field class="form-element">
-              <mat-label>Graduation Year</mat-label>
+              <mat-label>Graduation Year *</mat-label>
               <mat-select formControlName="gradYear">
                 <mat-option value="2020">2020</mat-option>
                 <mat-option value="2020">2021</mat-option>
@@ -65,6 +65,16 @@
               </mat-select>
             </mat-form-field>
             <br>
+            <mat-form-field class="form-element">
+              <input matInput placeholder="Phone Number" formControlName="phoneNum">
+            </mat-form-field>
+            <br>
+            <mat-form-field class="form-element">
+              <input matInput placeholder="GPA" formControlName="gpa">
+            </mat-form-field>
+            <br>
+
+
             <mat-form-field class="form-element">
               <input matInput placeholder="GitHub" formControlName="github">
             </mat-form-field>
@@ -166,6 +176,30 @@
             </mat-form-field>
             <br>
             <br>
+            <div class="form-group" formGroupName="supporterTypes">
+              <div class="label">Select at least one supporter type<span class="highlight">*</span></div>
+              <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" formControlName="Alumni" id="Alumni">
+                <label class="custom-control-label" for="Alumni">Alumni</label>
+              </div>
+              <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" formControlName="Faculty" id="Faculty">
+                <label class="custom-control-label" for="Faculty">Faculty</label>
+              </div>
+              <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" formControlName="Professional Staff" id="Professional Staff">
+                <label class="custom-control-label" for="Professional Staff">Professional Staff</label>
+              </div>
+              <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" formControlName="Student Staff" id="Student Staff">
+                <label class="custom-control-label" for="Student Staff">Student Staff</label>
+              </div>
+              <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" formControlName="Other" id="Other">
+                <label class="custom-control-label" for="Other">Other</label>
+              </div>
+            </div>
+            <br>
             <mat-form-field class="form-element">
               <input matInput placeholder="Phone Number" formControlName="phoneNum">
             </mat-form-field>
@@ -178,22 +212,6 @@
               <input matInput placeholder="Current Employer" formControlName="currentEmployer">
             </mat-form-field>
             <br>
-            <br>
-            <div class="form-group" formGroupName="supporterTypes">
-              <div class="label">Select at least one supporter type <span class="highlight">*</span></div>
-              <div class="custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input" formControlName="Alumni" id="Alumni">
-                <label class="custom-control-label" for="Alumni">Alumni</label>
-              </div>
-              <div class="custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input" formControlName="Industry Affiliate" id="Industry Affiliate">
-                <label class="custom-control-label" for="Industry Affiliate">Industry Affiliate</label>
-              </div>
-              <div class="custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input" formControlName="Professor" id="Professor">
-                <label class="custom-control-label" for="Professor">Professor</label>
-              </div>
-            </div>
             <mat-file-upload
               [labelText]="'Upload Profile Picture:'"
               [selectButtonText]="'Choose File'"

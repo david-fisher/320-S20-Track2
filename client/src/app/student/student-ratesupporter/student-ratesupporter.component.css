@@ -1,6 +1,6 @@
 h1 {
   padding-top: 1em;
-  text-align: center;
+  text-align: center !important;
 }
 
 .feedback {

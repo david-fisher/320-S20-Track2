@@ -2,19 +2,21 @@
 <body>
 <h1>Up Coming Appointments</h1>
 
-<div *ngFor="let appointment of pageAppointments">
+<div *ngFor="let appointment of tempAppointments">
   <ul *ngIf="appointment.date >= date ">
     <mat-card [class.mat-elevation-z5]="true" class="appointment-card">
       <mat-card-header>
         <div mat-card-avatar class="example-header-image"></div>
-        <mat-card-title>{{appointment.type}}</mat-card-title>
-        <mat-card-subtitle>{{appointment.student}}</mat-card-subtitle>
+        <mat-card-title>{{appointment.student}}</mat-card-title>
+        <mat-card-subtitle>{{appointment.type}}</mat-card-subtitle>
         <mat-card-subtitle>{{appointment.location}}</mat-card-subtitle>
       </mat-card-header>
       <mat-card-content>
         <h4> {{appointment.date | date:'HH:mm a  MMM dd yyyy '}} </h4>
+        <h4> Duration: {{appointment.duration}} Minutes</h4>
+        <h4 *ngIf="appointment.cancelled"> <b> Meeting is Cancelled </b> </h4>
       </mat-card-content>
-      <mat-card-actions>
+      <mat-card-actions *ngIf="!appointment.cancelled">
         <button (click)="verify(appointment)" mat-button routerLink="/supporter-appointments" >Cancel</button>
       </mat-card-actions>
     </mat-card>
@@ -23,18 +25,37 @@
 
 <h1>Previous Appointments</h1>
 
-<div *ngFor="let appointment of pageAppointments">
+<div *ngFor="let appointment of tempAppointments">
   <ul *ngIf="appointment.date < date ">
     <mat-card [class.mat-elevation-z5]="true" class="appointment-card">
       <mat-card-header>
         <div mat-card-avatar class="example-header-image"></div>
-        <mat-card-title>{{appointment.type}}</mat-card-title>
-        <mat-card-subtitle>{{appointment.student}}</mat-card-subtitle>
+        <mat-card-title>{{appointment.student}}</mat-card-title>
+        <mat-card-subtitle>{{appointment.type}}</mat-card-subtitle>
         <mat-card-subtitle>{{appointment.location}}</mat-card-subtitle>
       </mat-card-header>
       <mat-card-content>
         <h4> {{appointment.date | date:'HH:mm a  MMM dd yyyy '}} </h4>
+        <h4> Duration: {{appointment.duration}} Minutes </h4>
       </mat-card-content>
+<!--      <mat-card-actions>-->
+<!--        <button mat-button [routerLink]="['/student-ratesupporter', appointment.student]">View Feedback</button>-->
+<!--      </mat-card-actions>-->
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>View Feedback</mat-expansion-panel-header>
+        <p>
+          Rating: {{tempFeedback.rating}}</p>
+        <p>
+          Would Recommend: {{tempFeedback.recommend}}
+        </p>
+        <div *ngFor="let q of tempFeedback.questions;let i=index">
+          <p>
+            {{q}}
+            <br>
+            {{tempFeedback.answers[i]}}
+          </p>
+        </div>
+      </mat-expansion-panel>
     </mat-card>
   </ul>
 </div>

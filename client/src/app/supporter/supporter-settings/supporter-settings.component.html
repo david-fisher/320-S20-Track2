@@ -11,17 +11,37 @@
     <p>
       Title: <br>
       <mat-form-field class="input">
-        <input matInput placeholder="Job Title" value="">
+        <input matInput placeholder="Job Title" value="" [(ngModel)]="job_title">
       </mat-form-field>
       <br>
-      University: <br>
+      First Name: <br>
       <mat-form-field class="input">
-        <input matInput placeholder="University" value="">
+        <input matInput placeholder="First Name" value="" [(ngModel)]="first_name">
+      </mat-form-field>
+      <br>
+      Last Name: <br>
+      <mat-form-field class="input">
+        <input matInput placeholder="Last Name" value="" [(ngModel)]="last_name">
+      </mat-form-field>
+      <br>
+      Preferred Name: <br>
+      <mat-form-field class="input">
+        <input matInput placeholder="Preferred Name" value="" [(ngModel)]="pref_name">
+      </mat-form-field>
+      <br>
+      Phone Number: <br>
+      <mat-form-field class="input">
+        <input matInput placeholder="Phone Number" value="" [(ngModel)]="phone_number">
+      </mat-form-field>
+      <br>
+      Current Employer: <br>
+      <mat-form-field class="input">
+        <input matInput placeholder="Current Employer" value="" [(ngModel)]="employer">
       </mat-form-field>
       <br>
       Bio: <br>
       <mat-form-field class="textbox">
-        <textarea matInput placeholder="Write an optional bio here."></textarea>
+        <textarea matInput placeholder="Write an op tional bio here." [(ngModel)]="bio"></textarea>
       </mat-form-field>
   </p>
   </mat-expansion-panel>
@@ -116,7 +136,7 @@
 
   <br>
 
-  <button mat-raised-button color="accent">Apply Settings</button>
+  <button (click) = "click()" mat-raised-button color="accent">Apply Settings</button>
   </div>
 
 

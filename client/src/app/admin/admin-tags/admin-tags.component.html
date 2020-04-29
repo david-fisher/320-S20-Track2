@@ -6,9 +6,18 @@
 <h1>Tag Analysis And Management</h1>
 <div class = tagbox>
 
-  <h3 color="primary">Analytics</h3>
-  <button mat-raised-button color="warn">Download .csv</button>
+  <button mat-raised-button color="warn" (click)="openDialog()">Dialog Me!</button>
 
+  <h3 color="primary">Analytics</h3>
+  <button mat-raised-button color="accent">Download .csv</button>
+
+  <h3 color="primary">Choose View</h3>
+  <button mat-raised-button color="accent" (click)="display_tags()">Tags</button>
+  <button mat-raised-button color="accent" (click)="display_supporter_types()">Supporter Types</button>
+  <button mat-raised-button color="accent" (click)="display_appoinment_types()">Appointment Types</button>
+
+
+  <div *ngIf="this.showTags">
   <h3 color="primary">Adding Tags</h3>
   <mat-form-field>
     <input matInput placeholder="Write a tag" [(ngModel)]="tagInput" value="">
@@ -22,6 +31,41 @@
     </mat-list-option>
   </mat-selection-list>
   <button mat-raised-button color="warn" (click)="delete_tag_https()">Delete Selected</button>
+  </div>
+
+  <div *ngIf="this.showSupporterTypes">
+  <h3 color="primary">Adding Supporter Types</h3>
+  <mat-form-field>
+    <input matInput placeholder="Write a supporter type" [(ngModel)]="tagInput" value="">
+  </mat-form-field>
+  <button mat-raised-button color="primary" (click)="push_supporter_type()">Confirm</button>
+
+  <h3 color="primary">Removing Supporter Types</h3>
+  <mat-selection-list [(ngModel)]="selectedTags">
+    <mat-list-option *ngFor="let type of pageSupporterTypes" [value]="type.name">
+      {{type.name}}
+    </mat-list-option>
+  </mat-selection-list>
+  <button mat-raised-button color="warn" (click)="delete_tag_https()">Delete Selected</button>
+  </div>
+
+  <div *ngIf="this.showAppointmentTypes">
+    <h3 color="primary">Adding Appointment Types</h3>
+    <mat-form-field>
+      <input matInput placeholder="Write an appointment type" [(ngModel)]="tagInput" value="">
+    </mat-form-field>
+    <button mat-raised-button color="primary" (click)="push_appointment_type()">Confirm</button>
+
+    <h3 color="primary">Removing Appointment Types</h3>
+    <mat-selection-list [(ngModel)]="selectedTags">
+      <mat-list-option *ngFor="let type of pageAppointmentTypes" [value]="type.name">
+        {{type.name}}
+      </mat-list-option>
+    </mat-selection-list>
+    <button mat-raised-button color="warn" (click)="delete_appointment_type()">Delete Selected</button>
+  </div>
+
+
 </div>
 </body>
 </html>

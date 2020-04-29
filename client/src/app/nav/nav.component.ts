@@ -13,7 +13,17 @@ import {AuthService} from '../auth/auth.service';
 export class NavComponent implements OnInit {
   @ViewChild(MatMenuTrigger) trigger: MatMenuTrigger;
 
-  constructor(private cookieService: CookieService, private auth: AuthService) { }
+  constructor(private cookieService: CookieService, private auth: AuthService) {}
+
+  isStudent() {
+    console.log(this.cookieService.get('user_type'));
+    return this.cookieService.get('user_type') === 'student';
+  }
+
+  isSupporter() {
+    console.log(this.cookieService.get('user_type'));
+    return this.cookieService.get('user_type') === 'supporter';
+  }
 
   ngOnInit(): void {
   }
@@ -24,6 +34,8 @@ export class NavComponent implements OnInit {
   logout() {
     console.log('logged out');
     this.cookieService.delete('logged-in');
+    this.cookieService.delete('user_id');
+    this.cookieService.delete('user_type');
     console.log('logged out');
   }
 
