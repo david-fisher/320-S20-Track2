@@ -34,6 +34,7 @@ def getAnalytics(event, context):
         }
     
     appts_csv = "No appointment data"
+    # there's appt data
     if appts_result['records'] != []:
         # build the appt csv string
         appts_csv = "Appointment type,Frequency"
@@ -43,6 +44,7 @@ def getAnalytics(event, context):
             appts_csv += "\n" + appt_type + "," + str(frequency)
     
     tags_csv = "No tag data"
+    # there's tag data
     if tags_result['records'] != []:
         # build the tag csv string
         tags_csv = "Tag name,Frequency"
