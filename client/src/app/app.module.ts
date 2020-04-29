@@ -38,7 +38,11 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { AdminDisciplineComponent } from './admin/admin-discipline/admin-discipline.component';
 import { AdminLandingComponent } from './admin/admin-landing/admin-landing.component';
 import { AdminReportsComponent } from './admin/admin-reports/admin-reports.component';
-import { AdminTagsComponent } from './admin/admin-tags/admin-tags.component';
+import {
+  AdminTagsComponent,
+  AlertDialogueComponent,
+  ConfirmationDialogueComponent
+} from './admin/admin-tags/admin-tags.component';
 import { MatListModule } from '@angular/material/list';
 import { SupporterAppointmentsComponent } from './supporter/supporter-appointments/supporter-appointments.component';
 import { SupporterAvailabilityComponent } from './supporter/supporter-availability/supporter-availability.component';
@@ -88,7 +92,9 @@ import { MatDialogModule } from "@angular/material/dialog";
     UhOhDialog,
     StudentCancelAppointmentDialog,
     IncorrectPasswordDialog,
-    IncorrectEmailDialog
+    IncorrectEmailDialog,
+    ConfirmationDialogueComponent,
+    AlertDialogueComponent
   ],
   imports: [
     BrowserModule,

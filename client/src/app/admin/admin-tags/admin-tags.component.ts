@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import {InterestTags} from './interest-tag';
 import {TAGS} from './tag-list';
 import {HttpClient, HttpResponse} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {stringify} from 'querystring';
+import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog';
 
 @Component({
   selector: 'app-admin-tags',
@@ -19,14 +20,41 @@ export class AdminTagsComponent implements OnInit {
   showTags;
   showAppointmentTypes;
   showSupporterTypes;
+  dialogResult;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, public dialog: MatDialog) {
     this.pageTags = this.content_https('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/tags');
     this.pageSupporterTypes = this.content_https('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/options?resource=type_of_supporter');
     this.pageAppointmentTypes = this.content_https('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/options?resource=appointment_type');
     this.showTags = true;
     this.showAppointmentTypes = false;
     this.showSupporterTypes = false;
+    this.dialogResult = null;
+  }
+
+  openDialog() {
+    const dialogRef = this.dialog.open(ConfirmationDialogueComponent, {
+      width: '400px',
+      height: '200px'
+    });
+
+    const promise = new Promise(resolve => {
+        dialogRef.afterClosed().subscribe(response => {
+          this.dialogResult = response;
+          console.log(this.dialogResult);
+          resolve();
+        });
+    });
+    return promise;
+  }
+
+  openAlert() {
+    const alertRef = this.dialog.open(AlertDialogueComponent, {
+      width: '400px',
+      height: '200px'
+    });
+
+    alertRef.afterClosed().subscribe(response => {});
   }
 
   content_https(url) {
@@ -43,56 +71,75 @@ export class AdminTagsComponent implements OnInit {
   }
 
   push_tag() {
-    console.log('Is this thing on?');
     for (const entry of this.pageTags) {
       if (entry.name === this.tagInput) {
-        alert('This tag already exists, please input another..');
+        this.openAlert();
         return;
       }
     }
-    if (confirm('Is this the tag you want? Tag: ' + this.tagInput)) {
-      this.http.post<InterestTags>('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/tags',
-        {tag_name: this.tagInput}).subscribe(tag => this.pageTags.push(tag));
-      }
-    setTimeout(() => this.pageTags = this.content_https('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/tags'), 1700);
-    }
+    this.openDialog().then(() => {
+      const tagPromise = new Promise (resolve => {
+        if (this.dialogResult) {
+          this.http.post<InterestTags>('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/tags',
+            {tag_name: this.tagInput}).subscribe();
+          this.dialogResult = false;
+          resolve();
+        }
+      }).then(() => {
+        this.pageTags =
+          this.content_https('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/tags');
+      });
+    });
+  }
 
   push_supporter_type() {
-    console.log('Is this thing STILL on?');
     for (const entry of this.pageSupporterTypes) {
       if (entry.name === this.tagInput) {
-        alert('This tag already exists, please input another..');
+        this.openAlert();
         return;
       }
     }
-    if (confirm('Is this the supporter type you want? Tag: ' + this.tagInput)) {
-      this.http.post<InterestTags>('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/options?resource=type_of_supporter',
-        {new_option: this.tagInput}).subscribe(type => this.pageSupporterTypes.push(type));
-    }
-    // tslint:disable-next-line:max-line-length
-    setTimeout(() => this.pageSupporterTypes = this.content_https('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/options?resource=type_of_supporter'), 1700);
+    this.openDialog().then(() => {
+      const supporterPromise = new Promise (resolve => {
+        if (this.dialogResult) {
+          this.http.post<InterestTags>('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/options?resource=type_of_supporter',
+            {new_option: this.tagInput}).subscribe();
+          this.dialogResult = false;
+          resolve();
+        }
+      }).then(() => {
+        this.pageSupporterTypes =
+          this.content_https('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/options?resource=type_of_supporter');
+      });
+    });
   }
 
   push_appointment_type() {
-    console.log('Is this thing REALLY still on?');
     for (const entry of this.pageAppointmentTypes) {
       if (entry.name === this.tagInput) {
-        alert('This tag already exists, please input another..');
+        this.openAlert();
         return;
       }
     }
-    if (confirm('Is this the appointment type you want? Tag: ' + this.tagInput)) {
-      this.http.post<InterestTags>('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/options?resource=appointment_type',
-        {new_option: this.tagInput}).subscribe(type => this.pageAppointmentTypes.push(type));
-    }
-    // tslint:disable-next-line:max-line-length
-    setTimeout(() => this.pageAppointmentTypes = this.content_https('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/options?resource=appointment_type'), 1700);
+    this.openDialog().then(() => {
+      const appointmentPromise = new Promise (resolve => {
+        if (this.dialogResult) {
+          this.http.post<InterestTags>('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/options?resource=appointment_type',
+            {new_option: this.tagInput}).subscribe();
+          this.dialogResult = false;
+          resolve();
+        }
+      }).then(() => {
+        this.pageAppointmentTypes =
+          this.content_https('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/options?resource=appointment_type');
+      });
+    });
   }
 
   delete_tag_https() {
     let deleteId = 0;
     if (this.selectedTags.length === 0) {
-      alert('No tags selected.');
+      this.openAlert();
       return;
     }
     this.http.get('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/tags', {}).subscribe(res => {
@@ -113,7 +160,7 @@ export class AdminTagsComponent implements OnInit {
   delete_appointment_type() {
     let deleteId = 0;
     if (this.selectedTags.length === 0) {
-      alert('No appointment types selected.');
+      this.openAlert();
       return;
     }
     this.http.get('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/options?resource=appointment_type', {}).subscribe(res => {
@@ -155,4 +202,34 @@ export class AdminTagsComponent implements OnInit {
   ngOnInit(): void {
   }
 
+}
+
+// This is all dialogue stuff.
+
+@Component({
+  selector: 'app-dialog-confirmation',
+  templateUrl: 'dialog-confirmation.html',
+})
+export class ConfirmationDialogueComponent {
+
+  constructor(
+    public dialogRef: MatDialogRef<ConfirmationDialogueComponent>) {}
+
+  onNoClick() {
+    this.dialogRef.close();
+  }
+}
+
+@Component({
+  selector: 'app-dialog-alert',
+  templateUrl: 'dialog-alert.html',
+})
+export class AlertDialogueComponent {
+
+  constructor(
+    public alertRef: MatDialogRef<AlertDialogueComponent>) {}
+
+  onClick() {
+    this.alertRef.close();
+  }
 }
