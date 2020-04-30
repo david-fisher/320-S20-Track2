@@ -29,6 +29,10 @@ def student_create(body, response_headers):
         statusCode = 400
     if ("active_account" not in body.keys()):
         statusCode = 400
+    if ("description" not in body.keys()):
+        statusCode = 400
+    if ("pronouns" not in body.keys()):
+        statusCode = 400
     
         
     if statusCode == 400:
@@ -54,6 +58,14 @@ def student_create(body, response_headers):
         statusCode = 400
     if ("is_undergrad" not in body.keys()):
         statusCode = 400
+    if ("college" not in body.keys()):
+        statusCode = 400
+    if ("program" not in body.keys()):
+        statusCode = 400
+    if ("job_search" not in body.keys()):
+        statusCode = 400
+    if ("work_auth" not in body.keys()):
+        statusCode = 400
     
     if statusCode == 400:
         response = {}
@@ -72,10 +84,12 @@ def student_create(body, response_headers):
     first_name = body["first_name"]
     last_name = body["last_name"]
     preferred_name = body["preferred_name"]
-    phone_number = body["profile_picture"]
+    phone_number = body["phone_number"]
     profile_picture = body["profile_picture"]
     request_supporter = body["request_supporter"]
     active_account = body["active_account"]
+    description = body["description"]
+    pronouns = body["pronouns"]
     
     #Check if email already exists
     sql = "SELECT email FROM user WHERE email = :email;"
@@ -98,7 +112,7 @@ def student_create(body, response_headers):
     user_id = 0 if len(max_id) == 0 else max_id[0][0]+1
     
     #Insert into user
-    sql = "INSERT INTO user VALUES (:user_id, :email, :password, :first_name, :last_name, :preferred_name, :phone_number, :profile_picture, :request_supporter, :active_account);"
+    sql = "INSERT INTO user VALUES (:user_id, :email, :password, :first_name, :last_name, :preferred_name, :phone_number, :profile_picture, :request_supporter, :active_account, :description, :pronouns);"
     sql_parameters = [ {'name':'user_id', 'value':{'longValue': user_id}} ,
     {'name':'email', 'value':{'stringValue': email}},
     {'name':'password', 'value':{'stringValue': password}},
@@ -108,7 +122,9 @@ def student_create(body, response_headers):
     {'name':'phone_number', 'value':{'stringValue': phone_number}},
     {'name':'profile_picture', 'value':{'stringValue': profile_picture}},
     {'name':'request_supporter', 'value':{'booleanValue': request_supporter}},
-    {'name':'active_account', 'value':{'booleanValue': active_account}}
+    {'name':'active_account', 'value':{'booleanValue': active_account}},
+    {'name':'description', 'value':{'stringValue': description}},
+    {'name':'pronouns', 'value':{'stringValue': pronouns}}
     ]
         
     query_result = execute_statement(client, sql, sql_parameters)
@@ -121,17 +137,25 @@ def student_create(body, response_headers):
     github_link = body["github_link"]
     linkedin_link = body["linkedin_link"]
     is_undergrad = body["is_undergrad"]
+    college = body["college"]
+    program = body["program"]
+    job_search = body["job_search"]
+    work_auth = body["work_auth"]
     
     #Insert into student
-    sql = "INSERT INTO student VALUES (:user_id, :GPA, :grad_year, :resume_ref, :transcript_ref, :github_link, :linkedin_link, :is_undergrad);"
+    sql = "INSERT INTO student VALUES (:user_id, :GPA, :grad_year, :resume_ref, :transcript_ref, :github_link, :linkedin_link, :is_undergrad, :college, :program, :job_search, :work_auth);"
     sql_parameters = [ {'name':'user_id', 'value':{'longValue': user_id}} ,
     {'name':'GPA', 'value':{'doubleValue': GPA}},
-    {'name':'grad_year', 'value':{'stringValue': grad_year}},
+    {'name':'grad_year', 'value':{'longValue': grad_year}},
     {'name':'resume_ref', 'value':{'stringValue': resume_ref}},
     {'name':'transcript_ref', 'value':{'stringValue': transcript_ref}},
     {'name':'github_link', 'value':{'stringValue': github_link}},
     {'name':'linkedin_link', 'value':{'stringValue': linkedin_link}},
-    {'name':'is_undergrad', 'value':{'booleanValue': is_undergrad}}
+    {'name':'is_undergrad', 'value':{'booleanValue': is_undergrad}},
+    {'name':'college', 'value':{'stringValue': college}},
+    {'name':'program', 'value':{'stringValue': program}},
+    {'name':'job_search', 'value':{'booleanValue': job_search}},
+    {'name':'work_auth', 'value':{'stringValue': work_auth}}
     ]
         
     query_result = execute_statement(client, sql, sql_parameters)
@@ -139,7 +163,7 @@ def student_create(body, response_headers):
     response = {}
     response["statusCode"] = statusCode
     response["headers"] = response_headers
-    response["body"] = "user-id: %d"%user_id
+    response["body"] = json.dumps("user-id: %d"%user_id)
     response["isBase64Encoded"] = False
 
     return response
@@ -173,6 +197,10 @@ def supporter_create(body, response_headers):
     if ("request_supporter" not in body.keys()):
         statusCode = 400
     if ("active_account" not in body.keys()):
+        statusCode = 400
+    if ("description" not in body.keys()):
+        statusCode = 400
+    if ("pronouns" not in body.keys()):
         statusCode = 400
     
         
@@ -219,6 +247,8 @@ def supporter_create(body, response_headers):
     profile_picture = body["profile_picture"]
     request_supporter = body["request_supporter"]
     active_account = body["active_account"]
+    description = body["description"]
+    pronouns = body["pronouns"]
     
     #Check if email already exists
     sql = "SELECT email FROM user WHERE email = :email;"
@@ -241,7 +271,7 @@ def supporter_create(body, response_headers):
     user_id = 0 if len(max_id) == 0 else max_id[0][0]+1
     
     #Insert into user
-    sql = "INSERT INTO user VALUES (:user_id, :email, :password, :first_name, :last_name, :preferred_name, :phone_number, :profile_picture, :request_supporter, :active_account);"
+    sql = "INSERT INTO user VALUES (:user_id, :email, :password, :first_name, :last_name, :preferred_name, :phone_number, :profile_picture, :request_supporter, :active_account, :description, :pronouns);"
     sql_parameters = [ {'name':'user_id', 'value':{'longValue': user_id}} ,
     {'name':'email', 'value':{'stringValue': email}},
     {'name':'password', 'value':{'stringValue': password}},
@@ -251,7 +281,9 @@ def supporter_create(body, response_headers):
     {'name':'phone_number', 'value':{'stringValue': phone_number}},
     {'name':'profile_picture', 'value':{'stringValue': profile_picture}},
     {'name':'request_supporter', 'value':{'booleanValue': request_supporter}},
-    {'name':'active_account', 'value':{'booleanValue': active_account}}
+    {'name':'active_account', 'value':{'booleanValue': active_account}},
+    {'name':'description', 'value':{'stringValue': description}},
+    {'name':'pronouns', 'value':{'stringValue': pronouns}}
     ]
         
     query_result = execute_statement(client, sql, sql_parameters)
@@ -280,7 +312,7 @@ def supporter_create(body, response_headers):
     response = {}
     response["statusCode"] = statusCode
     response["headers"] = response_headers
-    response["body"] = "user-id: %d"%user_id
+    response["body"] = json.dumps("user-id: %d"%user_id)
     response["isBase64Encoded"] = False
 
     return response
