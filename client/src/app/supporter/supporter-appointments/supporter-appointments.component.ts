@@ -42,6 +42,7 @@ export class SupporterAppointmentsComponent implements OnInit {
             appt_id: appt[0],
             cancelled: appt[6]
           };
+          result.push(newAppt);
           // if(!newAppt.cancelled) {
           //   result.push(newAppt);
           // }
