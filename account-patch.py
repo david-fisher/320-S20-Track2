@@ -223,6 +223,23 @@ def update_account(event, context):
         if 'ask_recommended' in event['body']:
             ask_recommended = json.loads(event['body'])['ask_recommended']
 
+    question = question_id = None
+
+    if is_supporter:
+        if 'question' in event['body']:
+            question = json.loads(event['body'])['question']
+        if 'question_id' in event['body']:
+            question_id = json.loads(event['body'])['question_id']
+
+    type_id = length_ = None
+
+    if is_supporter:
+        if 'type_id' in event['body']:
+            type_id = json.loads(event['body'])['type_id']
+        if 'length_' in event['body']:
+            length_ = json.loads(event['body'])['length_']
+
+
     if email is not None:
         # verify email is not already in database
         already_exists_query = (f"SELECT * "
@@ -599,6 +616,30 @@ def update_account(event, context):
                  f"SET ask_recommended = :0 "
                  f"WHERE user_id_ = :1;")
         params = param_to_sql_param([ask_recommended, user_id_])
+        response = client.execute_statement(resourceArn=rds_config.ARN,
+                                            secretArn=rds_config.SECRET_ARN,
+                                            database=rds_config.DB_NAME,
+                                            sql=query,
+                                            parameters=params)
+
+    if type_id is not None and length_ is not None:
+        query = (f"UPDATE appointment_settings "
+                 f"SET length_ = :0 "
+                 f"WHERE user_id_ = :1 "
+                 f"AND type_id = :2;")
+        params = param_to_sql_param([length_, user_id_, type_id])
+        response = client.execute_statement(resourceArn=rds_config.ARN,
+                                            secretArn=rds_config.SECRET_ARN,
+                                            database=rds_config.DB_NAME,
+                                            sql=query,
+                                            parameters=params)
+
+    if question_id is not None and question is not None:
+        query = (f"UPDATE supporter_questions "
+                 f"SET question = :0 "
+                 f"WHERE user_id_ = :1 "
+                 f"AND question_id = :2;")
+        params = param_to_sql_param([question, user_id_, question_id])
         response = client.execute_statement(resourceArn=rds_config.ARN,
                                             secretArn=rds_config.SECRET_ARN,
                                             database=rds_config.DB_NAME,
