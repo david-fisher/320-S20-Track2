@@ -38,6 +38,7 @@ export class StudentProfileComponent implements OnInit {
 
   constructor(private studentProfileService: StudentProfileService) { }
 
+  // importing student data
   showStudentProfile() {
     this.studentProfileService.getStudentProfile()
       .subscribe(data => {
@@ -65,6 +66,7 @@ export class StudentProfileComponent implements OnInit {
 
 /*
 Boolean toggle flags
+Each submit sends a PATCH request for the editable fields
  */
   runInformation() {
     this.informationFlag = false;

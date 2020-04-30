@@ -15,14 +15,13 @@ import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 })
 
 export class CreateaccountComponent implements OnInit {
-  userType;
-  typeOfUser;
-  hide = true;
-  encryptSecretKey = 'SUPER_SECRET';
-  formSupporterGroup: FormGroup;
-  formStudentGroup: FormGroup;
-  titleAlert: string = 'This field is required';
-  post: any = '';
+  userType: boolean; // true if create student selected , false if supporter
+  typeOfUser; // either 'student' or 'supporter' depending which button the user pushed on /login
+  hide = true; // used for displaying or hiding the password field
+  formSupporterGroup: FormGroup; // FormGroup for supporter form
+  formStudentGroup: FormGroup; // FormGroup for student form
+  titleAlert: string = 'This field is required'; // displayed when required field not filled in
+  post: any = ''; // holds the form output
 
   constructor(private formBuilder: FormBuilder, private activatedRoute: ActivatedRoute, public dialog: MatDialog, private router: Router, private http: HttpClient) {
     this.userType = this.activatedRoute.snapshot.params.type === 'student';
@@ -30,11 +29,17 @@ export class CreateaccountComponent implements OnInit {
   }
 
   ngOnInit() {
+    /*
+    Run when page navigated to, creates student and supporter forms
+     */
     this.createSupporterForm();
     this.createStudentForm();
   }
 
   createSupporterForm() {
+    /*
+    Builds supporter form with necessary fields and validators
+     */
     let emailregex: RegExp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
     this.formSupporterGroup = this.formBuilder.group({
       'first_name': [null, Validators.required],
@@ -56,6 +61,9 @@ export class CreateaccountComponent implements OnInit {
   }
 
   createStudentForm() {
+    /*
+    Builds student form with necessary fields and validators
+     */
     let emailregex: RegExp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
     this.formStudentGroup = this.formBuilder.group({
       'first_name': [null, Validators.required],
@@ -73,14 +81,23 @@ export class CreateaccountComponent implements OnInit {
   }
 
   get first_name() {
+    /*
+    Returns the user's inputted first name
+     */
     return (this.userType ? this.formStudentGroup.get('first_name') as FormControl : this.formSupporterGroup.get('first_name') as FormControl)
   }
 
   get last_name() {
+    /*
+    Returns the user's inputted last name
+     */
     return (this.userType ? this.formStudentGroup.get('last_name') as FormControl : this.formSupporterGroup.get('last_name') as FormControl)
   }
 
   get preferred_name() {
+    /*
+    Returns the user's inputted preferred name
+     */
     return (this.userType ? this.formStudentGroup.get('preferredName') as FormControl : this.formSupporterGroup.get('preferredName') as FormControl)
   }
 
@@ -90,12 +107,18 @@ export class CreateaccountComponent implements OnInit {
 
 
   checkPassword(control) {
+    /*
+    Checks if the password field was filled and if the password is at least eight characters and has one uppercase letter and one number
+     */
     let enteredPassword = control.value;
     let passwordCheck = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/;
     return (!passwordCheck.test(enteredPassword) && enteredPassword) ? { 'requirements': true } : null;
   }
 
   getErrorEmail() {
+    /*
+    Returns the error message depending on the issue with the email
+     */
     if (this.userType) {
       return this.formStudentGroup.get('email').hasError('required') ? 'Field is required' :
         this.formStudentGroup.get('email').hasError('pattern') ? 'Not a valid emailaddress' : '';
@@ -107,6 +130,9 @@ export class CreateaccountComponent implements OnInit {
   }
 
   getErrorPassword() {
+    /*
+    Returns the error message depending on the issue with the password
+     */
     if (this.userType) {
       return this.formStudentGroup.get('password').hasError('required') ? 'Field is required (at least eight characters, one uppercase letter and one number)' :
         this.formStudentGroup.get('password').hasError('requirements') ? 'Password needs to be at least eight characters, one uppercase letter and one number' : '';
@@ -117,12 +143,31 @@ export class CreateaccountComponent implements OnInit {
   }
 
   onSubmit(post) {
+    /*
+    Run when the submit button is clicked, gets the form data and runs sendData()
+     */
     this.post = post;
     this.sendData();
   }
 
   sendData() {
+    /*
+    Sends create form fields to database with POST to /account.
+
+    On POST success:
+      - Display success dialog
+
+    On POST fail:
+      - Display error dialog depending on the issue
+     */
+
+
     let supporterTypes;
+    /*
+     Converts {supporterType1: false, supporterType2: true, supporterType3: true} into
+
+     ['supporterType2', 'supporterType3']
+     */
     if (!this.userType) {
       supporterTypes = [];
       for (const key in this.post['supporterTypes']) {
@@ -133,6 +178,7 @@ export class CreateaccountComponent implements OnInit {
         }
       }
     }
+    console.log(supporterTypes);
     let email_split = this.post['email'].split('@');
     let email = email_split[0] + '@' + email_split[1].toLowerCase();
     let data = {};
@@ -195,18 +241,21 @@ export class CreateaccountComponent implements OnInit {
 
 }
 
+// Success dialog component
 @Component({
   selector: 'dialog-content-example-dialog',
   templateUrl: 'dialog-content.html',
 })
 export class DialogContentExampleDialog {}
 
+// Email exists error dialog component
 @Component( {
   selector: 'email-exists-dialog',
   templateUrl: 'email-exists-dialog.html',
 })
 export class EmailExistsDialog {}
 
+// Something went wrong dialog component
 @Component( {
   selector: 'uh-oh-dialog',
   templateUrl: 'uh-oh-dialog.html',

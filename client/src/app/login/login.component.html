@@ -32,7 +32,6 @@
 </div>
 
 <div *ngIf = "flag">
-<!--  <div *ngIf = "!inputEmail">-->
   <div class="alignment">
     <div>
       <h1 class = "log-in-h1">
@@ -46,30 +45,4 @@
       <button mat-raised-button [routerLink]="['/createaccount', 'supporter']" color="primary">Supporter</button>
     </div>
   </div>
-<!--  </div>-->
 </div>
-
-<!--  <div *ngIf = "inputEmail">-->
-<!--    <mat-card>-->
-<!--      <mat-card-content>-->
-<!--        <form [formGroup]="form">-->
-<!--          <h3 class = "log-in-h3">Please state an email and a password</h3>-->
-<!--          <mat-form-field class="full-width-input">-->
-<!--            <input matInput placeholder="Email" formControlName="email" required>-->
-<!--            <mat-error>-->
-<!--              Please provide a valid email address-->
-<!--            </mat-error>-->
-<!--          </mat-form-field>-->
-<!--          <mat-form-field class="full-width-input">-->
-<!--            <input matInput type="password" placeholder="Password" formControlName="password" required>-->
-<!--            <mat-error>-->
-<!--              Please provide a valid password-->
-<!--            </mat-error>-->
-<!--          </mat-form-field>-->
-<!--          <div>-->
-<!--            <button mat-raised-button (click)="register()" [routerLink]="['/createaccount', userType]" color="primary">Register</button>-->
-<!--          </div>-->
-<!--        </form>-->
-<!--      </mat-card-content>-->
-<!--    </mat-card>-->
-<!--  </div>-->

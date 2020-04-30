@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { StarRatingModule } from 'angular-star-rating';
 import { MatSliderModule } from '@angular/material/slider';
-import {ClickMeComponent} from './app.click-me.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { HttpClientModule} from '@angular/common/http';
 
@@ -38,7 +37,11 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { AdminDisciplineComponent } from './admin/admin-discipline/admin-discipline.component';
 import { AdminLandingComponent } from './admin/admin-landing/admin-landing.component';
 import { AdminReportsComponent } from './admin/admin-reports/admin-reports.component';
-import { AdminTagsComponent } from './admin/admin-tags/admin-tags.component';
+import {
+  AdminTagsComponent,
+  AlertDialogueComponent,
+  ConfirmationDialogueComponent
+} from './admin/admin-tags/admin-tags.component';
 import { MatListModule } from '@angular/material/list';
 import { SupporterAppointmentsComponent } from './supporter/supporter-appointments/supporter-appointments.component';
 import { SupporterAvailabilityComponent } from './supporter/supporter-availability/supporter-availability.component';
@@ -56,6 +59,8 @@ import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatRadioModule } from "@angular/material/radio";
 import { MatDialogModule } from "@angular/material/dialog";
+import {CanStudentActivateRouteGuard} from "./can-student-activate-route.guard";
+import {CanSupporterActivateRouteGuard} from "./can-supporter-activate-route.guard";
 
 
 
@@ -68,7 +73,6 @@ import { MatDialogModule } from "@angular/material/dialog";
     FaqComponent,
     LoginComponent,
     StudentFindsupportersComponent,
-    ClickMeComponent,
     StudentProfileComponent,
     AdminApplicationsComponent,
     AdminDisciplineComponent,
@@ -88,7 +92,9 @@ import { MatDialogModule } from "@angular/material/dialog";
     UhOhDialog,
     StudentCancelAppointmentDialog,
     IncorrectPasswordDialog,
-    IncorrectEmailDialog
+    IncorrectEmailDialog,
+    ConfirmationDialogueComponent,
+    AlertDialogueComponent
   ],
   imports: [
     BrowserModule,
@@ -127,7 +133,7 @@ import { MatDialogModule } from "@angular/material/dialog";
     MatRadioModule,
     MatDialogModule,
   ],
-  providers: [CookieService, AuthService, CanActivateRouteGuard],
+  providers: [CookieService, AuthService, CanActivateRouteGuard, CanStudentActivateRouteGuard, CanSupporterActivateRouteGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

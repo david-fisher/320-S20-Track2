@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import {StudentAppointment} from "../../student/student-myappointments/appointments";
 import {SupporterAppointment} from "../../supporter/supporter-appointments/appointments";
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
+import {CookieService} from "ngx-cookie-service";
 
 @Component({
   selector: 'app-myappointments',
@@ -14,15 +15,14 @@ export class StudentMyappointmentsComponent implements OnInit {
 
   appointments;
 
-  constructor(private http: HttpClient, public dialog: MatDialog) {
+  constructor(private http: HttpClient, public dialog: MatDialog, private cookieService: CookieService) {
     this.appointments = this.getAppointments;
   }
 
   get getAppointments(): Array<StudentAppointment> {
     const result = [];
     const resarray = [];
-    this.http.get('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/appointments/1', {}).subscribe(res => {
-      console.log(Object.values(res));
+    this.http.get('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/appointments/' + this.cookieService.get('user_id'), {}).subscribe(res => {
       console.log(Object.values(res));
       for (const appt of Object.values(res)) {
         const newAppt : StudentAppointment = {date: new Date(appt[2].split("-")[0], appt[2].split("-")[1], appt[2].split("-")[2], appt[3].split(":")[0], appt[3].split(":")[1], appt[3].split(":")[2], 0), type: appt[9], supporter_name: appt[7] + " " + appt[8], location: appt[10], duration: appt[4], appt_id: appt[0], cancelled: appt[6]};
