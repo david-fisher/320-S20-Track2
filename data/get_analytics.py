@@ -25,14 +25,6 @@ def getAnalytics(event, context):
              GROUP BY ST.tag_id;"
     tags_result = execute_statement(query)
 
-    # no appt data and tag data in db
-    if appts_result['records'] == [] and tags_result['records'] == []:
-        return {
-            'statusCode': 404,
-            'body': json.dumps("No data found"),
-            'headers': response_headers
-        }
-    
     appts_csv = "No appointment data"
     # there's appt data
     if appts_result['records'] != []:
