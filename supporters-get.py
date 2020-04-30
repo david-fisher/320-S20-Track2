@@ -12,7 +12,7 @@ def get_supporters(event, context):
     response_headers["Access-Control-Allow-Methods"] = "OPTIONS,POST,GET,PUT,DELETE,PATCH"
 
 
-    query = ("SELECT user_id_, title, current_employer, supporter_type "
+    query = ("SELECT user_id_, title, current_employer, location "
              "FROM supporter "
              "UNION SELECT email, first_name, last_name, preferred_name, profile_picture, request_supporter "
              "FROM user "

@@ -132,7 +132,7 @@ def update_account(event, context):
 
     # account update info
     email = password_ = first_name = last_name = preferred_name = phone_number \
-        = profile_picture = request_supporter = active_account = None
+        = profile_picture = request_supporter = active_account = description = None
 
     if 'email' in event['body']:
         email = json.loads(event['body'])['email']
@@ -152,9 +152,12 @@ def update_account(event, context):
         request_supporter = json.loads(event['body'])['request_supporter']
     if 'active_account' in event['body']:
         active_account = json.loads(event['body'])['active_account']
+    if 'description' in event['body']:
+        description = json.loads(event['body'])['description']
 
     # student update info
-    GPA = grad_year = resume_ref = transcript_ref = github_link = linkedin_link = is_undergrad = None
+    GPA = grad_year = resume_ref = transcript_ref = github_link = linkedin_link \
+        = is_undergrad = college = program = job_search = work_auth = None
 
     if is_student:
         if 'GPA' in event['body']:
@@ -171,9 +174,18 @@ def update_account(event, context):
             linkedin_link = json.loads(event['body'])['linkedin_link']
         if 'is_undergrad' in event['body']:
             is_undergrad = json.loads(event['body'])['is_undergrad']
+        if 'college' in event['body']:
+            college = json.loads(event['body'])['college']
+        if 'program' in event['body']:
+            program = json.loads(event['body'])['program']
+        if 'job_search' in event['body']:
+            job_search = json.loads(event['body'])['job_search']
+        if 'work_auth' in event['body']:
+            work_auth = json.loads(event['body'])['work_auth']
+
 
     # supporter update info
-    title = current_employer = supporter_type = calendar_ref = calendar_sync = calendar_sync_freq = None
+    title = current_employer = supporter_type = calendar_ref = location = None
 
     if is_supporter:
         if 'title' in event['body']:
@@ -184,10 +196,18 @@ def update_account(event, context):
             supporter_type = json.loads(event['body'])['supporter_type']
         if 'calendar_ref' in event['body']:
             calendar_ref = json.loads(event['body'])['calendar_ref']
-        if 'calendar_sync' in event['body']:
-            calendar_sync = json.loads(event['body'])['calendar_sync']
-        if 'calendar_sync_freq' in event['body']:
-            calendar_sync_freq = json.loads(event['body'])['calendar_sync_freq']
+        if 'location' in event['body']:
+            location = json.loads(event['body'])['location']
+
+    start_time = end_time = appt_date = None
+
+    if is_supporter:
+        if 'start_time' in event['body']:
+            start_time = json.loads(event['body'])['start_time']
+        if 'end_time' in event['body']:
+            end_time = json.loads(event['body'])['end_time']
+        if 'appt_date' in event['body']:
+            appt_date = json.loads(event['body'])['appt_date']
 
     if email is not None:
         # verify email is not already in database
@@ -298,6 +318,18 @@ def update_account(event, context):
                                             database=rds_config.DB_NAME,
                                             sql=query,
                                             parameters=params)
+
+    if description is not None:
+        query = (f"UPDATE user "
+                 f"SET description = :0 "
+                 f"WHERE user_id_ = :1;")
+        params = param_to_sql_param([description, user_id_])
+        response = client.execute_statement(resourceArn=rds_config.ARN,
+                                            secretArn=rds_config.SECRET_ARN,
+                                            database=rds_config.DB_NAME,
+                                            sql=query,
+                                            parameters=params)
+
     if GPA is not None:
         query = (f"UPDATE student "
                  f"SET GPA = :0 "
@@ -370,6 +402,50 @@ def update_account(event, context):
                                             sql=query,
                                             parameters=params)
 
+    if college is not None:
+        query = (f"UPDATE student "
+                 f"SET college = :0 "
+                 f"WHERE user_id_ = :1;")
+        params = param_to_sql_param([college, user_id_])
+        response = client.execute_statement(resourceArn=rds_config.ARN,
+                                            secretArn=rds_config.SECRET_ARN,
+                                            database=rds_config.DB_NAME,
+                                            sql=query,
+                                            parameters=params)
+
+    if program is not None:
+        query = (f"UPDATE student "
+                 f"SET program = :0 "
+                 f"WHERE user_id_ = :1;")
+        params = param_to_sql_param([program, user_id_])
+        response = client.execute_statement(resourceArn=rds_config.ARN,
+                                            secretArn=rds_config.SECRET_ARN,
+                                            database=rds_config.DB_NAME,
+                                            sql=query,
+                                            parameters=params)
+
+    if job_search is not None:
+        query = (f"UPDATE student "
+                 f"SET job_search = :0 "
+                 f"WHERE user_id_ = :1;")
+        params = param_to_sql_param([job_search, user_id_])
+        response = client.execute_statement(resourceArn=rds_config.ARN,
+                                            secretArn=rds_config.SECRET_ARN,
+                                            database=rds_config.DB_NAME,
+                                            sql=query,
+                                            parameters=params)
+
+    if work_auth is not None:
+        query = (f"UPDATE student "
+                 f"SET work_auth = :0 "
+                 f"WHERE user_id_ = :1;")
+        params = param_to_sql_param([work_auth, user_id_])
+        response = client.execute_statement(resourceArn=rds_config.ARN,
+                                            secretArn=rds_config.SECRET_ARN,
+                                            database=rds_config.DB_NAME,
+                                            sql=query,
+                                            parameters=params)
+
     if title is not None:
         query = (f"UPDATE supporter "
                  f"SET title = :0 "
@@ -412,21 +488,47 @@ def update_account(event, context):
                                             database=rds_config.DB_NAME,
                                             sql=query,
                                             parameters=params)
-    if calendar_sync is not None:
+
+    if location is not None:
         query = (f"UPDATE supporter "
-                 f"SET calendar_sync = :0 "
+                 f"SET location = :0 "
                  f"WHERE user_id_ = :1;")
-        params = param_to_sql_param([calendar_sync, user_id_])
+        params = param_to_sql_param([location, user_id_])
         response = client.execute_statement(resourceArn=rds_config.ARN,
                                             secretArn=rds_config.SECRET_ARN,
                                             database=rds_config.DB_NAME,
                                             sql=query,
                                             parameters=params)
-    if calendar_sync_freq is not None:
-        query = (f"UPDATE supporter "
-                 f"SET calendar_sync_freq = :0 "
+
+    # Supporter Appointment Stuff
+
+    if start_time is not None:
+        query = (f"UPDATE availability_supp "
+                 f"SET start_time = :0 "
                  f"WHERE user_id_ = :1;")
-        params = param_to_sql_param([calendar_sync_freq, user_id_])
+        params = param_to_sql_param([start_time, user_id_])
+        response = client.execute_statement(resourceArn=rds_config.ARN,
+                                            secretArn=rds_config.SECRET_ARN,
+                                            database=rds_config.DB_NAME,
+                                            sql=query,
+                                            parameters=params)
+
+    if end_time is not None:
+        query = (f"UPDATE availability_supp "
+                 f"SET end_time = :0 "
+                 f"WHERE user_id_ = :1;")
+        params = param_to_sql_param([end_time, user_id_])
+        response = client.execute_statement(resourceArn=rds_config.ARN,
+                                            secretArn=rds_config.SECRET_ARN,
+                                            database=rds_config.DB_NAME,
+                                            sql=query,
+                                            parameters=params)
+
+    if appt_date is not None:
+        query = (f"UPDATE availability_supp "
+                 f"SET appt_date = :0 "
+                 f"WHERE user_id_ = :1;")
+        params = param_to_sql_param([appt_date, user_id_])
         response = client.execute_statement(resourceArn=rds_config.ARN,
                                             secretArn=rds_config.SECRET_ARN,
                                             database=rds_config.DB_NAME,
