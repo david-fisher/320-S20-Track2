@@ -185,7 +185,7 @@ def update_account(event, context):
 
 
     # supporter update info
-    title = current_employer = supporter_type = calendar_ref = location = None
+    title = current_employer = supporter_type = calendar_ref = location = calendar_sync = calendar_sync_freq = None
 
     if is_supporter:
         if 'title' in event['body']:
@@ -196,6 +196,10 @@ def update_account(event, context):
             supporter_type = json.loads(event['body'])['supporter_type']
         if 'calendar_ref' in event['body']:
             calendar_ref = json.loads(event['body'])['calendar_ref']
+        if 'calendar_sync' in event['body']:
+            calendar_sync = json.loads(event['body'])['calendar_sync']
+        if 'calendar_sync_freq' in event['body']:
+            calendar_sync_freq = json.loads(event['body'])['calendar_sync_freq']
         if 'location' in event['body']:
             location = json.loads(event['body'])['location']
 
@@ -208,6 +212,16 @@ def update_account(event, context):
             end_time = json.loads(event['body'])['end_time']
         if 'appt_date' in event['body']:
             appt_date = json.loads(event['body'])['appt_date']
+
+    show_feedback = rating = ask_recommended = None
+
+    if is_supporter:
+        if 'show_feedback' in event['body']:
+            show_feedback = json.loads(event['body'])['show_feedback']
+        if 'rating' in event['body']:
+            rating = json.loads(event['body'])['rating']
+        if 'ask_recommended' in event['body']:
+            ask_recommended = json.loads(event['body'])['ask_recommended']
 
     if email is not None:
         # verify email is not already in database
@@ -489,6 +503,29 @@ def update_account(event, context):
                                             sql=query,
                                             parameters=params)
 
+    if calendar_sync is not None:
+        query = (f"UPDATE supporter "
+                 f"SET calendar_sync = :0 "
+                 f"WHERE user_id_ = :1;")
+        params = param_to_sql_param([calendar_sync, user_id_])
+        response = client.execute_statement(resourceArn=rds_config.ARN,
+                                            secretArn=rds_config.SECRET_ARN,
+                                            database=rds_config.DB_NAME,
+                                            sql=query,
+                                            parameters=params)
+
+    if calendar_sync_freq is not None:
+        query = (f"UPDATE supporter "
+                 f"SET calendar_sync_freq = :0 "
+                 f"WHERE user_id_ = :1;")
+        params = param_to_sql_param([calendar_sync_freq, user_id_])
+        response = client.execute_statement(resourceArn=rds_config.ARN,
+                                            secretArn=rds_config.SECRET_ARN,
+                                            database=rds_config.DB_NAME,
+                                            sql=query,
+                                            parameters=params)
+
+
     if location is not None:
         query = (f"UPDATE supporter "
                  f"SET location = :0 "
@@ -529,6 +566,39 @@ def update_account(event, context):
                  f"SET appt_date = :0 "
                  f"WHERE user_id_ = :1;")
         params = param_to_sql_param([appt_date, user_id_])
+        response = client.execute_statement(resourceArn=rds_config.ARN,
+                                            secretArn=rds_config.SECRET_ARN,
+                                            database=rds_config.DB_NAME,
+                                            sql=query,
+                                            parameters=params)
+
+    if show_feedback is not None:
+        query = (f"UPDATE feedback_settings "
+                 f"SET show_feedback = :0 "
+                 f"WHERE user_id_ = :1;")
+        params = param_to_sql_param([show_feedback, user_id_])
+        response = client.execute_statement(resourceArn=rds_config.ARN,
+                                            secretArn=rds_config.SECRET_ARN,
+                                            database=rds_config.DB_NAME,
+                                            sql=query,
+                                            parameters=params)
+
+    if rating is not None:
+        query = (f"UPDATE feedback_settings "
+                 f"SET rating = :0 "
+                 f"WHERE user_id_ = :1;")
+        params = param_to_sql_param([rating, user_id_])
+        response = client.execute_statement(resourceArn=rds_config.ARN,
+                                            secretArn=rds_config.SECRET_ARN,
+                                            database=rds_config.DB_NAME,
+                                            sql=query,
+                                            parameters=params)
+
+    if ask_recommended is not None:
+        query = (f"UPDATE feedback_settings "
+                 f"SET ask_recommended = :0 "
+                 f"WHERE user_id_ = :1;")
+        params = param_to_sql_param([ask_recommended, user_id_])
         response = client.execute_statement(resourceArn=rds_config.ARN,
                                             secretArn=rds_config.SECRET_ARN,
                                             database=rds_config.DB_NAME,
