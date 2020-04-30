@@ -30,9 +30,8 @@ export class SupporterAppointmentsComponent implements OnInit {
     const result = [];
     this.http.get('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/appointments/' + this.cookieService.get('user_id'), {observe: 'response'}).subscribe(res => {
       console.log(Object.values(res));
-      console.log("user ID:" + this.cookieService.get('user_id'));
-      if(res.status == 200 && res.body != "") {
-        for (const appt of Object.values(res)) {
+      if(res.status === 200 && res.body !== "") {
+        for (const appt of Object.values(res)[6]) {
           const newAppt: SupporterAppointment = {
             date: new Date(appt[2].split("-")[0], appt[2].split("-")[1], appt[2].split("-")[2], appt[3].split(":")[0], appt[3].split(":")[1], appt[3].split(":")[2], 0),
             type: appt[9],
