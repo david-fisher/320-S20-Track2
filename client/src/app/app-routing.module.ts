@@ -4,7 +4,11 @@ import {Routes, RouterModule } from '@angular/router';
 import {HomeComponent} from './home/home.component';
 import {LoginComponent} from './login/login.component';
 import {FaqComponent} from './faq/faq.component';
+
 import {CanActivateRouteGuard} from './can-activate-route.guard';
+import {CanStudentActivateRouteGuard} from './can-student-activate-route.guard';
+import {CanSupporterActivateRouteGuard} from './can-supporter-activate-route.guard';
+
 import {StudentFindsupportersComponent} from './student/student-findsupporters/student-findsupporters.component';
 import {StudentProfileComponent} from './student/student-profile/student-profile.component';
 import {StudentRatesupporterComponent} from './student/student-ratesupporter/student-ratesupporter.component';
@@ -27,15 +31,16 @@ const appRoutes: Routes = [
   { path: 'login', component: LoginComponent},
   { path: 'faq', component: FaqComponent},
   { path: 'createaccount/:type', component: CreateaccountComponent},
-  { path: 'student-findsupporters', component: StudentFindsupportersComponent, canActivate: [ CanActivateRouteGuard]},
-  { path: 'student-profile', component: StudentProfileComponent, canActivate: [ CanActivateRouteGuard] },
-  { path: 'student-myappointments', component: StudentMyappointmentsComponent, canActivate: [ CanActivateRouteGuard] },
-  { path: 'student-ratesupporter/:name/:appt_id', component: StudentRatesupporterComponent, canActivate: [ CanActivateRouteGuard] },
-  { path: 'student-makeappointment', component: StudentMakeappointmentComponent, canActivate: [ CanActivateRouteGuard] },
-  { path: 'supporter-landing', component: SupporterLandingComponent, canActivate: [ CanActivateRouteGuard] },
-  { path: 'supporter-appointments', component: SupporterAppointmentsComponent, canActivate: [ CanActivateRouteGuard] },
-  { path: 'supporter-settings', component: SupporterSettingsComponent, canActivate: [ CanActivateRouteGuard] },
-  { path: 'supporter-availability', component: SupporterAvailabilityComponent, canActivate: [ CanActivateRouteGuard] },
+  { path: 'student-findsupporters', component: StudentFindsupportersComponent, canActivate: [ CanStudentActivateRouteGuard]},
+  { path: 'student-profile', component: StudentProfileComponent, canActivate: [ CanStudentActivateRouteGuard] },
+  { path: 'student-myappointments', component: StudentMyappointmentsComponent, canActivate: [ CanStudentActivateRouteGuard] },
+  { path: 'student-ratesupporter/:name/:appt_id', component: StudentRatesupporterComponent, canActivate: [ CanStudentActivateRouteGuard] },
+  { path: 'student-makeappointment', component: StudentMakeappointmentComponent, canActivate: [ CanStudentActivateRouteGuard] },
+  { path: 'supporter-landing', component: SupporterLandingComponent, canActivate: [ CanSupporterActivateRouteGuard] },
+  { path: 'supporter-appointments', component: SupporterAppointmentsComponent, canActivate: [ CanSupporterActivateRouteGuard] },
+  { path: 'supporter-settings', component: SupporterSettingsComponent, canActivate: [ CanSupporterActivateRouteGuard] },
+  { path: 'supporter-availability', component: SupporterAvailabilityComponent, canActivate: [ CanSupporterActivateRouteGuard] },
+  // The below pages' CanActivate needs to change once admin is implemented
   { path: 'admin-landing', component: AdminLandingComponent, canActivate: [ CanActivateRouteGuard] },
   { path: 'admin-reports', component: AdminReportsComponent, canActivate: [ CanActivateRouteGuard] },
   { path: 'admin-applications', component: AdminApplicationsComponent, canActivate: [ CanActivateRouteGuard] },

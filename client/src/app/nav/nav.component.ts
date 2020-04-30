@@ -16,30 +16,36 @@ export class NavComponent implements OnInit {
   constructor(private cookieService: CookieService, private auth: AuthService) {}
 
   isStudent() {
-    console.log(this.cookieService.get('user_type'));
+    /*
+    Checks if the user is a student
+     */
     return this.cookieService.get('user_type') === 'student';
   }
 
   isSupporter() {
-    console.log(this.cookieService.get('user_type'));
+    /*
+    Checks if the user is a supporter
+     */
     return this.cookieService.get('user_type') === 'supporter';
   }
 
   ngOnInit(): void {
   }
-  someMethod() {
-    this.trigger.openMenu();
-  }
 
   logout() {
+    /*
+    Run upon clicking log out.  Deletes necessary cookies.
+     */
     console.log('logged out');
     this.cookieService.delete('logged-in');
     this.cookieService.delete('user_id');
     this.cookieService.delete('user_type');
-    console.log('logged out');
   }
 
   getAuth() {
+    /*
+    Gets auth object from AuthService
+     */
     return this.auth;
   }
 
