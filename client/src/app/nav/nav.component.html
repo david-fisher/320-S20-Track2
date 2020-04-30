@@ -37,9 +37,9 @@
       <!-- This fills the remaining space of the current row -->
       <span class="example-fill-remaining-space"></span>
 
-      <button mat-button [matMenuTriggerFor]="accountMenu">Account</button>
+      <button mat-button [matMenuTriggerFor]="accountMenu" (click) = "getUserId()">Account</button>
       <mat-menu #accountMenu="matMenu" xPosition="before">
-        <button mat-menu-item routerLink="/student-profile">Profile</button>
+        <button mat-menu-item [routerLink]="['/student-profile', this.userID]">Profile</button>
         <button mat-menu-item (click)="logout()" routerLink="/home">Logout</button>
       </mat-menu>
     </ng-template>

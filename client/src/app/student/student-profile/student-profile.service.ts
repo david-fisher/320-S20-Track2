@@ -8,10 +8,10 @@ import {CookieService} from "ngx-cookie-service";
   providedIn: 'root'
 })
 export class StudentProfileService {
-  studentProfileUrl = 'https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/account/' + this.cookieService.get('user_id');
+  studentProfileUrl = 'https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/account/'
 
-  getStudentProfile() {
-    return this.http.get(this.studentProfileUrl);
+  getStudentProfile(profileID) {
+    return this.http.get(this.studentProfileUrl + profileID);
   }
 
   patchStudentProfile(changes) {

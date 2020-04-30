@@ -11,10 +11,10 @@ import {AuthService} from '../auth/auth.service';
   styleUrls: ['./nav.component.css']
 })
 export class NavComponent implements OnInit {
+  userID = '';
   @ViewChild(MatMenuTrigger) trigger: MatMenuTrigger;
-
-  constructor(private cookieService: CookieService, private auth: AuthService) {}
-
+  constructor(private cookieService: CookieService, private auth: AuthService) {
+  }
   isStudent() {
     /*
     Checks if the user is a student
@@ -30,6 +30,10 @@ export class NavComponent implements OnInit {
   }
 
   ngOnInit(): void {
+  }
+
+  getUserId() {
+    this.userID = this.cookieService.get('user_id');
   }
 
   logout() {

@@ -188,8 +188,8 @@ export class StudentMakeappointmentComponent {
   generate_appointment_object() {
     const appointment = {
       student_id: 2,
-      supporter_id: this.cookieService.get('user_id'),
-      appt_date: '2014-12-12',
+      supporter_id: 15,
+      appt_date: '2022-12-12',
       start_time: '13:50:22',
       duration: 999,
       type: 1,

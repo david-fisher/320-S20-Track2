@@ -37,9 +37,11 @@ Maybe something better than a bunch of <br>s?-->
         <li>Graduation Year: {{studentInfo.grad_year}}</li><br>
         <li>GPA: {{studentInfo.GPA}}</li><br>
         <li>Email: {{studentInfo.email}}</li><br>
-      <mat-card-actions>
-        <button mat-raised-button (click) = "runInformation()" color="primary">EDIT</button>
-      </mat-card-actions>
+        <div *ngIf = "this.canEdit">
+         <mat-card-actions>
+          <button mat-raised-button (click) = "runInformation()" color="primary">EDIT</button>
+        </mat-card-actions>
+        </div>
       </ul>
     <!--Edit mode-->
       <ul *ngIf = "!informationFlag">
@@ -80,9 +82,11 @@ Maybe something better than a bunch of <br>s?-->
     <!--View mode-->
     <ul *ngIf = "descriptionFlag">
       <li>{{studentInfo.personal_description}}</li><br> <!--Character Limit Needed-->
-      <mat-card-actions>
-        <button mat-raised-button (click) = "runDescription()" color="primary">EDIT</button>
-      </mat-card-actions>
+      <div *ngIf = "this.canEdit">
+        <mat-card-actions>
+          <button mat-raised-button (click) = "runDescription()" color="primary">EDIT</button>
+        </mat-card-actions>
+      </div>
     </ul>
     <!--Edit mode-->
     <ul *ngIf = "!descriptionFlag">
@@ -105,9 +109,11 @@ Maybe something better than a bunch of <br>s?-->
     <ul *ngIf = "linksFilesFlag">
       <li>Github: {{studentInfo.github_link}}</li><br> <!--Dynamic implementation needed-->
 <!--      <li>Resume: {{studentInfo.Resume}}</li><br>-->
-      <mat-card-actions>
-        <button mat-raised-button (click) = "runLinksFiles()" color="primary">EDIT</button>
-      </mat-card-actions>
+      <div *ngIf = "this.canEdit">
+        <mat-card-actions>
+          <button mat-raised-button (click) = "runLinksFiles()" color="primary">EDIT</button>
+        </mat-card-actions>
+      </div>
     </ul>
     <!--Edit mode-->
     <ul *ngIf = "!linksFilesFlag">
