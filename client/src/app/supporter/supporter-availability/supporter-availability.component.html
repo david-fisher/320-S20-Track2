@@ -7,7 +7,7 @@
 <h2> Current Availability:</h2>
 <div class = appointmentbox>
   <ul>
-    <li>Sunday: Unavailable</li>
+    <li>Sunday: {{sunday}}</li>
     <li>Monday: 5 AM - 5 PM </li>
     <li>Tuesday: Unavailable </li>
     <li>Wednesday: Unavailable </li>
@@ -20,7 +20,7 @@
 <h2> Edit Availability:</h2>
 <div class = appointmentbox>
   <h3>Select a Day:</h3>
-  <select matNativeControl required>
+  <select matNativeControl required [(ngModel)]="date">
     <option value="monday">Monday</option>
     <option value="tuesday">Tuesday</option>
     <option value="wednesday">Wednesday</option>
@@ -32,8 +32,17 @@
   <br>
   <br>
   <h3>Choose Availability:</h3>
-  <p>Available from <input matInput placeholder="Start time" value=""> to <input matInput placeholder="End Time" value=""> </p>
-  <button mat-raised-button color="warn">Confirm</button>
+  <p>Available from <input matInput placeholder="Start time" value="" [(ngModel)]="start">
+  <select matNativeControl required [(ngModel)]="startAMPM">
+    <option value="AM">AM</option>
+    <option value="PM">PM</option>
+  </select>
+  to <input matInput placeholder="End Time" value=""[(ngModel)]="end">
+  <select matNativeControl required [(ngModel)]="endAMPM">
+    <option value="AM">AM</option>
+    <option value="PM">PM</option>
+  </select> </p>
+  <button mat-raised-button color="warn" (click)="click()">Confirm</button>
 </div>
 
 </body>

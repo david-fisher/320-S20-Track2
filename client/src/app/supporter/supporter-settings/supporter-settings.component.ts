@@ -10,7 +10,7 @@ import {account} from "../../login/account";
   styleUrls: ['./supporter-settings.component.css']
 })
 export class SupporterSettingsComponent implements OnInit {
-  job_title
+  job_title;
   first_name;
   last_name;
   pref_name;
