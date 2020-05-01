@@ -2,8 +2,8 @@ import json
 from db_wrapper import execute_statement, extract_records
 
 # input: none
-# output: json object with a csv string with the frequency of appointment types and 
-#         a csv string with the frequency of tag types
+# output: json object with a csv as an array of arrays with the frequency of appointment types and 
+#         a csv as an array of arrays with the frequency of tag types
 def getAnalytics(event, context):
     
     response_headers = {}
@@ -28,22 +28,22 @@ def getAnalytics(event, context):
     appts_csv = "No appointment data"
     # there's appt data
     if appts_result['records'] != []:
-        # build the appt csv string
-        appts_csv = "Appointment type,Frequency"
+        # build the appt csv 
+        appts_csv = [["Appointment type", "Frequency"]]
         for tuple in appts_result['records']:
             appt_type = tuple[2].get("stringValue")
             frequency = tuple[1].get("longValue")
-            appts_csv += "\n" + appt_type + "," + str(frequency)
+            appts_csv.append([appt_type, frequency])
     
     tags_csv = "No tag data"
     # there's tag data
     if tags_result['records'] != []:
-        # build the tag csv string
-        tags_csv = "Tag name,Frequency"
+        # build the tag csv 
+        tags_csv = [["Tag name", "Frequency"]]
         for tuple in tags_result['records']:
             tag_name = tuple[2].get("stringValue")
             frequency = tuple[1].get("longValue")
-            tags_csv += "\n" + tag_name + "," + str(frequency) 
+            tags_csv.append([tag_name, frequency])
     
     body = {}
     body["csv for appointments"] = appts_csv
