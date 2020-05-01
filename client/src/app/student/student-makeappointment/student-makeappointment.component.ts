@@ -103,11 +103,11 @@ export class StudentMakeappointmentComponent {
   get supporters(): Supports[] {
     console.log(this.selectedTags);
     const list: Array<any> = [];
-    if (this.selectedTags == null) {
+    if (this.selectedTags === null) {
       return SUPPORTERS;
     }
 
-    if (this.selectedTags.length == 0) {
+    if (this.selectedTags.length === 0) {
       return SUPPORTERS;
     }
 
@@ -121,7 +121,7 @@ export class StudentMakeappointmentComponent {
           count++;
         }
       }
-      if (count == this.selectedTags.length) {
+      if (count === this.selectedTags.length) {
         list.push(SUPPORTERS[x]);
       }
     }
