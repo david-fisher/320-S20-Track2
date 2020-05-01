@@ -7,20 +7,20 @@
 <h2> Current Availability:</h2>
 <div class = appointmentbox>
   <ul>
-    <li>Sunday: Unavailable</li>
-    <li>Monday: 5 AM - 5 PM </li>
-    <li>Tuesday: Unavailable </li>
-    <li>Wednesday: Unavailable </li>
-    <li>Thursday: Unavailable </li>
-    <li>Friday: 12 PM - 6 PM </li>
-    <li>Saturday: 9 Am - 6 PM </li>
+    <li>Sunday: {{sunday}}</li>
+    <li>Monday: {{monday}} </li>
+    <li>Tuesday: {{tuesday}} </li>
+    <li>Wednesday: {{wednesday}} </li>
+    <li>Thursday: {{thursday}} </li>
+    <li>Friday: {{friday}} </li>
+    <li>Saturday: {{saturday}} </li>
   </ul>
 </div>
 
 <h2> Edit Availability:</h2>
 <div class = appointmentbox>
   <h3>Select a Day:</h3>
-  <select matNativeControl required>
+  <select matNativeControl required [(ngModel)]="date">
     <option value="monday">Monday</option>
     <option value="tuesday">Tuesday</option>
     <option value="wednesday">Wednesday</option>
@@ -32,8 +32,18 @@
   <br>
   <br>
   <h3>Choose Availability:</h3>
-  <p>Available from <input matInput placeholder="Start time" value=""> to <input matInput placeholder="End Time" value=""> </p>
-  <button mat-raised-button color="warn">Confirm</button>
+  <p>Available from <input matInput placeholder="Start time" value="" [(ngModel)]="start"> &nbsp;
+  <select matNativeControl required [(ngModel)]="startAMPM">
+    <option value="AM">AM</option>
+    <option value="PM">PM</option>
+  </select>
+  to <input matInput placeholder="End Time" value=""[(ngModel)]="end">&nbsp;
+  <select matNativeControl required [(ngModel)]="endAMPM">
+    <option value="AM">AM</option>
+    <option value="PM">PM</option>
+  </select> </p>
+  <button mat-raised-button color="warn" (click)="add()">Add Availability</button> &nbsp;
+  <button mat-raised-button color="warn" (click)="remove()">Remove Availability</button>
 </div>
 
 </body>

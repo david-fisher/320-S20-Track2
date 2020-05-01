@@ -14,6 +14,7 @@ Maybe something better than a bunch of <br>s?-->
   <!--Profile picture-->
     <header>Personal Avatar</header>
     <img src = "assets/umasslogo.png" alt = "avatar">
+  <div *ngIf = "this.canEdit">
   <mat-file-upload
     [labelText]="'Upload Picture:'"
     [selectButtonText]="'Choose File'"
@@ -23,6 +24,7 @@ Maybe something better than a bunch of <br>s?-->
     [acceptedTypes]="'.png'"
   >
   </mat-file-upload>
+  </div>
   <br>
 
   <!--Info/Personal Links: currently contains names, pronouns, major, graduate year, GPA, email-->
