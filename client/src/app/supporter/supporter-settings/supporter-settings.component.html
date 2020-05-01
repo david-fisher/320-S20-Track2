@@ -41,69 +41,68 @@
       <br>
       Bio: <br>
       <mat-form-field class="textbox">
-        <textarea matInput placeholder="Write an op tional bio here." [(ngModel)]="bio"></textarea>
+        <textarea matInput placeholder="Write an optional bio here." [(ngModel)]="bio"></textarea>
       </mat-form-field>
   </p>
   </mat-expansion-panel>
 
   <br>
 
-  <mat-expansion-panel>
-    <mat-expansion-panel-header>Appointment Settings</mat-expansion-panel-header>
-    <ul>
-      <li><mat-checkbox>Accept appointments</mat-checkbox></li>
-      <li><mat-checkbox>Accept appointments from undergrads</mat-checkbox></li>
-      <li><mat-checkbox>Accept appointments from postgrads</mat-checkbox></li>
-    </ul>
-    <p>
-      Minimum appointment buffer:
-      <mat-form-field class="input">
-        <input matInput placeholder="Duration" value="">
-      </mat-form-field>
-      <mat-form-field class="input">
-        <mat-select placeholder = "Unit of Time">
-          <mat-option value="minutes">Minutes</mat-option>
-          <mat-option value="hours">Hours</mat-option>
-        </mat-select>
-      </mat-form-field>
-    </p>
-    <p>
-      Max number of people allowed in an appointment:
-      <mat-form-field class="input">
-        <input matInput placeholder="Number of people" value="">
-      </mat-form-field>
-    </p>
-  </mat-expansion-panel>
+<!--  <mat-expansion-panel>-->
+<!--    <mat-expansion-panel-header>Appointment Settings</mat-expansion-panel-header>-->
+<!--    <ul>-->
+<!--      <li><mat-checkbox>Accept appointments</mat-checkbox></li>-->
+<!--      <li><mat-checkbox>Accept appointments from undergrads</mat-checkbox></li>-->
+<!--      <li><mat-checkbox>Accept appointments from postgrads</mat-checkbox></li>-->
+<!--    </ul>-->
+<!--    <p>-->
+<!--      Minimum appointment buffer:-->
+<!--      <mat-form-field class="input">-->
+<!--        <input matInput placeholder="Duration" value="">-->
+<!--      </mat-form-field>-->
+<!--      <mat-form-field class="input">-->
+<!--        <mat-select placeholder = "Unit of Time">-->
+<!--          <mat-option value="minutes">Minutes</mat-option>-->
+<!--          <mat-option value="hours">Hours</mat-option>-->
+<!--        </mat-select>-->
+<!--      </mat-form-field>-->
+<!--    </p>-->
+<!--    <p>-->
+<!--      Max number of people allowed in an appointment:-->
+<!--      <mat-form-field class="input">-->
+<!--        <input matInput placeholder="Number of people" value="">-->
+<!--      </mat-form-field>-->
+<!--    </p>-->
+<!--  </mat-expansion-panel>-->
 
-  <br>
+<!--  <br>-->
 
-  <mat-expansion-panel>
-    <mat-expansion-panel-header>Notification Settings</mat-expansion-panel-header>
-    <ul>
-      <li><mat-checkbox>Receive notifications before an appointment</mat-checkbox></li>
-      How many hours prior?
-      <mat-form-field class="input">
-        <input matInput placeholder="Hours prior" value="">
-      </mat-form-field>
-      <li><mat-checkbox>Receive notifications on appointment cancellation</mat-checkbox></li>
-      <li><mat-checkbox>Receive notifications on feedback received</mat-checkbox></li>
-    </ul>
-  </mat-expansion-panel>
+<!--  <mat-expansion-panel>-->
+<!--    <mat-expansion-panel-header>Notification Settings</mat-expansion-panel-header>-->
+<!--    <ul>-->
+<!--      <li><mat-checkbox>Receive notifications before an appointment</mat-checkbox></li>-->
+<!--      How many hours prior?-->
+<!--      <mat-form-field class="input">-->
+<!--        <input matInput placeholder="Hours prior" value="">-->
+<!--      </mat-form-field>-->
+<!--      <li><mat-checkbox>Receive notifications on appointment cancellation</mat-checkbox></li>-->
+<!--      <li><mat-checkbox>Receive notifications on feedback received</mat-checkbox></li>-->
+<!--    </ul>-->
+<!--  </mat-expansion-panel>-->
 
-  <br>
+<!--  <br>-->
 
   <mat-expansion-panel>
     <mat-expansion-panel-header>Feedback Settings</mat-expansion-panel-header>
     <ul>
-      <li><mat-checkbox>Publicly show feedback</mat-checkbox></li>
-      <li><mat-checkbox>Allow thumbs-up/thumbs-down</mat-checkbox></li>
-      <li><mat-checkbox>Allow five-star ratings</mat-checkbox></li>
-      <li><mat-checkbox>Allow comments</mat-checkbox></li>
-      <li>Add a custom feedback question
-      <mat-form-field class="input">
-        <input matInput placeholder="Question" value="">
-      </mat-form-field>
-        <button mat-raised-button color="primary">Confirm</button></li>
+      <li><mat-checkbox [(ngModel)]="publicFeedback">Publicly show feedback</mat-checkbox></li>
+      <li><mat-checkbox [(ngModel)]="recommend">Allow thumbs-up/thumbs-down</mat-checkbox></li>
+      <li><mat-checkbox [(ngModel)]="stars">Allow five-star ratings</mat-checkbox></li>
+<!--      <li><mat-checkbox>Allow comments</mat-checkbox></li>-->
+      <li>Feedback Question <br>
+        <mat-form-field class="textbox">
+          <textarea matInput placeholder="Write a custom feedback question here." [(ngModel)]="question"></textarea>
+        </mat-form-field>
 <!--      <li>Current Feedback Questions-->
 <!--      <mat-selection-list [(ngModel)]="selectedQuestions">-->
 <!--        <mat-list-option *ngFor="let question of questions_https" [value]="question.name">-->
@@ -116,25 +115,25 @@
 
   <br>
 
-  <mat-expansion-panel>
-    <mat-expansion-panel-header>Tag Settings</mat-expansion-panel-header>
-    <p>
-      Search for a tag to add to your profile:
-      <br>
-      <mat-form-field class="input">
-        <input matInput placeholder="Tag Search" value="">
-      </mat-form-field>
-      <button mat-raised-button color="primary">Confirm</button>
-      <br>
-      Click on a tag below to remove it:
-      <br>
-      <button mat-raised-button color="primary">Technical Interviews</button>
-      <button mat-raised-button color="primary">Angular</button>
-      <button mat-raised-button color="primary">CompSci 311</button>
-    </p>
-  </mat-expansion-panel>
+<!--  <mat-expansion-panel>-->
+<!--    <mat-expansion-panel-header>Tag Settings</mat-expansion-panel-header>-->
+<!--    <p>-->
+<!--      Search for a tag to add to your profile:-->
+<!--      <br>-->
+<!--      <mat-form-field class="input">-->
+<!--        <input matInput placeholder="Tag Search" value="">-->
+<!--      </mat-form-field>-->
+<!--      <button mat-raised-button color="primary">Confirm</button>-->
+<!--      <br>-->
+<!--      Click on a tag below to remove it:-->
+<!--      <br>-->
+<!--      <button mat-raised-button color="primary">Technical Interviews</button>-->
+<!--      <button mat-raised-button color="primary">Angular</button>-->
+<!--      <button mat-raised-button color="primary">CompSci 311</button>-->
+<!--    </p>-->
+<!--  </mat-expansion-panel>-->
 
-  <br>
+<!--  <br>-->
 
   <button (click) = "click()" mat-raised-button color="accent">Apply Settings</button>
   </div>

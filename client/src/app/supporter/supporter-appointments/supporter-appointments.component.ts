@@ -56,25 +56,20 @@ export class SupporterAppointmentsComponent implements OnInit {
   }
 
   feedback(appt_id): SupporterFeedback {
-    const result : SupporterFeedback = {questions: ["q1", "q2"], answers: ["a1", "a2"], rating: appt_id, recommend: true};
+    const result : SupporterFeedback = {question: "What can I do to improve?", answer: "More cowbell.", rating: appt_id, recommend: true};
     console.log(result);
     return result;
   }
 
+
+
   // feedback(appt_id): SupporterFeedback {
   //   //const result = {} as SupporterFeedback;
-  //   const result : SupporterFeedback = {questions: ["q1", "q2"], answers: ["a1", "a2"], rating: 0, recommend: true};
-  //   const qlist  = [];
-  //   const alist = [];
+  //   const result : SupporterFeedback = {question: "What can I do to improve?", answer: "More cowbell.", rating: appt_id, recommend: true};
+  //
   //   this.http.get('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/rate/'+appt_id, {}).subscribe(res => {
   //     console.log(Object.values(res));
-  //     for (const appt of Object.values(res)) {
-  //       for(const qapair of appt[3]) {
-  //         qlist.push(qapair[0]);
-  //         alist.push(qapair[1]);
-  //       }
-  //       const result : SupporterFeedback = {questions: qlist, answers: alist, rating: appt[1], recommend: appt[2]};
-  //     }
+  //     const result : SupporterFeedback = {question: res[5], answer: res[6], rating: res[2], recommend: res[3]};
   //   });
   //
   //   console.log(result);
