@@ -15,7 +15,7 @@ def remove_option(table_name, option_id):
     elif (table_name == 'type_of_supporter'):
         id = 'supp_type_id'
         name = 'supp_type'
-        associated_table = 'suporter_type'
+        associated_table = 'supporter_type'
     else:
         id = 'type_id'
         name = 'appointment_name'
