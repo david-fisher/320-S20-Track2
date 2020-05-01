@@ -16,7 +16,9 @@ def create_report(event, context):
     if not all (x in request_body for x in values):
         return {
             'statusCode': 400,
-            'body': json.dumps('Invalid request body, need to contain all the following values: "reporter_id_", "reported_id_", "report_reason", "report_date", "report_time"')
+            'body': json.dumps('Invalid request body, need to contain all the following values: "reporter_id_", \
+                                "reported_id_", "report_reason", "report_date", "report_time"'),
+            'headers': response_headers
         }
 
     # Extract data from request body
@@ -34,7 +36,8 @@ def create_report(event, context):
     if result['records'] == []:
         return {
             'statusCode': 404,
-            'body': json.dumps('reporter_id_ is not an existing user')
+            'body': json.dumps('reporter_id_ is not an existing user'),
+            'headers': response_headers
         }
     
     query = "SELECT user_id_ FROM user WHERE user_id_ = :reported_id_;"
@@ -44,7 +47,8 @@ def create_report(event, context):
     if result['records'] == []:
         return {
             'statusCode': 404,
-            'body': json.dumps('reported_id_ is not an existing user')
+            'body': json.dumps('reported_id_ is not an existing user'),
+            'headers': response_headers
         }
 
 
@@ -61,7 +65,8 @@ def create_report(event, context):
     if result['numberOfRecordsUpdated'] == 0:
         return {
             'statusCode': 500,
-            'body': json.dumps('Database error creating report')
+            'body': json.dumps('Database error creating report'),
+            'headers': response_headers
         }
 
     # Success
