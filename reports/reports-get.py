@@ -15,9 +15,10 @@ def get_reports(event, context):
     query = "SELECT * FROM reports;"
     result = execute_statement(query)
 
+    # no reports
     if result['records'] == []:
         return{
-            'statusCode': 404,
+            'statusCode': 200,
             'body': json.dumps("No reports found"),
             'headers': response_headers
         }
