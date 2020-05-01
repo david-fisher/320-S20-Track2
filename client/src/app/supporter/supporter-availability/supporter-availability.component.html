@@ -8,12 +8,12 @@
 <div class = appointmentbox>
   <ul>
     <li>Sunday: {{sunday}}</li>
-    <li>Monday: 5 AM - 5 PM </li>
-    <li>Tuesday: Unavailable </li>
-    <li>Wednesday: Unavailable </li>
-    <li>Thursday: Unavailable </li>
-    <li>Friday: 12 PM - 6 PM </li>
-    <li>Saturday: 9 Am - 6 PM </li>
+    <li>Monday: {{monday}} </li>
+    <li>Tuesday: {{tuesday}} </li>
+    <li>Wednesday: {{wednesday}} </li>
+    <li>Thursday: {{thursday}} </li>
+    <li>Friday: {{friday}} </li>
+    <li>Saturday: {{saturday}} </li>
   </ul>
 </div>
 
@@ -32,17 +32,18 @@
   <br>
   <br>
   <h3>Choose Availability:</h3>
-  <p>Available from <input matInput placeholder="Start time" value="" [(ngModel)]="start">
+  <p>Available from <input matInput placeholder="Start time" value="" [(ngModel)]="start"> &nbsp;
   <select matNativeControl required [(ngModel)]="startAMPM">
     <option value="AM">AM</option>
     <option value="PM">PM</option>
   </select>
-  to <input matInput placeholder="End Time" value=""[(ngModel)]="end">
+  to <input matInput placeholder="End Time" value=""[(ngModel)]="end">&nbsp;
   <select matNativeControl required [(ngModel)]="endAMPM">
     <option value="AM">AM</option>
     <option value="PM">PM</option>
   </select> </p>
-  <button mat-raised-button color="warn" (click)="click()">Confirm</button>
+  <button mat-raised-button color="warn" (click)="add()">Add Availability</button> &nbsp;
+  <button mat-raised-button color="warn" (click)="remove()">Remove Availability</button>
 </div>
 
 </body>
