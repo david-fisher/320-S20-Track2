@@ -50,8 +50,24 @@ def getSupporterInfo(id):
     #Parse the result to prep for json.dumps
     response = extract_records(userQuery)
 
+    extraQuery = getAvailabilityInfo(id) #Check supporter's availability
+    if extraQuery != []:
+        for record in extraQuery:
+            response.append(record)
+    
     return response
 
+def getAvailabilityInfo(id):
+
+    #Database query for all users
+    query = "SELECT * FROM `availability_supp` WHERE `user_id_` = :id;"
+    sqlParameters = [{'name': "id", 'value':{'longValue': id}}]
+    userQuery = execute_statement(query, sqlParameters)
+
+    #Parse the result to prep for json.dumps
+    response = extract_records(userQuery)
+    
+    return response
 
 def lambda_handler(event, context):
     statusCode = 200
