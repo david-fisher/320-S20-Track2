@@ -554,38 +554,40 @@ def update_account(event, context):
 
     # Supporter Appointment Stuff
 
-    for appointment in availability_add:
+    if availability_add is not None:
+        for appointment in availability_add:
 
-        start_time = appointment['start_time']
-        end_time = appointment['end_time']
-        appt_date = appointment['appt_date']
+            start_time = appointment['start_time']
+            end_time = appointment['end_time']
+            appt_date = appointment['appt_date']
 
-        query = (f"INSERT INTO availability_supp "
-                 f"VALUES (:0, :1, :2, :3);")
-        params = param_to_sql_param([user_id_, start_time, end_time, appt_date])
-        response = client.execute_statement(resourceArn=rds_config.ARN,
-                                            secretArn=rds_config.SECRET_ARN,
-                                            database=rds_config.DB_NAME,
-                                            sql=query,
-                                            parameters=params)
+            query = (f"INSERT INTO availability_supp "
+                    f"VALUES (:0, :1, :2, :3);")
+            params = param_to_sql_param([user_id_, start_time, end_time, appt_date])
+            response = client.execute_statement(resourceArn=rds_config.ARN,
+                                                secretArn=rds_config.SECRET_ARN,
+                                                database=rds_config.DB_NAME,
+                                                sql=query,
+                                                parameters=params)
 
-    for appointment in availability_delete:
+    if availability_delete is not None:
+        for appointment in availability_delete:
 
-        start_time = appointment['start_time']
-        end_time = appointment['end_time']
-        appt_date = appointment['appt_date']
+            start_time = appointment['start_time']
+            end_time = appointment['end_time']
+            appt_date = appointment['appt_date']
 
-        query = (f"DELETE FROM availability_supp "
-                 f"WHERE user_id_ = :0 "
-                 f"AND start_time = :1 "
-                 f"AND end_time = :2 "
-                 f"AND appt_date = :3;")
-        params = param_to_sql_param([user_id_, start_time, end_time, appt_date])
-        response = client.execute_statement(resourceArn=rds_config.ARN,
-                                            secretArn=rds_config.SECRET_ARN,
-                                            database=rds_config.DB_NAME,
-                                            sql=query,
-                                            parameters=params)
+            query = (f"DELETE FROM availability_supp "
+                    f"WHERE user_id_ = :0 "
+                    f"AND start_time = :1 "
+                    f"AND end_time = :2 "
+                    f"AND appt_date = :3;")
+            params = param_to_sql_param([user_id_, start_time, end_time, appt_date])
+            response = client.execute_statement(resourceArn=rds_config.ARN,
+                                                secretArn=rds_config.SECRET_ARN,
+                                                database=rds_config.DB_NAME,
+                                                sql=query,
+                                                parameters=params)
 
 
     if show_feedback is not None:
