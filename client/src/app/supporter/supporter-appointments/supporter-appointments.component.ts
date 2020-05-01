@@ -16,8 +16,12 @@ export class SupporterAppointmentsComponent implements OnInit {
 
   tempAppointments;
   tempFeedback;
+  overwrittenAvail;
+  body;
 
   constructor(private http: HttpClient, private cookieService: CookieService) {
+    this.body = {};
+    this.overwrittenAvail = {};
     this.tempAppointments = this.appointments;
     this.tempFeedback = this.feedback(2);
   }
@@ -86,8 +90,23 @@ export class SupporterAppointmentsComponent implements OnInit {
             console.log(Object.values(res));
             console.log(appointment.appt_id);
           });
+
           this.tempAppointments.splice(parseInt(x), 1);
           console.log(x);
+
+          const endDate = appointment.date;
+          endDate.setMinutes(endDate.getMinutes() + 20);
+          this.overwrittenAvail.start_time = appointment.date.format('HHMM');
+          this.overwrittenAvail.end_time = (endDate).format('HHMM');
+          this.overwrittenAvail.appt_date = appointment.date.format('DDMMYY');
+          this.body.availability_delete = [];
+          this.body.availability_delete.push(this.overwrittenAvail);
+
+          this.http.patch('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/account/' + this.cookieService.get('user_id'), this.body).subscribe(res => {
+            console.log(Object.values(res));
+            console.log(appointment.appt_id);
+          });
+
         }
       }
     }
