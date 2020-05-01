@@ -8,6 +8,8 @@ def get_options(table_name):
 
     # query the database for all current tags
     sql = f"SELECT * FROM {table_name};"
+    if table_name == 'appointment_type':
+        sql = f"SELECT * FROM {table_name} WHERE active_type = true;"
     query_result = execute_statement(sql)
 
     # parse the result
