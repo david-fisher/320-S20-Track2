@@ -43,25 +43,30 @@ export class SupporterAvailabilityComponent implements OnInit {
     this.saturday = sundayList.toString();
 
     this.body = {};
-    this.body.user_id = account.user_id = "30";
+    this.body.user_id = account.user_id;
   }
   add(): void {
     //add new avail
-    this.body.availability_add = {start_time: this.start24 * 60, end_time: this.end24 * 60, appt_date: this.date};
-    console.log(this.body);
-    this.http.patch('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/account/' + this.body.user_id, this.body).subscribe(res => {
-      console.log(res);
-    });
-    this.body = {};
+    if(this.timeValid()) {
+      this.body.availability_add = [{start_time: this.start24 * 60, end_time: this.end24 * 60, appt_date: this.date}];
+      console.log(this.body);
+      this.http.patch('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/account/' + this.body.user_id, this.body).subscribe(res => {
+        console.log(res);
+      });
+      this.body = {user_id: account.user_id};
+    }
   }
   remove(): void {
     //remove avail
-    this.body.availability_delete = {start_time: this.start24 * 60, end_time: this.end24 * 60, appt_date: this.date};
-    console.log(this.body);
-    this.http.patch('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/account/' + this.body.user_id, this.body).subscribe(res => {
-      console.log(res);
-    })
-    this.body = {};
+    if(this.timeValid()) {
+      console.log(this.start24);
+      this.body.availability_delete = [{start_time: this.start24 * 60, end_time: this.end24 * 60, appt_date: this.date}];
+      console.log(this.body);
+      this.http.patch('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/account/' + this.body.user_id, this.body).subscribe(res => {
+        console.log(res);
+      });
+      this.body = {user_id: account.user_id};
+    }
   }
   private timeValid(): boolean {
     if (this.date !== undefined && this.start !== undefined && this.end !== undefined && this.startAMPM !== undefined && this.endAMPM !== undefined) {
