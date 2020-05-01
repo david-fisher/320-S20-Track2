@@ -5,7 +5,7 @@ import re
 from db_wrapper import execute_statement, extract_records
 
 #Created by Nishant Acharya
-#Last Updated 4/22/2020
+#Last Updated 4/27/2020
 
 def lambda_handler(event, context):
     
