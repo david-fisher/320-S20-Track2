@@ -47,6 +47,7 @@ export class CreateaccountComponent implements OnInit {
       'preferredName': [null, Validators.required],
       'email': [null, [Validators.required, Validators.pattern(emailregex)]],
       'password': [null, [Validators.required, this.checkPassword]],
+      'pronouns': [null, Validators.required],
       'phoneNum': [null],
       'currentEmployer': [null],
       'userTitle': [null],
@@ -71,6 +72,11 @@ export class CreateaccountComponent implements OnInit {
       'preferredName': [null, Validators.required],
       'email': [null, [Validators.required, Validators.pattern(emailregex)]],
       'password': [null, [Validators.required, this.checkPassword]],
+      'pronouns': [null, Validators.required],
+      'college': [null, Validators.required],
+      'program': [null, Validators.required],
+      'job_search': [null],
+      'work_auth': [null],
       'phoneNum': [null],
       'gpa': [null],
       'gradYear': [null, Validators.required],
@@ -182,7 +188,7 @@ export class CreateaccountComponent implements OnInit {
     let email_split = this.post['email'].split('@');
     let email = email_split[0] + '@' + email_split[1].toLowerCase();
     let data = {};
-    if (this.userType) {
+    if (this.userType) { // student
       data = {
         'kind': this.typeOfUser,
         'first_name': this.post['first_name'],
@@ -198,11 +204,17 @@ export class CreateaccountComponent implements OnInit {
         'profile_picture': "",
         'request_supporter': false,
         'active_account': true,
+        'description': "",
+        'pronouns': this.post['pronouns'],
+        'college': this.post['college'],
+        'program': this.post['program'],
+        'job_search': this.post['job_search'] == null ? false : this.post['job_search'] == 'YES',
+        'work_auth': this.post['work_auth'] == null ? '' : this.post['work_auth'],
         'resume_ref': '',
         'transcript_ref': '',
-        'is_undergrad': this.post['is_undergrad'] === 'Yes'
+        'is_undergrad': this.post['is_undergrad'] === 'YES'
       };
-    } else {
+    } else { // supporter
       data = {
         'kind': this.typeOfUser,
         'first_name': this.post['first_name'],
@@ -217,9 +229,11 @@ export class CreateaccountComponent implements OnInit {
         'profile_picture': "",
         'request_supporter': true,
         'active_account': true,
+        'description': "",
+        'pronouns': this.post['pronouns'],
         'location': '',
-        'calendar_ref': 'gmail',
-        'calendar_sync': true,
+        'calendar_ref': '',
+        'calendar_sync': 'gmail',
         'calendar_sync_freq': 3
       };
     }
