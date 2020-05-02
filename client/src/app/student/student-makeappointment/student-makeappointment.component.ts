@@ -16,7 +16,7 @@ import { finalize, takeUntil } from 'rxjs/operators';
 import { addDays, addMinutes, endOfWeek } from 'date-fns';
 import {HttpClient} from '@angular/common/http';
 import {InterestTags} from '../../admin/admin-tags/interest-tag';
-import {CookieService} from "ngx-cookie-service";
+import {CookieService} from 'ngx-cookie-service';
 
 function floorToNearest(amount: number, precision: number) {
   return Math.floor(amount / precision) * precision;
@@ -90,18 +90,18 @@ export class StudentMakeappointmentComponent {
   get supporter_https() {
     const result = [];
     this.http.get('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/supporters', {params: this.selectedTags}).subscribe(res => {
-      console.log(Object.values(res));
+      //console.log(Object.values(res));
       for (const tag of Object.values(res)) {
         const newTag = {name: tag[1]};
         result.push(newTag);
       }
     });
-    console.log(result);
+    //console.log(result);
     return result;
   }
 
   get supporters(): Supports[] {
-    console.log(this.selectedTags);
+    //console.log(this.selectedTags);
     const list: Array<any> = [];
     if (this.selectedTags == null) {
       return SUPPORTERS;
@@ -161,21 +161,8 @@ export class StudentMakeappointmentComponent {
         takeUntil(fromEvent(document, 'mouseup'))
       )
       .subscribe((mouseMoveEvent: MouseEvent) => {
-        const minutesDiff = ceilToNearest(
-          mouseMoveEvent.clientY - segmentPosition.top,
-          30
-        );
-
-        const daysDiff =
-          floorToNearest(
-            mouseMoveEvent.clientX - segmentPosition.left,
-            segmentPosition.width
-          ) / segmentPosition.width;
-
-        const newEnd = addDays(addMinutes(segment.date, minutesDiff), daysDiff);
-        if (newEnd > segment.date && newEnd < endOfView) {
-          dragToSelectEvent.end = newEnd;
-        }
+        const newEnd = addDays(addMinutes(segment.date, 45), 0);
+        dragToSelectEvent.end = newEnd;
         this.refresh();
       });
   }
@@ -201,8 +188,8 @@ export class StudentMakeappointmentComponent {
   }
 
   make_appointment(appointment) {
-    console.log('Make appointment debug');
-    console.log(appointment);
+    //console.log('Make appointment debug');
+    //console.log(appointment);
     if (confirm('Is this the appointment you wish to make?')) {
       this.http.post('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/appointments',
         appointment).subscribe();

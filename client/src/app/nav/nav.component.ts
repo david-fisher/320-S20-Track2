@@ -16,12 +16,12 @@ export class NavComponent implements OnInit {
   constructor(private cookieService: CookieService, private auth: AuthService) {}
 
   isStudent() {
-    console.log(this.cookieService.get('user_type'));
+    //console.log(this.cookieService.get('user_type'));
     return this.cookieService.get('user_type') === 'student';
   }
 
   isSupporter() {
-    console.log(this.cookieService.get('user_type'));
+    //console.log(this.cookieService.get('user_type'));
     return this.cookieService.get('user_type') === 'supporter';
   }
 

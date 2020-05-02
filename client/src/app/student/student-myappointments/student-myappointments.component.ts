@@ -22,10 +22,12 @@ export class StudentMyappointmentsComponent implements OnInit {
   get getAppointments(): Array<StudentAppointment> {
     const result = [];
     const resarray = [];
+    // tslint:disable-next-line:max-line-length
     this.http.get('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/appointments/' + this.cookieService.get('user_id'), {}).subscribe(res => {
       console.log(Object.values(res));
       for (const appt of Object.values(res)) {
-        const newAppt : StudentAppointment = {date: new Date(appt[2].split("-")[0], appt[2].split("-")[1], appt[2].split("-")[2], appt[3].split(":")[0], appt[3].split(":")[1], appt[3].split(":")[2], 0), type: appt[9], supporter_name: appt[7] + " " + appt[8], location: appt[10], duration: appt[4], appt_id: appt[0], cancelled: appt[6]};
+        // tslint:disable-next-line:max-line-length
+        const newAppt: StudentAppointment = {date: new Date(appt[2].split("-")[0], appt[2].split("-")[1], appt[2].split("-")[2], appt[3].split(":")[0], appt[3].split(":")[1], appt[3].split(":")[2], 0), type: appt[9], supporter_name: appt[7] + " " + appt[8], location: appt[10], duration: appt[4], appt_id: appt[0], cancelled: appt[6]};
         result.push(newAppt);
         resarray.push(appt);
       }
