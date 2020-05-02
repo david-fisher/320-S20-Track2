@@ -132,7 +132,8 @@ def update_account(event, context):
 
     # account update info
     email = password_ = first_name = last_name = preferred_name = phone_number \
-        = profile_picture = request_supporter = active_account = description = None
+        = profile_picture = request_supporter = active_account = description \
+        = pronouns = None
 
     if 'email' in event['body']:
         email = json.loads(event['body'])['email']
@@ -154,6 +155,8 @@ def update_account(event, context):
         active_account = json.loads(event['body'])['active_account']
     if 'description' in event['body']:
         description = json.loads(event['body'])['description']
+    if 'pronouns' in event['body']:
+        pronouns = json.loads(event['body'])['pronouns']
 
     # student update info
     GPA = grad_year = resume_ref = transcript_ref = github_link = linkedin_link \
@@ -353,6 +356,17 @@ def update_account(event, context):
                  f"SET description = :0 "
                  f"WHERE user_id_ = :1;")
         params = param_to_sql_param([description, user_id_])
+        response = client.execute_statement(resourceArn=rds_config.ARN,
+                                            secretArn=rds_config.SECRET_ARN,
+                                            database=rds_config.DB_NAME,
+                                            sql=query,
+                                            parameters=params)
+
+    if pronouns is not None:
+        query = (f"UPDATE user "
+                 f"SET pronouns = :0 "
+                 f"WHERE user_id_ = :1;")
+        params = param_to_sql_param([pronouns, user_id_])
         response = client.execute_statement(resourceArn=rds_config.ARN,
                                             secretArn=rds_config.SECRET_ARN,
                                             database=rds_config.DB_NAME,
