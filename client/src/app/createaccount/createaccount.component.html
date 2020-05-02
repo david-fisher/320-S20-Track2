@@ -66,6 +66,42 @@
             </mat-form-field>
             <br>
             <mat-form-field class="form-element">
+              <mat-label>Pronouns *</mat-label>
+              <mat-select formControlName="pronouns">
+                <mat-option value="He/Him">He/Him</mat-option>
+                <mat-option value="She/Her">She/Her</mat-option>
+                <mat-option value="They/Them">They/Them</mat-option>
+                <mat-option value="Other">Other</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <br>
+            <mat-form-field class="form-element">
+              <mat-label>College *</mat-label>
+              <mat-select formControlName="college">
+                <mat-option value="College of Education">College of Education</mat-option>
+                <mat-option value="College of Engineering">College of Engineering</mat-option>
+                <mat-option value="College of Humanities and Fine Arts">College of Humanities and Fine Arts</mat-option>
+                <mat-option value="College of Natural Sciences">College of Natural Sciences</mat-option>
+                <mat-option value="College of Nursing">College of Nursing</mat-option>
+                <mat-option value="College of Social and Behavioral Sciences">College of Social and Behavioral Sciences</mat-option>
+                <mat-option value="Isenberg School of Management">Isenberg School of Management</mat-option>
+                <mat-option value="College of Information and Computer Sciences">College of Information and Computer Sciences</mat-option>
+                <mat-option value="School of Public Health and Health Sciences">School of Public Health and Health Sciences</mat-option>
+                <mat-option value="Stockbridge School of Agriculture">Stockbridge School of Agriculture</mat-option>
+                <mat-option value="University Without Walls">University Without Walls</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <br>
+            <mat-form-field class="form-element">
+              <mat-label>Program *</mat-label>
+              <mat-select formControlName="program">
+                <mat-option value="Bachelor's">Bachelor's</mat-option>
+                <mat-option value="Master's">Master's</mat-option>
+                <mat-option value="PhD">PhD</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <br>
+            <mat-form-field class="form-element">
               <input matInput placeholder="Phone Number" formControlName="phoneNum">
             </mat-form-field>
             <br>
@@ -73,8 +109,18 @@
               <input matInput placeholder="GPA" formControlName="gpa">
             </mat-form-field>
             <br>
-
-
+            <mat-form-field class="form-element">
+              <mat-label>Are you searching for a job?</mat-label>
+              <mat-select formControlName="job_search">
+                <mat-option value="YES">Yes</mat-option>
+                <mat-option value="NO">No</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <br>
+            <mat-form-field class="form-element">
+              <input matInput placeholder="Work Authorization" formControlName="work_auth">
+            </mat-form-field>
+            <br>
             <mat-form-field class="form-element">
               <input matInput placeholder="GitHub" formControlName="github">
             </mat-form-field>
@@ -176,6 +222,16 @@
             </mat-form-field>
             <br>
             <br>
+            <mat-form-field class="form-element">
+              <mat-label>Pronouns *</mat-label>
+              <mat-select formControlName="pronouns">
+                <mat-option value="He/Him">He/Him</mat-option>
+                <mat-option value="She/Her">She/Her</mat-option>
+                <mat-option value="They/Them">They/Them</mat-option>
+                <mat-option value="Other">Other</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <br>
             <div class="form-group" formGroupName="supporterTypes">
               <div class="label">Select at least one supporter type<span class="highlight">*</span></div>
               <div class="custom-control custom-checkbox">
@@ -206,6 +262,7 @@
             <br>
             <mat-form-field class="form-element">
               <input matInput placeholder="Title" formControlName="userTitle">
+              <mat-hint>ex. Mr</mat-hint>
             </mat-form-field>
             <br>
             <mat-form-field class="form-element">
