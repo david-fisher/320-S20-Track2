@@ -103,7 +103,7 @@ export class StudentMakeappointmentComponent {
   get supporters(): Supports[] {
     console.log(this.selectedTags);
     const list: Array<any> = [];
-    if (this.selectedTags == null) {
+    if (this.selectedTags === undefined) {
       return SUPPORTERS;
     }
 
