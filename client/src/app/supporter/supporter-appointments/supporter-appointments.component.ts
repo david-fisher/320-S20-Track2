@@ -24,6 +24,7 @@ export class SupporterAppointmentsComponent implements OnInit {
     this.overwrittenAvail = {};
     this.tempAppointments = this.appointments;
     this.tempFeedback = this.feedback(2);
+    console.log(this.tempFeedback);
   }
 
   get date(): object {
@@ -52,6 +53,8 @@ export class SupporterAppointmentsComponent implements OnInit {
         }
       }
     });
+    console.log(result);
+    //console.log(result[0]);
     return result;
   }
 

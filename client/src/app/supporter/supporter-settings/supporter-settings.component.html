@@ -11,37 +11,47 @@
     <p>
       Title: <br>
       <mat-form-field class="input">
-        <input matInput placeholder="Job Title" value="" [(ngModel)]="job_title">
+        <input matInput placeholder= {{tempSettings.job_title}} value="" [(ngModel)]="job_title">
       </mat-form-field>
       <br>
       First Name: <br>
       <mat-form-field class="input">
-        <input matInput placeholder="First Name" value="" [(ngModel)]="first_name">
+        <input matInput placeholder={{tempSettings.first_name}} value="" [(ngModel)]="first_name">
       </mat-form-field>
       <br>
       Last Name: <br>
       <mat-form-field class="input">
-        <input matInput placeholder="Last Name" value="" [(ngModel)]="last_name">
+        <input matInput placeholder={{tempSettings.last_name}} value="" [(ngModel)]="last_name">
       </mat-form-field>
       <br>
       Preferred Name: <br>
       <mat-form-field class="input">
-        <input matInput placeholder="Preferred Name" value="" [(ngModel)]="pref_name">
+        <input matInput placeholder={{tempSettings.pref_name}} value="" [(ngModel)]="pref_name">
       </mat-form-field>
       <br>
       Phone Number: <br>
       <mat-form-field class="input">
-        <input matInput placeholder="Phone Number" value="" [(ngModel)]="phone_number">
+        <input matInput placeholder={{tempSettings.phone_number}} value="" [(ngModel)]="phone_number">
       </mat-form-field>
       <br>
       Current Employer: <br>
       <mat-form-field class="input">
-        <input matInput placeholder="Current Employer" value="" [(ngModel)]="employer">
+        <input matInput placeholder={{tempSettings.employer}} value="" [(ngModel)]="employer">
+      </mat-form-field>
+      <br>
+      Meeting Location: <br>
+      <mat-form-field class="input">
+        <input matInput placeholder={{tempSettings.location}} value="" [(ngModel)]="location">
+      </mat-form-field>
+      <br>
+      Pronouns: <br>
+      <mat-form-field class="input">
+        <input matInput placeholder={{tempSettings.pronouns}} value="" [(ngModel)]="pronouns">
       </mat-form-field>
       <br>
       Bio: <br>
       <mat-form-field class="textbox">
-        <textarea matInput placeholder="Write an optional bio here." [(ngModel)]="bio"></textarea>
+        <textarea matInput placeholder={{tempSettings.bio}} [(ngModel)]="bio"></textarea>
       </mat-form-field>
   </p>
   </mat-expansion-panel>
@@ -95,13 +105,13 @@
   <mat-expansion-panel>
     <mat-expansion-panel-header>Feedback Settings</mat-expansion-panel-header>
     <ul>
-      <li><mat-checkbox [(ngModel)]="publicFeedback">Publicly show feedback</mat-checkbox></li>
-      <li><mat-checkbox [(ngModel)]="recommend">Allow thumbs-up/thumbs-down</mat-checkbox></li>
-      <li><mat-checkbox [(ngModel)]="stars">Allow five-star ratings</mat-checkbox></li>
+      <li><mat-checkbox checked = {{tempSettings.publicFeedback}} [(ngModel)]="publicFeedback">Publicly show feedback</mat-checkbox></li>
+      <li><mat-checkbox checked = {{tempSettings.recommend}} [(ngModel)]="recommend">Allow thumbs-up/thumbs-down</mat-checkbox></li>
+      <li><mat-checkbox checked = {{tempSettings.stars}} [(ngModel)]="stars">Allow five-star ratings</mat-checkbox></li>
 <!--      <li><mat-checkbox>Allow comments</mat-checkbox></li>-->
       <li>Feedback Question <br>
         <mat-form-field class="textbox">
-          <textarea matInput placeholder="Write a custom feedback question here." [(ngModel)]="question"></textarea>
+          <textarea matInput placeholder={{tempSettings.question}} [(ngModel)]="question"></textarea>
         </mat-form-field>
 <!--      <li>Current Feedback Questions-->
 <!--      <mat-selection-list [(ngModel)]="selectedQuestions">-->
