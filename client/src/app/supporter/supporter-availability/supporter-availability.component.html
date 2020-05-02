@@ -17,7 +17,9 @@
 <h2> Edit Availability:</h2>
 <div class = appointmentbox>
   <h3>Choose Availability:</h3>
-  <p>Choose date <input matInput placeholder="YYYY-MM-DD" value="" [(ngModel)]="date"> &nbsp;
+  <p>Date: <input matInput placeholder="MM" value="" [(ngModel)]="month">
+    /  <input matInput placeholder="DD" value="" [(ngModel)]="date">
+    /  <input matInput placeholder="YYYY" value="" [(ngModel)]="year">
   </p>
   <p>Available from <input matInput placeholder="Start time (12:30)" value="" [(ngModel)]="start"> &nbsp;
   <select matNativeControl required [(ngModel)]="startAMPM">
