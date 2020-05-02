@@ -13,16 +13,16 @@ def getAnalytics(event, context):
     response_headers["Access-Control-Allow-Methods"] = "OPTIONS,POST,GET,PUT,DELETE"
 
     # query db for the types of appts, their frequencies and the appt names
-    query = "SELECT type_id, COUNT(type_id), AT.appointment_name \
-            FROM appointments A NATURAL JOIN appointment_type AT \
-            WHERE A.type_id = AT.type_id GROUP BY type_id;"
+    query = "SELECT AT.type_id, COUNT(A.type_id), AT.appointment_name \
+            FROM appointments AS A RIGHT JOIN appointment_type AS AT \
+            ON A.type_id = AT.type_id GROUP BY AT.type_id;"
     appts_result = execute_statement(query)
 
     # query db for the tags and their frequencies and the tag names
-    query = "SELECT ST.tag_id, COUNT(ST.tag_id), T.tag_name \
-             FROM supporter_tags ST NATURAL JOIN tags T \
-             WHERE ST.tag_id = T.tag_id \
-             GROUP BY ST.tag_id;"
+    query = "SELECT T.tag_id, COUNT(ST.tag_id), T.tag_name \
+             FROM supporter_tags AS ST RIGHT JOIN tags T \
+             ON ST.tag_id = T.tag_id \
+             GROUP BY T.tag_id;"
     tags_result = execute_statement(query)
 
     appts_csv = "No appointment data"
