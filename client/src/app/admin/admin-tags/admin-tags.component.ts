@@ -169,7 +169,7 @@ export class AdminTagsComponent implements OnInit {
           if (type[1] === deleteName) {
             deleteId = type[0];
             // tslint:disable-next-line:max-line-length
-            const url = 'https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/options?resource=appointment_type/' + deleteId.toString();
+            const url = 'https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/options/' + deleteId.toString() + '?resource=appointment_type';
             console.log(url);
             this.http.delete(url).subscribe();
           }
@@ -177,6 +177,29 @@ export class AdminTagsComponent implements OnInit {
       }
       setTimeout(() => this.pageAppointmentTypes =
         this.content_https('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/options?resource=appointment_type'), 1700);
+    });
+  }
+
+  delete_supporter_type() {
+    let deleteId = 0;
+    if (this.selectedTags.length === 0) {
+      this.openAlert();
+      return;
+    }
+    this.http.get('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/options?resource=type_of_supporter', {}).subscribe(res => {
+      for (const type of Object.values(res)) {
+        for (const deleteName of this.selectedTags) {
+          if (type[1] === deleteName) {
+            deleteId = type[0];
+            // tslint:disable-next-line:max-line-length
+            const url = 'https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/options/' + deleteId.toString() + '?resource=type_of_supporter';
+            console.log(url);
+            this.http.delete(url).subscribe();
+          }
+        }
+      }
+      setTimeout(() => this.pageSupporterTypes =
+        this.content_https('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/options?resource=type_of_supporter'), 1700);
     });
   }
 

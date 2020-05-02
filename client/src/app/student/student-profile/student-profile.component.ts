@@ -3,6 +3,10 @@ import { HttpClient, HttpResponse } from '@angular/common/http';
 import { MatGridListModule} from '@angular/material/grid-list';
 import { StudentProfileService } from './student-profile.service';
 import { StudentInfo } from './student-info';
+import { ActivatedRoute } from '@angular/router';
+import {CookieService} from 'ngx-cookie-service';
+import {AuthService} from '../../auth/auth.service';
+
 
 @Component({
   selector: 'app-profile',
@@ -19,6 +23,9 @@ export class StudentProfileComponent implements OnInit {
   public informationFlag = true;
   public descriptionFlag = true;
   public linksFilesFlag = true;
+  public profileID = '';
+  public userID = '';
+  public canEdit = false;
 
   // hard coded things need to be updated by the lambdas
   public studentInfo: StudentInfo = {
@@ -35,12 +42,20 @@ export class StudentProfileComponent implements OnInit {
     personal_description: 'I am a Computer Science student',
     };
 
+  constructor(private activatedRoute: ActivatedRoute, private studentProfileService: StudentProfileService,
+              private cookieService: CookieService) {
+    this.profileID = this.activatedRoute.snapshot.params.appt_id;
+    this.userID = this.cookieService.get('user_id');
+    if (this.profileID.match(this.userID)) {
+      this.canEdit = true;
+    }
+  }
 
-  constructor(private studentProfileService: StudentProfileService) { }
+
 
   // importing student data
   showStudentProfile() {
-    this.studentProfileService.getStudentProfile()
+    this.studentProfileService.getStudentProfile(this.profileID)
       .subscribe(data => {
         console.log(Object.values(data));
         this.studentInfo.first_name = Object.values(data)[0][3];

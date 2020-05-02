@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { StarRatingModule } from 'angular-star-rating';
 import { MatSliderModule } from '@angular/material/slider';
-import {ClickMeComponent} from './app.click-me.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { HttpClientModule} from '@angular/common/http';
 
@@ -60,6 +59,9 @@ import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatRadioModule } from "@angular/material/radio";
 import { MatDialogModule } from "@angular/material/dialog";
+import {CanStudentActivateRouteGuard} from "./can-student-activate-route.guard";
+import {CanSupporterActivateRouteGuard} from "./can-supporter-activate-route.guard";
+import {SupporterProfileComponent} from "./supporter/supporter-profile/supporter-profile.component";
 
 
 
@@ -72,7 +74,6 @@ import { MatDialogModule } from "@angular/material/dialog";
     FaqComponent,
     LoginComponent,
     StudentFindsupportersComponent,
-    ClickMeComponent,
     StudentProfileComponent,
     AdminApplicationsComponent,
     AdminDisciplineComponent,
@@ -94,7 +95,8 @@ import { MatDialogModule } from "@angular/material/dialog";
     IncorrectPasswordDialog,
     IncorrectEmailDialog,
     ConfirmationDialogueComponent,
-    AlertDialogueComponent
+    AlertDialogueComponent,
+    SupporterProfileComponent
   ],
   imports: [
     BrowserModule,
@@ -133,7 +135,7 @@ import { MatDialogModule } from "@angular/material/dialog";
     MatRadioModule,
     MatDialogModule,
   ],
-  providers: [CookieService, AuthService, CanActivateRouteGuard],
+  providers: [CookieService, AuthService, CanActivateRouteGuard, CanStudentActivateRouteGuard, CanSupporterActivateRouteGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

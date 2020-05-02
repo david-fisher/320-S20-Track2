@@ -1,0 +1,119 @@
+<!-- TO IMPLEMENT:
+Character limit on description（done）
+Clickable links
+Dynamic display for certain attributes
+Edit/update profile picture
+Uploading files
+Cancel button
+Maybe something better than a bunch of <br>s?-->
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="UTF-8">
+
+<div *ngIf = "this.canEdit">
+  <h1>My Profile</h1>
+</div>
+
+<div *ngIf = "!this.canEdit">
+  <h1>{{supporterInfo.first_name}}'s Profile</h1>
+</div>
+
+<body>
+<!--Profile picture-->
+<header>Personal Avatar</header>
+<img src = "assets/umasslogo.png" alt = "avatar">
+<div *ngIf = "this.canEdit">
+  <mat-file-upload
+    [labelText]="'Upload Picture:'"
+    [selectButtonText]="'Choose File'"
+    [allowMultipleFiles]="false"
+    [showUploadButton]="true"
+    [customSvgIcon]="'close_custom'"
+    [acceptedTypes]="'.png'"
+  >
+  </mat-file-upload>
+</div>
+<br>
+
+<!--Info/Personal Links: currently contains names, pronouns, major, graduate year, GPA, email-->
+<mat-expansion-panel>
+  <!--View mode-->
+  <mat-expansion-panel-header>Personal Info</mat-expansion-panel-header>
+  <ul *ngIf = "informationFlag">
+    <li>Name: {{supporterInfo.first_name}} {{supporterInfo.last_name}}<br>
+      <mat-card-subtitle>Prefers {{supporterInfo.preferred_name}}</mat-card-subtitle></li><br>
+    <li>Current Employer: {{supporterInfo.current_employer}}</li>
+    <li>Title: {{supporterInfo.title}}</li>
+    <li>Location: {{supporterInfo.location}}</li>
+    <div *ngIf = "this.canEdit">
+      <mat-card-actions>
+        <button mat-raised-button (click) = "runInformation()" color="primary">EDIT</button>
+      </mat-card-actions>
+    </div>
+  </ul>
+  <!--Edit mode-->
+  <ul *ngIf = "!informationFlag">
+    <li>Preferred Name:
+      <mat-form-field class="input" appearance="fill">
+        <input matInput id = "preferred_name" [(ngModel)]="supporterInfo.preferred_name" maxlength="15"/>
+      </mat-form-field>
+    </li>
+    <li>Last Name:
+      <mat-form-field class="input" appearance="fill">
+        <input type = "text"matInput id = "last_name" [(ngModel)]="supporterInfo.last_name" maxlength="15"/>
+      </mat-form-field>
+    </li>
+    <li>Pronouns:
+      <mat-form-field class="input" appearance="fill">
+        <input matInput id = "pronouns" [(ngModel)]="supporterInfo.pronouns" maxlength="15"/>
+      </mat-form-field>
+    </li>
+    <li>Current Employer:
+      <mat-form-field class="input" appearance="fill">
+        <input matInput id = "employer" [(ngModel)]="supporterInfo.current_employer" maxlength="15"/>
+      </mat-form-field>
+    </li>
+    <li>Title:
+      <mat-form-field class="input" appearance="fill">
+        <input matInput id = "title" [(ngModel)]="supporterInfo.title" maxlength="15"/>
+      </mat-form-field>
+    </li>
+    <li>Location:
+      <mat-form-field class="input" appearance="fill">
+        <input matInput id = "location" [(ngModel)]="supporterInfo.location" maxlength="15"/>
+      </mat-form-field>
+    </li>
+    <mat-card-actions>
+      <button mat-raised-button (click) = "submitInformation()" color="primary">SUBMIT</button>
+    </mat-card-actions>
+  </ul>
+</mat-expansion-panel><br>
+
+<!--Personal Description-->
+<mat-expansion-panel>
+  <mat-expansion-panel-header>Personal Description</mat-expansion-panel-header>
+  <!--View mode-->
+  <ul *ngIf = "descriptionFlag">
+    <li>{{supporterInfo.personal_description}}</li><br> <!--Character Limit Needed-->
+    <div *ngIf = "this.canEdit">
+      <mat-card-actions>
+        <button mat-raised-button (click) = "runDescription()" color="primary">EDIT</button>
+      </mat-card-actions>
+    </div>
+  </ul>
+  <!--Edit mode-->
+  <ul *ngIf = "!descriptionFlag">
+    Enter a brief description about yourself and your goals
+    <br>
+    <mat-form-field class="input" appearance="fill">
+      <input matInput id = "personal_description "[(ngModel)]="supporterInfo.personal_description"  maxlength="300">
+    </mat-form-field><br>
+    <mat-card-actions>
+      <button mat-raised-button (click) = "submitDescription()" color="primary">SUBMIT</button>
+    </mat-card-actions>
+  </ul>
+</mat-expansion-panel>
+<br>
+
+<br>
+</body>
