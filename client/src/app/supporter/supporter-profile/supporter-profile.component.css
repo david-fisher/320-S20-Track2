@@ -1,0 +1,42 @@
+body{
+  background-color: white;
+  width: 800px;
+  margin-left: 30px;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+img {
+  border-radius: 100%;
+}
+
+.avatar {
+  background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
+  background-size: cover;
+}
+
+.mat-expansion-panel-header {
+  background-color: lightgrey;
+}
+
+.submit{
+  font-size: 24px;
+}
+
+ul{
+  list-style-type: none;
+}
+
+.mat-expansion-panel-header {
+  background-color: lightgrey;
+}
+
+.textbox {
+  min-width: 400px;
+  max-width: 500px;
+}
+
+.input {
+  min-width: 50px;
+  max-width: 250px;
+}

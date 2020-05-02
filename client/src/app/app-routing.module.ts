@@ -24,6 +24,7 @@ import { AdminLandingComponent } from './admin/admin-landing/admin-landing.compo
 import {StudentMyappointmentsComponent} from './student/student-myappointments/student-myappointments.component';
 import {StudentMakeappointmentComponent} from './student/student-makeappointment/student-makeappointment.component';
 import {CreateaccountComponent} from './createaccount/createaccount.component';
+import {SupporterProfileComponent} from './supporter/supporter-profile/supporter-profile.component';
 
 const appRoutes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -33,6 +34,7 @@ const appRoutes: Routes = [
   { path: 'createaccount/:type', component: CreateaccountComponent},
   { path: 'student-findsupporters', component: StudentFindsupportersComponent, canActivate: [ CanStudentActivateRouteGuard]},
   { path: 'student-profile/:appt_id', component: StudentProfileComponent, canActivate: [ CanActivateRouteGuard] },
+  { path: 'supporter-profile/:appt_id', component: SupporterProfileComponent, canActivate: [ CanActivateRouteGuard] },
   { path: 'student-myappointments', component: StudentMyappointmentsComponent, canActivate: [ CanStudentActivateRouteGuard] },
   { path: 'student-ratesupporter/:name/:appt_id', component: StudentRatesupporterComponent, canActivate: [ CanStudentActivateRouteGuard] },
   { path: 'student-makeappointment', component: StudentMakeappointmentComponent, canActivate: [ CanStudentActivateRouteGuard] },
