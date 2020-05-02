@@ -9,6 +9,7 @@
   <mat-card [class.mat-elevation-z5]="true" class="appointment-card">
     <mat-card-content>
       <h4> {{date.str}}</h4>
+      <button mat-raised-button color="warn" (click)="remove(date)">Delete</button> &nbsp;
     </mat-card-content>
   </mat-card>
 </div>
@@ -29,7 +30,6 @@
     <option value="PM">PM</option>
   </select> </p>
   <button mat-raised-button color="warn" (click)="add()">Add Availability</button> &nbsp;
-  <button mat-raised-button color="warn" (click)="remove()">Remove Availability</button>
 </div>
 
 </body>

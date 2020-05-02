@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {account} from '../../login/account';
 import {HttpClient} from '@angular/common/http';
 import {SupporterAppointment} from '../supporter-appointments/appointments';
+import {CookieService} from "ngx-cookie-service";
 @Component({
   selector: 'app-supporter-availability',
   templateUrl: './supporter-availability.component.html',
@@ -11,7 +11,6 @@ import {SupporterAppointment} from '../supporter-appointments/appointments';
 export class SupporterAvailabilityComponent implements OnInit {
   body;
   list: Array<string>;
-  field: string;
   date: string;
   start: string;
   end: string;
@@ -20,19 +19,15 @@ export class SupporterAvailabilityComponent implements OnInit {
   startAMPM: string;
   endAMPM: string;
   dates: Array<any>;
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient,private cookieService: CookieService) {
     this.dates = [];
     this.list = [];
-    this.field = "";
-    this.body = {};
-    this.body.user_id = account.user_id = "1";
-    this.updateAvailibility();
+    this.getAvailibility();
   }
-  updateAvailibility(): void
+  getAvailibility(): void
   {
-    this.dates = [];
     let i = 0;
-    this.http.get('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/account/' + account.user_id,{}).subscribe(res => {
+    this.http.get('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/account/' + this.cookieService.get('user_id'),{}).subscribe(res => {
       console.log(res);
       for (const date of Object.values(res)) {
         if(i > 1) {
@@ -45,7 +40,7 @@ export class SupporterAvailabilityComponent implements OnInit {
               dateObj.start_hour -= 12;
             }
           }
-          else if(dateObj.start_hour === 0)
+          else if(dateObj.start_hour == 0)
           {
             dateObj.start_hour = 12;
           }
@@ -57,41 +52,76 @@ export class SupporterAvailabilityComponent implements OnInit {
               dateObj.end_hour -= 12;
             }
           }
-          else if(dateObj.end_hour === 0)
+          else if(dateObj.end_hour == 0)
           {
             dateObj.end_hour = 12;
           }
+          if(dateObj.start_min == 0)
+          {
+            dateObj.start_min = "00";
+          }
+          if(dateObj.end_min == 0)
+          {
+            dateObj.end_min = "00";
+          }
           let s = dateObj.month + "/" + dateObj.date +"/"+dateObj.year+ ": "+dateObj.start_hour + ":" + dateObj.start_min + " " + a + " - " + dateObj.end_hour + ":" + dateObj.end_min + " "+b;
           console.log(s);
-          this.dates.push({str:s});
+          this.dates.push({str:s, start_time: date[1], end_time: date[2], appt_date: date[3]});
         }
         i++;
       }
-      console.log(this.field);
     });
   }
   add(): void {
     //add new avail
     if(this.timeValid()) {
-      this.body = {user_id: this.body.user_id, availability_add:[{start_time: this.start24, end_time: this.end24, appt_date: this.date}]};
-      console.log(this.body);
-      this.http.patch('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/account/' + this.body.user_id,this.body).subscribe(res => {
+      const body = {user_id: this.cookieService.get('user_id'), availability_add:[{start_time: this.start24, end_time: this.end24, appt_date: this.date}]};
+      console.log(body);
+      this.http.patch('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/account/' + this.cookieService.get('user_id'),body).subscribe(res => {
         console.log(res);
       });
-      this.body = {user_id: account.user_id};
-      this.updateAvailibility();
+      this.body = {user_id: this.cookieService.get('user_id')};
+      let dateObj = {year:this.date.split("-")[0],month: this.date.split("-")[1], date:this.date.split("-")[2], start_hour: Number(this.start.split(":")[0]), start_min:Number(this.start.split(":")[1]), end_hour:Number(this.end.split(":")[0]),end_min:Number(this.end.split(":")[1])};
+      let a = "AM";
+      if(dateObj.start_hour >= 12) {
+        a = "PM";
+        if (dateObj.start_hour != 12) {
+          dateObj.start_hour -= 12;
+        }
+      }
+      else if(dateObj.start_hour == 0)
+      {
+        dateObj.start_hour = 12;
+      }
+      let b = "AM";
+      if(dateObj.end_hour >= 12)
+      {
+        b = "PM";
+        if(dateObj.end_hour != 12) {
+          dateObj.end_hour -= 12;
+        }
+      }
+      else if(dateObj.end_hour == 0)
+      {
+        dateObj.end_hour = 12;
+      }
+      let s = dateObj.month + "/" + dateObj.date +"/"+dateObj.year+ ": "+dateObj.start_hour + ":" + dateObj.start_min + " " + a + " - " + dateObj.end_hour + ":" + dateObj.end_min + " "+b;
+      console.log(s);
+      this.dates.push({str:s,start_time: this.start24, end_time: this.end24, appt_date: this.date});
     }
   }
-  remove(): void {
-    //remove avail
-    if(this.timeValid()) {
-      this.body = {user_id: this.body.user_id, availability_delete:[{start_time: this.start24, end_time: this.end24, appt_date: this.date}]};
-      console.log(this.body);
-      this.http.patch('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/account/' + this.body.user_id,this.body).subscribe(res => {
+  remove(date: any): void {
+      let body = {user_id: this.cookieService.get('user_id'), availability_delete:[{start_time: date.start_time, end_time: date.end_time, appt_date: date.appt_date}]};
+      console.log(body);
+      this.http.patch('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/account/' + this.cookieService.get('user_id'),body).subscribe(res => {
         console.log(res);
       });
-      this.body = {user_id: account.user_id};
-      this.updateAvailibility();
+      this.body = {user_id: this.cookieService.get('user_id')};
+    for (const x in this.dates) {
+      if(this.dates[x].str === date.str)
+      {
+        this.dates.splice(parseInt(x),1);
+      }
     }
   }
   private timeValid(): boolean {
@@ -125,7 +155,7 @@ export class SupporterAvailabilityComponent implements OnInit {
           }
         }
         if (this.endAMPM === 'PM') {
-          if(eh !== 12) {
+          if(eh != 12) {
             eh += 12;
           }
         }
