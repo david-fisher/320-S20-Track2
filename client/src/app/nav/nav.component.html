@@ -37,11 +37,22 @@
       <!-- This fills the remaining space of the current row -->
       <span class="example-fill-remaining-space"></span>
 
-      <button mat-button [matMenuTriggerFor]="accountMenu" (click) = "getUserId()">Account</button>
-      <mat-menu #accountMenu="matMenu" xPosition="before">
-        <button mat-menu-item [routerLink]="['/student-profile', this.userID]">Profile</button>
-        <button mat-menu-item (click)="logout()" routerLink="/home">Logout</button>
-      </mat-menu>
+      <ng-template [ngIf]="isStudent()">
+        <button mat-button [matMenuTriggerFor]="accountMenu" (click) = "getUserId()">Account</button>
+        <mat-menu #accountMenu="matMenu" xPosition="before">
+          <button mat-menu-item [routerLink]="['/student-profile', this.userID]">Profile</button>
+          <button mat-menu-item (click)="logout()" routerLink="/home">Logout</button>
+        </mat-menu>
+      </ng-template>
+
+      <ng-template [ngIf]="isSupporter()">
+        <button mat-button [matMenuTriggerFor]="accountMenu" (click) = "getUserId()">Account</button>
+        <mat-menu #accountMenu="matMenu" xPosition="before">
+          <button mat-menu-item [routerLink]="['/supporter-profile', this.userID]">Profile</button>
+          <button mat-menu-item (click)="logout()" routerLink="/home">Logout</button>
+        </mat-menu>
+      </ng-template>
+
     </ng-template>
 
     <!-- Not logged in -->

@@ -61,6 +61,7 @@ import { MatRadioModule } from "@angular/material/radio";
 import { MatDialogModule } from "@angular/material/dialog";
 import {CanStudentActivateRouteGuard} from "./can-student-activate-route.guard";
 import {CanSupporterActivateRouteGuard} from "./can-supporter-activate-route.guard";
+import {SupporterProfileComponent} from "./supporter/supporter-profile/supporter-profile.component";
 
 
 
@@ -94,7 +95,8 @@ import {CanSupporterActivateRouteGuard} from "./can-supporter-activate-route.gua
     IncorrectPasswordDialog,
     IncorrectEmailDialog,
     ConfirmationDialogueComponent,
-    AlertDialogueComponent
+    AlertDialogueComponent,
+    SupporterProfileComponent
   ],
   imports: [
     BrowserModule,
