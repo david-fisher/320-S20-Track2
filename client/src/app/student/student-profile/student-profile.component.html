@@ -9,7 +9,16 @@ Maybe something better than a bunch of <br>s?-->
 <!DOCTYPE html>
 <html lang="en">
 <meta charset="UTF-8">
-<h1>My Profile</h1>
+
+<div *ngIf = "this.canEdit">
+  <h1>My Profile</h1>
+</div>
+
+<div *ngIf = "!this.canEdit">
+  <h1>{{studentInfo.first_name}}'s Profile</h1>
+</div>
+
+
 <body>
   <!--Profile picture-->
     <header>Personal Avatar</header>
