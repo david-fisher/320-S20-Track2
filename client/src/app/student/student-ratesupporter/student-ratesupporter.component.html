@@ -23,14 +23,16 @@
 <!-- Supporter wants text feedback -->
 <ng-template [ngIf]="toggleQuestions()">
   <h1>Please answer the following questions</h1>
-  <div *ngFor="let question of questions">
-    <div class="feedback">
-      <h3>{{question}}</h3>
-      <mat-form-field class="example-full-width">
-        <textarea matInput matTextareaAutosize placeholder="Type your response here"></textarea>
-      </mat-form-field>
+  <form [formGroup]="formQuestionGroup">
+    <div *ngFor="let question of questions">
+      <div class="feedback">
+        <h3>{{question}}</h3>
+        <mat-form-field class="example-full-width" >
+          <textarea matInput matTextareaAutosize placeholder="Type your response here" [formControlName]="question"></textarea>
+        </mat-form-field>
+      </div>
     </div>
-  </div>
+  </form>
 
 </ng-template>
 <div class="buttons">

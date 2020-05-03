@@ -60,9 +60,11 @@ export class StudentRatesupporterComponent implements OnInit {
   }
 
   createQuestionForm() {
-    this.formQuestionGroup = this.formBuilder.group({
-      recommend: new FormControl('')
+    let form = {};
+    this.questions.forEach(function (question) {
+      form[question] = [null, Validators.required]
     });
+    this.formQuestionGroup = this.formBuilder.group(form);
   }
 
   ngOnInit() {
@@ -71,7 +73,11 @@ export class StudentRatesupporterComponent implements OnInit {
     this.createQuestionForm();
   }
   get questions(): Array<string> {
-    return QUESTIONS;
+    let qs = [];
+    this.specs['questions'].forEach(function (question) {
+      qs.push(question['question']);
+    });
+    return qs;
   }
   toggleStar() {
     return this.specs['rating'];
@@ -87,8 +93,8 @@ export class StudentRatesupporterComponent implements OnInit {
       this.dialog.open(MissingStarRatingDialog);
       return false;
     }
-    if (this.specs['recommend'] && this.formStarGroup.value.recommend === '') {
-      this.dialog.open(MissingStarRatingDialog);
+    if (this.specs['recommend'] && this.formRecommendGroup.value.recommend === '') {
+      this.dialog.open(MissingRecommendDialog);
       return false;
     }
     return true;
@@ -98,12 +104,28 @@ export class StudentRatesupporterComponent implements OnInit {
     if (!this.checkValidity()) {
       return;
     }
+    let questions_output = [];
+    let i = 0;
+    for (const key in this.formQuestionGroup.value) {
+      if (this.formQuestionGroup.value.hasOwnProperty(key)) {
+        let question = {};
+        question['question_id'] = this.specs['questions'][i]['question_id'];
+        if (this.formQuestionGroup.value[key] === null) {
+          this.dialog.open(MissingQuestionDialog);
+          return;
+        }
+        question['response'] = this.formQuestionGroup.value[key];
+        questions_output.push(question);
+        i++;
+      }
+    }
+
     const data = {
-      appointment_id: this.apptId,
-      user_id: this.cookieService.get('user_id'),
-      rating: this.formStarGroup.value.stars,
-      recommend: this.formRecommendGroup.value.recommend === "r",
-      questions : this.questionOutput
+      appointment_id: parseInt(this.apptId),
+      user_id_: parseInt(this.cookieService.get('user_id')),
+      rating: parseInt(this.formStarGroup.value.stars),
+      recommended: this.formRecommendGroup.value.recommend === "r",
+      questions : questions_output
     };
     console.log(data);
 
