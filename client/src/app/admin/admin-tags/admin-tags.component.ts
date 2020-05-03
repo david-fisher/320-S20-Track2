@@ -21,12 +21,17 @@ export class AdminTagsComponent implements OnInit {
   showAppointmentTypes;
   showSupporterTypes;
   dialogResult;
+  data;
+  tableData;
+  showData;
+  displayedColumns = ['type', 'name', 'frequency'];
 
   constructor(private http: HttpClient, public dialog: MatDialog) {
     this.pageTags = this.content_https('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/tags');
     this.pageSupporterTypes = this.content_https('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/options?resource=type_of_supporter');
     this.pageAppointmentTypes = this.content_https('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/options?resource=appointment_type');
     this.showTags = true;
+    this.data = this.get_data()
     this.showAppointmentTypes = false;
     this.showSupporterTypes = false;
     this.dialogResult = null;
@@ -68,6 +73,38 @@ export class AdminTagsComponent implements OnInit {
     });
     console.log(result);
     return result;
+  }
+
+  get_data() {
+    let result = [];
+    this.http.get('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/data', {}).subscribe(res => {
+      console.log('Data!');
+      result.push(res);
+      });
+    return result;
+  }
+
+  parse_data() {
+    this.showData = true;
+    const tableInfo = [];
+    console.log(this.data);
+    const object = this.data[0];
+    const appointmentData = object['csv for appointments'];
+    const tagData = object['csv for tags'];
+    for (let i = 1; i < appointmentData.length; i++) {
+      const newRow = {type: 'Appointment Type', name: appointmentData[i][0], frequency: appointmentData[i][1]};
+      tableInfo.push(newRow);
+    }
+    for (let j = 1; j < tagData.length; j++) {
+      const newRow = {type: 'Tag', name: tagData[j][0], frequency: tagData[j][1]};
+      tableInfo.push(newRow);
+    }
+    console.log(tableInfo);
+    this.tableData = tableInfo;
+  }
+
+  hide_data() {
+    this.showData = false;
   }
 
   push_tag() {

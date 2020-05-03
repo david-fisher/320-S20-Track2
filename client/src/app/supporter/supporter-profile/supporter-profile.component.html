@@ -19,23 +19,7 @@ Maybe something better than a bunch of <br>s?-->
 </div>
 
 <body>
-<!--Profile picture-->
-<header>Personal Avatar</header>
-<img src = "assets/umasslogo.png" alt = "avatar">
-<div *ngIf = "this.canEdit">
-  <mat-file-upload
-    [labelText]="'Upload Picture:'"
-    [selectButtonText]="'Choose File'"
-    [allowMultipleFiles]="false"
-    [showUploadButton]="true"
-    [customSvgIcon]="'close_custom'"
-    [acceptedTypes]="'.png'"
-  >
-  </mat-file-upload>
-</div>
-<br>
 
-<!--Info/Personal Links: currently contains names, pronouns, major, graduate year, GPA, email-->
 <mat-expansion-panel>
   <!--View mode-->
   <mat-expansion-panel-header>Personal Info</mat-expansion-panel-header>

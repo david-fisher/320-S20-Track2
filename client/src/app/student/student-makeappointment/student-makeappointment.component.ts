@@ -14,7 +14,7 @@ import { finalize, takeUntil } from 'rxjs/operators';
 import { addDays, addMinutes, endOfWeek } from 'date-fns';
 import {HttpClient} from '@angular/common/http';
 import {InterestTags} from '../../admin/admin-tags/interest-tag';
-import {CookieService} from "ngx-cookie-service";
+import {CookieService} from 'ngx-cookie-service';
 
 function floorToNearest(amount: number, precision: number) {
   return Math.floor(amount / precision) * precision;
@@ -78,7 +78,7 @@ export class StudentMakeappointmentComponent {
     this.pageSupporters = this.supporter_https;
     this.userID = this.getUserId();
     console.log(this.userID);
-    console.log('IS THE CONSTRUCTOR CONSTRUCTING?')
+    console.log('IS THE CONSTRUCTOR CONSTRUCTING?');
     this.pageTypes = this.content_https('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/options?resource=appointment_type');
   }
 
@@ -210,12 +210,12 @@ export class StudentMakeappointmentComponent {
 
   generate_appointment_object() {
     const appointment = {
-      student_id: this.userID,
-      supporter_id: this.selectedSupporter,
-      appt_date: '2022-12-12',
+      student_id: 20,
+      supporter_id: 15,
+      appt_date: '2019-12-12',
       start_time: '13:50:22',
-      duration: 999,
-      type: this.selectedType,
+      duration: 9876,
+      type: 1,
       cancelled: false,
       rating: 0,
       recommended: false
@@ -225,7 +225,7 @@ export class StudentMakeappointmentComponent {
 
   make_appointment(appointment) {
     console.log('Make appointment debug');
-    appointment = this.generate_appointment_object()
+    appointment = this.generate_appointment_object();
     console.log(appointment);
     if (confirm('Is this the appointment you wish to make?')) {
       this.http.post('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/appointments',
