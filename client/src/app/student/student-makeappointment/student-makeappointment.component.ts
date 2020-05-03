@@ -1,7 +1,5 @@
 import {SUPPORTERS} from './mock-supporters';
 import {Supports} from './supports';
-import {TAGS} from './mock-tags';
-import {Tags} from './tags';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -70,10 +68,18 @@ export class StudentMakeappointmentComponent {
   selectedTags;
   pageTags;
   pageSupporters;
+  selectedSupporter;
+  pageTypes;
+  selectedType;
+  userID;
 
   constructor(private cdr: ChangeDetectorRef, private http: HttpClient, private cookieService: CookieService) {
     this.pageTags = this.tags_https;
     this.pageSupporters = this.supporter_https;
+    this.userID = this.getUserId();
+    console.log(this.userID);
+    console.log('IS THE CONSTRUCTOR CONSTRUCTING?')
+    this.pageTypes = this.content_https('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/options?resource=appointment_type');
   }
 
   get tags_https(): Array<InterestTags> {
@@ -85,6 +91,23 @@ export class StudentMakeappointmentComponent {
       }
     });
     return result;
+  }
+
+  content_https(url) {
+    const result = [];
+    this.http.get(url, {}).subscribe(res => {
+      console.log(Object.values(res));
+      for (const tag of Object.values(res)) {
+        const newTag = {name: tag[1]};
+        result.push(newTag);
+      }
+    });
+    console.log(result);
+    return result;
+  }
+
+  getUserId() {
+    this.userID = this.cookieService.get('user_id');
   }
 
   get supporter_https() {
@@ -187,12 +210,12 @@ export class StudentMakeappointmentComponent {
 
   generate_appointment_object() {
     const appointment = {
-      student_id: 2,
-      supporter_id: 15,
+      student_id: this.userID,
+      supporter_id: this.selectedSupporter,
       appt_date: '2022-12-12',
       start_time: '13:50:22',
       duration: 999,
-      type: 1,
+      type: this.selectedType,
       cancelled: false,
       rating: 0,
       recommended: false
@@ -202,6 +225,7 @@ export class StudentMakeappointmentComponent {
 
   make_appointment(appointment) {
     console.log('Make appointment debug');
+    appointment = this.generate_appointment_object()
     console.log(appointment);
     if (confirm('Is this the appointment you wish to make?')) {
       this.http.post('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/appointments',
