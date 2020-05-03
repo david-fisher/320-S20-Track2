@@ -22,7 +22,7 @@ export class StudentMyappointmentsComponent implements OnInit {
   get getAppointments(): Array<StudentAppointment> {
     const result = [];
     const resarray = [];
-    this.http.get('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/appointments/' + '1', {}).subscribe(res => {
+    this.http.get('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/appointments/' + '20', {}).subscribe(res => {
       console.log(Object.values(res));
       for (const appt of Object.values(res)) {
         const newAppt: StudentAppointment = {date: new Date(appt[2].split('-')[0], appt[2].split('-')[1],
