@@ -206,13 +206,27 @@ def update_account(event, context):
         if 'location' in event['body']:
             location = json.loads(event['body'])['location']
 
-    availability_add = availability_delete = None
+    availability_add = availability_delete = supporter_type_add = supporter_type_delete = \
+        appointment_add = appointment_delete = tags_add = tags_delete = None
 
     if is_supporter:
         if 'availability_add' in event['body']:
             availability_add = json.loads(event['body'])['availability_add']
         if 'availability_delete' in event['body']:
             availability_delete = json.loads(event['body'])['availability_delete']
+        if 'supporter_type_add' in event['body']:
+            supporter_type_add = json.loads(event['body'])['supporter_type_add']
+        if 'supporter_type_delete' in event['body']:
+            supporter_type_delete = json.loads(event['body'])['supporter_type_delete']
+        if 'appointment_add' in event['body']:
+            appointment_add = json.loads(event['body'])['appointment_add']
+        if 'appointment_delete' in event['body']:
+            appointment_delete = json.loads(event['body'])['appointment_delete']
+        if 'tags_add' in event['body']:
+            tags_add = json.loads(event['body'])['tags_add']
+        if 'tags_delete' in event['body']:
+            tags_delete = json.loads(event['body'])['tags_delete']
+
 
     show_feedback = rating = ask_recommended = None
 
@@ -575,8 +589,8 @@ def update_account(event, context):
             end_time = appointment['end_time']
             appt_date = appointment['appt_date']
 
-            query = (f"INSERT INTO availability_supp "
-                    f"VALUES (:0, :1, :2, :3);")
+            query = ("INSERT INTO availability_supp "
+                     "VALUES (:0, :1, :2, :3);")
             params = param_to_sql_param([user_id_, start_time, end_time, appt_date])
             response = client.execute_statement(resourceArn=rds_config.ARN,
                                                 secretArn=rds_config.SECRET_ARN,
@@ -591,12 +605,99 @@ def update_account(event, context):
             end_time = appointment['end_time']
             appt_date = appointment['appt_date']
 
-            query = (f"DELETE FROM availability_supp "
-                    f"WHERE user_id_ = :0 "
-                    f"AND start_time = :1 "
-                    f"AND end_time = :2 "
-                    f"AND appt_date = :3;")
+            query = ("DELETE FROM availability_supp "
+                     "WHERE user_id_ = :0 "
+                     "AND start_time = :1 "
+                     "AND end_time = :2 "
+                     "AND appt_date = :3;")
             params = param_to_sql_param([user_id_, start_time, end_time, appt_date])
+            response = client.execute_statement(resourceArn=rds_config.ARN,
+                                                secretArn=rds_config.SECRET_ARN,
+                                                database=rds_config.DB_NAME,
+                                                sql=query,
+                                                parameters=params)
+
+    if supporter_type_add is not None:
+        for supporter_type in supporter_type_add:
+
+            supp_type_id = supporter_type['supp_type_id']
+
+            query = ("INSERT INTO supporter_type "
+                     "VALUES (:0, :1);")
+            params = param_to_sql_param([user_id_, supp_type_id])
+            response = client.execute_statement(resourceArn=rds_config.ARN,
+                                                secretArn=rds_config.SECRET_ARN,
+                                                database=rds_config.DB_NAME,
+                                                sql=query,
+                                                parameters=params)
+
+    if supporter_type_delete is not None:
+        for supporter_type in supporter_type_delete:
+
+            supp_type_id = supporter_type['supp_type_id']
+
+            query = ("DELETE FROM supporter_type "
+                     "WHERE user_id_ = :0 "
+                     "AND supp_type_id = :1;")
+            params = param_to_sql_param([user_id_, supp_type_id])
+            response = client.execute_statement(resourceArn=rds_config.ARN,
+                                                secretArn=rds_config.SECRET_ARN,
+                                                database=rds_config.DB_NAME,
+                                                sql=query,
+                                                parameters=params)
+
+    if appointment_add is not None:
+        for appointment in appointment_add:
+
+            appt_type_id = appointment['type_id']
+
+            query = ("INSERT INTO supp_appt "
+                     "VALUES (:0, :1);")
+            params = param_to_sql_param([user_id_, appt_type_id])
+            response = client.execute_statement(resourceArn=rds_config.ARN,
+                                                secretArn=rds_config.SECRET_ARN,
+                                                database=rds_config.DB_NAME,
+                                                sql=query,
+                                                parameters=params)
+
+    if appointment_delete is not None:
+        for appointment in appointment_delete:
+
+            appt_type_id = appointment['type_id']
+
+            query = ("DELETE FROM supp_appt "
+                     "WHERE user_id_ = :0 "
+                     "AND type_id = :1;")
+            params = param_to_sql_param([user_id_, appt_type_id])
+            response = client.execute_statement(resourceArn=rds_config.ARN,
+                                                secretArn=rds_config.SECRET_ARN,
+                                                database=rds_config.DB_NAME,
+                                                sql=query,
+                                                parameters=params)
+
+    if tags_add is not None:
+        for tag in tags_add:
+
+            tag_id = tag['tag_id']
+
+            query = ("INSERT INTO supporter_tags "
+                     "VALUES (:0, :1);")
+            params = param_to_sql_param([user_id_, tag_id])
+            response = client.execute_statement(resourceArn=rds_config.ARN,
+                                                secretArn=rds_config.SECRET_ARN,
+                                                database=rds_config.DB_NAME,
+                                                sql=query,
+                                                parameters=params)
+
+    if tags_delete is not None:
+        for tag in tags_delete:
+
+            tag_id = tag['tag_id']
+
+            query = ("DELETE FROM supporter_tags "
+                     "WHERE user_id_ = :0 "
+                     "AND type_id = :1;")
+            params = param_to_sql_param([user_id_, tag_id])
             response = client.execute_statement(resourceArn=rds_config.ARN,
                                                 secretArn=rds_config.SECRET_ARN,
                                                 database=rds_config.DB_NAME,
