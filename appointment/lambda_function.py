@@ -5,7 +5,7 @@ import re
 from db_wrapper import execute_statement, extract_records
 
 #Created by Nishant Acharya
-#Last Updated 4/27/2020
+#Last Updated 5/3/2020
 
 def lambda_handler(event, context):
     
@@ -20,6 +20,14 @@ def lambda_handler(event, context):
     rating = int(json.loads(event["body"])["rating"])
     recommended = bool(json.loads(event["body"])["recommended"])
     
+    #CORS Header
+    response_headers = {}
+    
+    response_headers["X-Requested-With"] = "*"
+    response_headers["Access-Control-Allow-Origin"] = "*"
+    response_headers["Access-Control-Allow-Headers"] = "Content-Type,X-Amz-Date,Authorization,X-Api-Key,x-requested-with'"
+    response_headers["Access-Control-Allow-Methods"] = "OPTIONS,POST,GET,PUT,DELETE"
+    
     #Finding the given student_id to check
     query = "SELECT user_id_ FROM student WHERE user_id_ = :student_id"
     sql_params = [
@@ -31,7 +39,10 @@ def lambda_handler(event, context):
     if(student_check['records'] == []):
         return{
             'body': json.dumps("Student not found!"),
-            'statusCode': 404
+            'headers':response_headers,
+            'statusCode': 404,
+            'isBase64Encoded': False
+            
         }
     
     #Finding the given supporter_id
@@ -45,7 +56,9 @@ def lambda_handler(event, context):
     if(supporter_check['records'] == []):
         return{
             'body': json.dumps("Supporter not found!"),
-            'statusCode': 404
+            'headers':response_headers,
+            'statusCode': 404,
+            'isBase64Encoded': False
         }
         
     #Finding the given type_id
@@ -59,7 +72,9 @@ def lambda_handler(event, context):
     if(type_check['records'] == []):
         return{
            'body': json.dumps("type not found!"),
-            'statusCode': 404
+           'headers':response_headers,
+            'statusCode': 404,
+            'isBase64Encoded': False
         }
     
     #Checking if the given date string is in the correct format or not
@@ -68,7 +83,9 @@ def lambda_handler(event, context):
     if not(date_re.match(appt_date)):
         return{
            'body': json.dumps("Date bad format!"),
-            'statusCode': 400
+           'headers':response_headers,
+            'statusCode': 400,
+            'isBase64Encoded': False
         }
     
     #Checking if the given time string is in the correct format or not
@@ -77,7 +94,9 @@ def lambda_handler(event, context):
     if not(time_re.match(start_time)):
         return{
            'body': json.dumps("Time bad format!"),
-            'statusCode': 400
+           'headers':response_headers,
+            'statusCode': 400,
+            'isBase64Encoded': False
         }
     
     # Generating a new appointment_id for the current appointment by adding 1 to the last id
@@ -117,7 +136,11 @@ def lambda_handler(event, context):
     #Updating the student_feedback table
     update = execute_statement(query, sql_params)
     
+    
     return {
         'statusCode': 201,
-        'body': json.dumps('Appointment created!')
+        'body': json.dumps('Appointment created!'),
+        'headers': response_headers,
+        'isBase64Encoded':False
     }
+
