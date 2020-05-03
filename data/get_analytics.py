@@ -15,7 +15,9 @@ def getAnalytics(event, context):
     # query db for the types of appts, their frequencies and the appt names
     query = "SELECT AT.type_id, COUNT(A.type_id), AT.appointment_name \
             FROM appointments AS A RIGHT JOIN appointment_type AS AT \
-            ON A.type_id = AT.type_id GROUP BY AT.type_id;"
+            ON A.type_id = AT.type_id \
+            WHERE active_type = true \
+            GROUP BY AT.type_id;"
     appts_result = execute_statement(query)
 
     # query db for the tags and their frequencies and the tag names
