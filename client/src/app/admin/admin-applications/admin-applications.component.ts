@@ -20,30 +20,36 @@ export class AdminApplicationsComponent implements OnInit {
     this.tempApplications = this.applications;
   }
 
-  get applications(): Array<Application> {
-    return APPLICATIONS;
-  }
-
   // get applications(): Array<Application> {
-  //   const result = [];
-  //   this.http.get('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/supporters/', {observe: 'response'}).subscribe(res => {
-  //     console.log(Object.values(res));
-  //     if(res.status === 200 && res.body !== "") {
-  //       for (const app of Object.values(res)[6]) {
-  //         const newApp: Application = {
-  //           user_id: app[0],
-  //           name: app[1] + " " + app[2],
-  //           supporter_type: app[3],
-  //           location: app[6],
-  //           employer: app[4],
-  //           title: app[5]
-  //         };
-  //         result.push(newApp);
-  //       }
-  //     }
-  //   });
-  //   return result;
+  //   return APPLICATIONS;
   // }
+
+  get applications(): Array<Application> {
+    const result = [];
+    this.http.get('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/supporters/', {observe: 'response'}).subscribe(res => {
+      // console.log(Object.values(res));
+      // console.log(Object.values(res)[6]);
+      const sups = Object.values(res)[6];
+      if(res.status === 200) {
+        for(let k of Object.keys(sups)){
+          // console.log(k);
+          // console.log(sups[k]);
+          console.log(sups[k].first_name);
+          const app: Application = {
+            user_id: parseInt(k),
+            name: sups[k].first_name + " " + sups[k].last_name,
+            employer: sups[k].current_employer,
+            title: sups[k].title
+          };
+          if(sups[k].request_supporter){
+            result.push(app);
+          }
+        }
+      }
+    });
+    console.log(result);
+    return result;
+  }
 
   approve(user_id) {
     this.approveBody = {};
