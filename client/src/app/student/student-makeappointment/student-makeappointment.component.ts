@@ -84,6 +84,7 @@ export class StudentMakeappointmentComponent {
         result.push(newTag);
       }
     });
+    console.log(result);
     return result;
   }
 
@@ -96,7 +97,7 @@ export class StudentMakeappointmentComponent {
         result.push(newTag);
       }
     });
-    //console.log(result);
+    console.log(result);
     return result;
   }
 
@@ -197,73 +198,3 @@ export class StudentMakeappointmentComponent {
   }
 
 }
-
-
-
-
-
-
-/*@Component({
-  selector: 'app-student-makeappointment',
-  templateUrl: './student-makeappointment.component.html',
-  styleUrls: ['./student-makeappointment.component.css']
-})
-export class StudentMakeappointmentComponent implements OnInit {
-
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-}*/
-
-/*@Component({
-  selector: 'app-student-makeappointment',
-  templateUrl: './student-makeappointment.component.html',
-  styleUrls: ['./student-makeappointment.component.css'],
-  styles: [
-    `
-      .cal-week-view .cal-time-events .cal-day-column {
-        margin-right: 10px;
-      }
-
-      .cal-week-view .cal-hour {
-        width: calc(100% + 10px);
-      }
-    `,
-  ]
-})
-export class StudentMakeappointmentComponent {
-  @ViewChild('modalContent', { static: true }) modalContent: TemplateRef<any>;
-
-  selectedTags;
-  get supporters(): Supports[] {
-
-    let list: Array<any> = [];
-    if (this.selectedTags == null) {
-      return SUPPORTERS;
-    }
-
-    if (this.selectedTags.length == 0) {
-      return SUPPORTERS;
-    }
-
-    // tslint:disable-next-line:forin
-    for (const x in SUPPORTERS) {
-      // tslint:disable-next-line:prefer-for-of
-      let count: number = 0;
-      for (let i = 0; i <  this.selectedTags.length; i++  ) {
-
-        if (SUPPORTERS[x].tags.includes(this.selectedTags[i])) {
-          count++;
-        }
-      }
-      if(count == this.selectedTags.length){
-        list.push(SUPPORTERS[x]);
-      }
-    }
-    return list;
-  }
-
-  get tags(): Tags {
-    return TAGS;
-  }*/
