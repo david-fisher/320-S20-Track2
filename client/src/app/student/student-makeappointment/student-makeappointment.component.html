@@ -2,29 +2,40 @@
   <div class="row">
     <div class="col-md-4" style="margin-top: 4em;">
       <div class="row h-100">
-        <div class="col-md-12 h-50">
+
+        <div class="col-md-12 h-20">
           <h4 class=".mat-h4, .mat-subheading-1" align="center">Choose some Tags</h4>
           <div class="sidebox">
             <mat-selection-list [(ngModel)]="selectedTags" >
               <mat-list-option *ngFor="let tag of pageTags" [value]="tag.name">
-                {{tag.name}}
+                <p>{{tag.name}}</p>
               </mat-list-option>
             </mat-selection-list>
-
           </div>
         </div>
-        <div class="col-md-12 h-50">
+
+        <div class="col-md-12 h-20">
+          <h4 class=".mat-h4, .mat-subheading-1" align="center">Choose an Appointment Type</h4>
+          <div class="sidebox">
+            <mat-selection-list  [(ngModel)]="selectedType" multiple="false">
+              <mat-list-option *ngFor="let type of pageTypes" [value] = "type.name">
+                <p>{{type.name}}</p>
+              </mat-list-option>
+            </mat-selection-list>
+          </div>
+        </div>
+
+        <div class="col-md-12 h-20">
           <h4 class=".mat-h4, .mat-subheading-1" align="center">Choose a Supporter</h4>
           <div class="sidebox">
-            <mat-selection-list multiple="false" >
-              <mat-list-option *ngFor="let supporter of supporters"
-              >
-                <p> {{supporter.firstname + ' ' + supporter.lastname }} </p>
+            <mat-selection-list multiple="false" aria-label="Select an option"  [(ngModel)]="selectedSupporter">
+              <mat-list-option *ngFor="let supporter of supporters" [value] = "supporter.id">
+                <p>{{supporter.firstname + ' ' + supporter.lastname }}</p>
               </mat-list-option>
-
             </mat-selection-list>
           </div>
         </div>
+
       </div>
     </div>
     <div class="col-md-8 " style="padding: 3em; ">
