@@ -132,6 +132,9 @@ export class StudentRatesupporterComponent implements OnInit {
     this.http.post<JSON>('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/rate',
       data).subscribe(res => {
       console.log(Object.values(res));
+      this.dialog.open(FeedbackSuccessDialog);
+    }, error => {
+        this.dialog.open(UhOhDialog);
     });
   }
 
@@ -157,3 +160,10 @@ export class MissingRecommendDialog {}
   templateUrl: 'missing-question.html',
 })
 export class MissingQuestionDialog {}
+
+// Success component
+@Component({
+  selector: 'feedback-success-dialog',
+  templateUrl: 'feedback-success.html',
+})
+export class FeedbackSuccessDialog {}

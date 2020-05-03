@@ -55,7 +55,7 @@ import { StudentMyappointmentsComponent, StudentCancelAppointmentDialog } from '
 import {
   StudentRatesupporterComponent,
   MissingStarRatingDialog,
-  MissingRecommendDialog, MissingQuestionDialog
+  MissingRecommendDialog, MissingQuestionDialog, FeedbackSuccessDialog
 } from './student/student-ratesupporter/student-ratesupporter.component';
 import { StudentMakeappointmentComponent } from './student/student-makeappointment/student-makeappointment.component';
 import { CreateaccountComponent, DialogContentExampleDialog, EmailExistsDialog, UhOhDialog } from './createaccount/createaccount.component';
@@ -107,7 +107,8 @@ import {SupporterProfileComponent} from './supporter/supporter-profile/supporter
     BanConfirmationDialogueComponent,
     MissingStarRatingDialog,
     MissingRecommendDialog,
-    MissingQuestionDialog
+    MissingQuestionDialog,
+    FeedbackSuccessDialog
   ],
   imports: [
     BrowserModule,
