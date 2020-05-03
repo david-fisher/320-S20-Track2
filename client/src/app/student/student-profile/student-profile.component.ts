@@ -127,7 +127,8 @@ Each submit sends a PATCH request for the editable fields
       grad_year: this.studentInfo.grad_year,
       description: this.studentInfo.personal_description,
       pronouns: this.studentInfo.pronouns,
-      program: this.studentInfo.major
+      program: this.studentInfo.major,
+      GPA: this.studentInfo.GPA
     }, this.profileID).subscribe(data => {console.log(data); });
   }
 

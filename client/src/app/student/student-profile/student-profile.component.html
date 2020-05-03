@@ -78,6 +78,11 @@ Uploading files-->
           <select name = "GraduationYear" [(ngModel)]="studentInfo.grad_year">
             <option [value] = "item" *ngFor = "let item of graduationYears" >{{item}}</option>
           </select>
+        </li>
+        <li>GPA:
+          <mat-form-field class="input" appearance="fill">
+            <input matInput id = "GPA" [(ngModel)]="studentInfo.GPA" maxlength="3"/>
+          </mat-form-field>
         </li><br>
         <mat-card-actions>
           <button mat-raised-button (click) = "submitInformation()" color="primary">SUBMIT</button>
