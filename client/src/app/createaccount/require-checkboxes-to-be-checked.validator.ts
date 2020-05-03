@@ -1,7 +1,7 @@
 import { FormGroup, ValidatorFn } from '@angular/forms';
 
 export function requireCheckboxesToBeCheckedValidator(userType: boolean): ValidatorFn {
-  return function validate (formGroup: FormGroup) {
+  return function validate(formGroup: FormGroup) {
     let checked = 0;
 
     Object.keys(formGroup.controls).forEach(key => {
