@@ -29,12 +29,17 @@ def param_to_sql_param(params, existing_sql_params=None):
             value = {
                 'booleanValue': param
             }
-        elif var_type is list:
+        else:
             value = {
-                'arrayValue': {
-                    'stringValues': param
-                }
+                'blobValue': param
             }
+
+        #elif var_type is list:
+        #    value = {
+        #        'arrayValue': {
+        #            'stringValues': param
+        #        }
+        #    }
 
         sql_params.append({
             'name': str(name_index),
