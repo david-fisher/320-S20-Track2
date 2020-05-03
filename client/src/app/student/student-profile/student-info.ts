@@ -8,6 +8,7 @@ export interface StudentInfo {
   grad_year: number;
   phone_number: number;
   github_link: string;
+  linkedin_link: string;
   personal_description: string;
   //profile_picture: any;
   //request_supporter: boolean;

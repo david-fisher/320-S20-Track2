@@ -75,9 +75,9 @@ Uploading files-->
           </mat-form-field>
         </li>
         <li >Graduation Year:
-          <mat-form-field class="input" appearance="fill">
-            <input matInput id = "grad_year" [(ngModel)]="studentInfo.grad_year" maxlength="4"/>
-          </mat-form-field>
+          <select name = "GraduationYear" [(ngModel)]="studentInfo.grad_year">
+            <option [value] = "item" *ngFor = "let item of graduationYears" >{{item}}</option>
+          </select>
         </li><br>
         <mat-card-actions>
           <button mat-raised-button (click) = "submitInformation()" color="primary">SUBMIT</button>
@@ -122,7 +122,8 @@ Uploading files-->
     <mat-expansion-panel-header>Personal Links</mat-expansion-panel-header>
     <!--View mode-->
     <ul *ngIf = "linksFilesFlag">
-      <li>Github: {{studentInfo.github_link}}</li><br> <!--Dynamic implementation needed-->
+      <li>Github: {{studentInfo.github_link}}</li><br>
+      <li>LinkedIn: {{studentInfo.linkedin_link}}</li><br><!--Dynamic implementation needed-->
 <!--      <li>Resume: {{studentInfo.Resume}}</li><br>-->
       <div *ngIf = "this.canEdit">
         <mat-card-actions>
@@ -134,7 +135,11 @@ Uploading files-->
     <ul *ngIf = "!linksFilesFlag">
       Github:
       <mat-form-field class="input" appearance="fill">
-        <input matInput placeholder="Personal link" [(ngModel)]="studentInfo.github_link">
+        <input matInput id="github_link" [(ngModel)]="studentInfo.github_link">
+      </mat-form-field><br>
+      LinkedIn:
+      <mat-form-field class="input" appearance="fill">
+        <input matInput id="linkedin_link" [(ngModel)]="studentInfo.linkedin_link">
       </mat-form-field><br>
 <!--      <mat-file-upload-->
 <!--        [labelText]="'Upload File:'"-->
