@@ -52,7 +52,11 @@ import { SupporterLandingComponent } from './supporter/supporter-landing/support
 import { SupporterSettingsComponent } from './supporter/supporter-settings/supporter-settings.component';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { StudentMyappointmentsComponent, StudentCancelAppointmentDialog } from './student/student-myappointments/student-myappointments.component';
-import { StudentRatesupporterComponent } from './student/student-ratesupporter/student-ratesupporter.component';
+import {
+  StudentRatesupporterComponent,
+  MissingStarRatingDialog,
+  MissingRecommendDialog, MissingQuestionDialog
+} from './student/student-ratesupporter/student-ratesupporter.component';
 import { StudentMakeappointmentComponent } from './student/student-makeappointment/student-makeappointment.component';
 import { CreateaccountComponent, DialogContentExampleDialog, EmailExistsDialog, UhOhDialog } from './createaccount/createaccount.component';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
@@ -100,7 +104,10 @@ import {SupporterProfileComponent} from './supporter/supporter-profile/supporter
     ConfirmationDialogueComponent,
     AlertDialogueComponent,
     SupporterProfileComponent,
-    BanConfirmationDialogueComponent
+    BanConfirmationDialogueComponent,
+    MissingStarRatingDialog,
+    MissingRecommendDialog,
+    MissingQuestionDialog
   ],
   imports: [
     BrowserModule,

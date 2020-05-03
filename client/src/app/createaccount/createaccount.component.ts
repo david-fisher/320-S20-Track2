@@ -248,7 +248,7 @@ export class CreateaccountComponent implements OnInit {
       if (error['error'] === 'Email Exists!') {
         this.dialog.open(EmailExistsDialog);
       } else {
-        this.dialog.open(UhOhDialog)
+        this.dialog.open(UhOhDialog);
       }
     });
   }
