@@ -21,7 +21,6 @@ Maybe something better than a bunch of <br>s?-->
 
 <body>
   <!--Profile picture-->
-    <header>Personal Avatar</header>
     <img src = "assets/umasslogo.png" alt = "avatar">
   <div *ngIf = "this.canEdit">
   <mat-file-upload
@@ -47,7 +46,6 @@ Maybe something better than a bunch of <br>s?-->
         <li>Major:  {{studentInfo.major}}</li><br>
         <li>Graduation Year: {{studentInfo.grad_year}}</li><br>
         <li>GPA: {{studentInfo.GPA}}</li><br>
-        <li>Email: {{studentInfo.email}}</li><br>
         <div *ngIf = "this.canEdit">
          <mat-card-actions>
           <button mat-raised-button (click) = "runInformation()" color="primary">EDIT</button>

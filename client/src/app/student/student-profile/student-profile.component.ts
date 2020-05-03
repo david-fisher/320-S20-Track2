@@ -36,7 +36,6 @@ export class StudentProfileComponent implements OnInit {
     major: 'Computer Science',
     GPA: 0,
     grad_year: 0,
-    email: '',
     phone_number: 0,
     github_link: '',
     personal_description: 'I am a Computer Science student',
@@ -65,7 +64,6 @@ export class StudentProfileComponent implements OnInit {
         //   major: '',
         this.studentInfo.GPA = Object.values(data)[1][1];
         this.studentInfo.grad_year = Object.values(data)[1][2];
-        this.studentInfo.email = Object.values(data)[0][1];
         this.studentInfo.phone_number = Object.values(data)[0][6];
         this.studentInfo.github_link = Object.values(data)[1][5];
         // personal_description: 'I am a Computer Science student',
