@@ -55,12 +55,28 @@ def getSupporterInfo(id):
         for record in extraQuery:
             response.append(record)
     
+    extraQuery = getFeedback(id) #Check supporter's availability
+    if extraQuery != []:
+        for record in extraQuery:
+            response.append(record)
     return response
 
 def getAvailabilityInfo(id):
 
     #Database query for all users
     query = "SELECT * FROM `availability_supp` WHERE `user_id_` = :id;"
+    sqlParameters = [{'name': "id", 'value':{'longValue': id}}]
+    userQuery = execute_statement(query, sqlParameters)
+
+    #Parse the result to prep for json.dumps
+    response = extract_records(userQuery)
+    
+    return response
+
+def getFeedback(id):
+
+    #Database query for all users
+    query = "SELECT Distinct student_feedback.appointment_id, supporter_id, rating, recommended FROM student_feedback INNER JOIN appointments ON student_feedback.appointment_id = appointments.appointment_id where supporter_id =1;"
     sqlParameters = [{'name': "id", 'value':{'longValue': id}}]
     userQuery = execute_statement(query, sqlParameters)
 
