@@ -34,7 +34,7 @@ export class AdminApplicationsComponent implements OnInit {
         for(let k of Object.keys(sups)){
           // console.log(k);
           // console.log(sups[k]);
-          console.log(sups[k].first_name);
+          // console.log(sups[k].first_name);
           const app: Application = {
             user_id: parseInt(k),
             name: sups[k].first_name + " " + sups[k].last_name,
@@ -47,7 +47,7 @@ export class AdminApplicationsComponent implements OnInit {
         }
       }
     });
-    console.log(result);
+    // console.log(result);
     return result;
   }
 
