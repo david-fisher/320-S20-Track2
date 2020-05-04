@@ -44,7 +44,7 @@ public supporterInfo: SupporterInfo = {
 
   constructor(private activatedRoute: ActivatedRoute, private supporterProfileService: SupporterProfileService,
               private cookieService: CookieService, private http: HttpClient) {
-    this.profileID = this.activatedRoute.snapshot.params.appt_id;
+    this.profileID = this.activatedRoute.snapshot.params.supp_id;
     this.userID = this.cookieService.get('user_id');
     if (this.profileID.match(this.userID)) {
       this.canEdit = true;
