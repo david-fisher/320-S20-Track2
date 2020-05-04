@@ -57,7 +57,11 @@ import {
   MissingStarRatingDialog,
   MissingRecommendDialog, MissingQuestionDialog, FeedbackSuccessDialog
 } from './student/student-ratesupporter/student-ratesupporter.component';
-import { StudentMakeappointmentComponent } from './student/student-makeappointment/student-makeappointment.component';
+import {
+  StudentMakeappointmentComponent,
+  AppointmentConfirmationDialog,
+  AppointmentSuccessDialog
+} from './student/student-makeappointment/student-makeappointment.component';
 import { CreateaccountComponent, DialogContentExampleDialog, EmailExistsDialog, UhOhDialog } from './createaccount/createaccount.component';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatFileUploadModule } from 'mat-file-upload';
@@ -109,7 +113,9 @@ import {CanAdminActivateRouteGuard} from "./can-admin-activate-route.guard";
     MissingStarRatingDialog,
     MissingRecommendDialog,
     MissingQuestionDialog,
-    FeedbackSuccessDialog
+    FeedbackSuccessDialog,
+    AppointmentConfirmationDialog,
+    AppointmentSuccessDialog
   ],
   imports: [
     BrowserModule,
