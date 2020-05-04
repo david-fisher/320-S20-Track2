@@ -47,7 +47,6 @@ export class CustomEventTitleFormatter extends CalendarEventTitleFormatter {
   selector: 'app-student-makeappointment',
   templateUrl: './student-makeappointment.component.html',
   styleUrls: ['./student-makeappointment.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   providers: [
     {
@@ -57,9 +56,7 @@ export class CustomEventTitleFormatter extends CalendarEventTitleFormatter {
   ],
   styles: [
     `
-      .cal-month-view .bg-pink,
-      .cal-week-view .cal-day-columns .bg-pink,
-      .cal-day-view .bg-pink {
+      .cal-week-view .cal-day-columns .bg-pink {
         background-color: #B71C1C !important;
       }
     `,
@@ -174,15 +171,19 @@ export class StudentMakeappointmentComponent {
 
   getSched() {
     console.log(this.selectedSupporter);
-    if (this.selectedSupporter[0].availability === null){
+    if (this.selectedSupporter[0].availability === null) {
       alert('sorry this supporter is unavailable');
     }
+
     // tslint:disable-next-line:prefer-for-of
     for (let x = 0; x < this.selectedSupporter[0].availability.length; x++) {
       console.log(this.selectedSupporter[0].availability[x]);
     }
   }
 
+  refreshView(): void {
+    this.refresh();
+  }
 
 
   startDragToCreate(
@@ -191,6 +192,9 @@ export class StudentMakeappointmentComponent {
     segmentElement: HTMLElement
   ) {
     if (this.selectedSupporter === null) {
+      return;
+    }
+    if ( segment.cssClass === 'bg-pink') {
       return;
     }
     const dragToSelectEvent: CalendarEvent = {
@@ -210,7 +214,11 @@ export class StudentMakeappointmentComponent {
     this.time = hour + ':' + min + ':00';
 
     this.events = [...this.events, dragToSelectEvent];
+    if ( segment.cssClass === 'bg-pink') {
+      console.log('lslsls')
+    }
     const segmentPosition = segmentElement.getBoundingClientRect();
+    console.log(segmentPosition)
     const endOfView = endOfWeek(this.viewDate, {
       weekStartsOn: this.weekStartsOn,
     });
@@ -229,6 +237,9 @@ export class StudentMakeappointmentComponent {
         ))
       )
       .subscribe((mouseMoveEvent: MouseEvent) => {
+        if ( segment.cssClass === 'bg-pink') {
+          return;
+        }
         const minutesDiff = ceilToNearest(
           mouseMoveEvent.clientY - segmentPosition.top,
           30
@@ -241,10 +252,13 @@ export class StudentMakeappointmentComponent {
           ) / segmentPosition.width;
 
         const newEnd = addDays(addMinutes(segment.date, minutesDiff), daysDiff);
-        if (newEnd > segment.date && newEnd < endOfView) {
+        if ( segment.cssClass === 'bg-pink') {
+          this.refresh();
+        } else if (newEnd > segment.date && newEnd < endOfView) {
           dragToSelectEvent.end = newEnd;
+          this.refresh();
         }
-        this.refresh();
+
 
       });
 
@@ -256,14 +270,24 @@ export class StudentMakeappointmentComponent {
   }
 
   beforeWeekViewRender(renderEvent: CalendarWeekViewBeforeRenderEvent) {
-    console.log('smash');
+    if (this.selectedSupporter === null) {
+      return;
+    }
     renderEvent.hourColumns.forEach((hourColumn) => {
       hourColumn.hours.forEach((hour) => {
         hour.segments.forEach((segment) => {
+          //this.selectedSupporter.availability.splice(parseInt(x), 1);
           if (!(
-            segment.date.getHours() >= 8 &&
-            segment.date.getHours() <= 10 &&
-            segment.date.getDay() === 4
+            (segment.date.getHours() >= 12 &&
+            segment.date.getHours() <= 16 &&
+            segment.date.getDay() === 2)
+
+            ||
+
+            (segment.date.getHours() >= 9 &&
+              segment.date.getHours() <= 13 &&
+              segment.date.getDay() === 4)
+
           )) {
             segment.cssClass = 'bg-pink';
           }
@@ -278,7 +302,7 @@ export class StudentMakeappointmentComponent {
       supporter_id: this.selectedSupporter[0].id,
       appt_date: this.date,
       start_time: this.time,
-      duration: 15,
+      duration: 45,
       type: this.typeToID[this.selectedType],
       cancelled: false,
       rating: '0',
@@ -334,5 +358,3 @@ export class AppointmentConfirmationDialog {
   templateUrl: 'success-dialog.html',
 })
 export class AppointmentSuccessDialog {}
-
-
