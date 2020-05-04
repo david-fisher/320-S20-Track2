@@ -1,1 +1,12 @@
+h2 {
+  width: 20em;
+  margin-left: .5em;
+}
 
+
+
+span {
+  margin-left: 1em;
+  display: inline-block;
+  width: 40em;
+}
