@@ -6,9 +6,9 @@ export interface StudentInfo {
   major: string;
   GPA: number;
   grad_year: number;
-  email: string;
   phone_number: number;
   github_link: string;
+  linkedin_link: string;
   personal_description: string;
   //profile_picture: any;
   //request_supporter: boolean;

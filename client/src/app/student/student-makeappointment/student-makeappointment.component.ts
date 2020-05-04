@@ -3,7 +3,7 @@ import {Supports} from './supports';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
-  Component,
+  Component, Inject,
   Injectable,
   ViewEncapsulation,
 } from '@angular/core';
@@ -15,6 +15,9 @@ import { addDays, addMinutes, endOfWeek } from 'date-fns';
 import {HttpClient} from '@angular/common/http';
 import {InterestTags} from '../../admin/admin-tags/interest-tag';
 import {CookieService} from 'ngx-cookie-service';
+import {StudentCancelAppointmentDialog} from "../student-myappointments/student-myappointments.component";
+import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
+import {UhOhDialog} from "../../createaccount/createaccount.component";
 
 function floorToNearest(amount: number, precision: number) {
   return Math.floor(amount / precision) * precision;
@@ -73,13 +76,14 @@ export class StudentMakeappointmentComponent {
   selectedType;
   userID;
 
-  constructor(private cdr: ChangeDetectorRef, private http: HttpClient, private cookieService: CookieService) {
+  constructor(private cdr: ChangeDetectorRef, private http: HttpClient, private cookieService: CookieService, public dialog: MatDialog) {
     this.pageTags = this.tags_https();
     this.pageSupporters = this.supporter_https();
     console.log(this.pageSupporters);
     this.pageTypes = this.types_https();
     console.log(this.pageTypes);
     this.userID = this.getUserId();
+
   }
 
   tags_https()  {
@@ -213,12 +217,12 @@ export class StudentMakeappointmentComponent {
     console.log(this.selectedSupporter);
     console.log(this.selectedType)
     const appointment = {
-      student_id: this.userID,
-      supporter_id: this.selectedSupporter,
-      appt_date: '2022-12-12',
+      student_id: this.cookieService.get('user_id'),
+      supporter_id: 15,
+      appt_date: '2019-12-12',
       start_time: '13:50:22',
-      duration: 999,
-      type: this.selectedType,
+      duration: 9876,
+      type: 1,
       cancelled: false,
       rating: '0',
       recommended: false
@@ -227,11 +231,114 @@ export class StudentMakeappointmentComponent {
   }
 
   make_appointment(appointment) {
-    appointment = this.generate_appointment_object()
-    if (confirm('Is this the appointment you wish to make?')) {
-      this.http.post('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/appointments',
-        appointment).subscribe();
-    }
+    console.log('Make appointment debug');
+    appointment = this.generate_appointment_object();
+    console.log(appointment);
+    const sched = false;
+    let appt_detail = ['Date: ' + appointment.appt_date, 'Start Time: ' + appointment.start_time, 'Duration: ' + appointment.duration];
+    const dialogRef = this.dialog.open(AppointmentConfirmationDialog, {
+      data: {details: appt_detail, schedule: sched}
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result.scheduled) {
+        this.http.post('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/appointments',
+          appointment).subscribe( res => {
+            this.dialog.open(AppointmentSuccessDialog);
+        }, error => {
+            this.dialog.open(UhOhDialog);
+        });
+      }
+    });
   }
 
 }
+
+
+
+// Confirmation dialog component
+@Component({
+  selector: 'appointment-confirmation-dialog',
+  templateUrl: 'confirmation-dialog.html',
+})
+export class AppointmentConfirmationDialog {
+  constructor(public dialogRef: MatDialogRef<AppointmentConfirmationDialog>, @Inject(MAT_DIALOG_DATA) public data: any) {}
+  onNoClick() {
+    this.dialogRef.close({scheduled: false});
+  }
+  onCancelClick() {
+    this.dialogRef.close({scheduled: true});
+  }
+}
+
+// Appointment success dialog component
+@Component({
+  selector: 'appointment-success-dialog',
+  templateUrl: 'success-dialog.html',
+})
+export class AppointmentSuccessDialog {}
+
+
+/*@Component({
+  selector: 'app-student-makeappointment',
+  templateUrl: './student-makeappointment.component.html',
+  styleUrls: ['./student-makeappointment.component.css']
+})
+export class StudentMakeappointmentComponent implements OnInit {
+
+  constructor() { }
+
+  ngOnInit(): void {
+  }
+}*/
+
+/*@Component({
+  selector: 'app-student-makeappointment',
+  templateUrl: './student-makeappointment.component.html',
+  styleUrls: ['./student-makeappointment.component.css'],
+  styles: [
+    `
+      .cal-week-view .cal-time-events .cal-day-column {
+        margin-right: 10px;
+      }
+
+      .cal-week-view .cal-hour {
+        width: calc(100% + 10px);
+      }
+    `,
+  ]
+})
+export class StudentMakeappointmentComponent {
+  @ViewChild('modalContent', { static: true }) modalContent: TemplateRef<any>;
+
+  selectedTags;
+  get supporters(): Supports[] {
+
+    let list: Array<any> = [];
+    if (this.selectedTags == null) {
+      return SUPPORTERS;
+    }
+
+    if (this.selectedTags.length == 0) {
+      return SUPPORTERS;
+    }
+
+    // tslint:disable-next-line:forin
+    for (const x in SUPPORTERS) {
+      // tslint:disable-next-line:prefer-for-of
+      let count: number = 0;
+      for (let i = 0; i <  this.selectedTags.length; i++  ) {
+
+        if (SUPPORTERS[x].tags.includes(this.selectedTags[i])) {
+          count++;
+        }
+      }
+      if(count == this.selectedTags.length){
+        list.push(SUPPORTERS[x]);
+      }
+    }
+    return list;
+  }
+
+  get tags(): Tags {
+    return TAGS;
+  }*/

@@ -26,4 +26,11 @@ export class AuthService {
     return this.cookieService.get('user_type') === 'supporter';
   }
 
+  isUserAdmin() {
+    /*
+    Returns if the user is an admin by checking the is_admin cookie
+     */
+    return this.cookieService.get('is_admin') == "true";
+  }
+
 }

@@ -38,30 +38,27 @@
         <h4> {{appointment.date | date:'HH:mm a  MMM dd yyyy '}} </h4>
         <h4> Duration: {{appointment.duration}} Minutes </h4>
       </mat-card-content>
-<!--      <mat-card-actions>-->
-<!--        <button mat-button [routerLink]="['/student-ratesupporter', appointment.student]">View Feedback</button>-->
-<!--      </mat-card-actions>-->
-      <mat-expansion-panel>
+      <mat-expansion-panel *ngIf="appointment.rated">
         <mat-expansion-panel-header>View Feedback</mat-expansion-panel-header>
-        <p>
-          Rating: {{tempFeedback.rating}}
+        <p *ngIf="tempFeedback.show_rating">
+          Rating: {{tempFeedback.rating}} / 5
         </p>
-        <p>
+        <p  *ngIf="tempFeedback.show_recommend">
           Would Recommend: {{tempFeedback.recommend}}
         </p>
-        <p>
-          Question: {{tempFeedback.question}}
-        </p>
-        <p>
-          Answer: {{tempFeedback.answer}}
-        </p>
-<!--        <div *ngFor="let q of tempFeedback.questions;let i=index">-->
-<!--          <p>-->
-<!--            {{q}}-->
-<!--            <br>-->
-<!--            {{tempFeedback.answers[i]}}-->
-<!--          </p>-->
-<!--        </div>-->
+<!--        <p>-->
+<!--          Question: {{tempFeedback.question}}-->
+<!--        </p>-->
+<!--        <p>-->
+<!--          Answer: {{tempFeedback.answer}}-->
+<!--        </p>-->
+        <div *ngFor="let q of tempFeedback.questions;let i=index">
+          <p>
+            {{q}}
+            <br>
+            {{tempFeedback.answers[i]}}
+          </p>
+        </div>
       </mat-expansion-panel>
     </mat-card>
   </ul>

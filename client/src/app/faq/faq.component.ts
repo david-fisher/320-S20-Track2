@@ -7,18 +7,29 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./faq.component.css']
 })
 export class FaqComponent implements OnInit {
-  public test1;
+  qs;
   constructor(private http: HttpClient) {
   } // You can leave the constructor blank, http will be automatically "injected" for you
 
-  test() { // Function which you can call to make a request
-    this.http.get('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/faq').subscribe(res => {
-      console.log(res);
-      this.test1 = res;
-    });
+  get questions(): Array<Map<string, string>> {
+    /*
+    Get questions from /faq and return them
+     */
+    let array_qs = [];
+    console.log(this.qs);
+    for (const key in this.qs) {
+      console.log(key);
+      array_qs.push(this.qs[key]);
+    }
+    console.log(array_qs);
+    return array_qs;
   }
 
   ngOnInit(): void {
+    this.http.get('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/faq').subscribe(res => {
+      console.log(res);
+      this.qs = res;
+    });
   }
 
 }

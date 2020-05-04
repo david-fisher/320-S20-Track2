@@ -14,8 +14,8 @@ export class StudentProfileService {
     return this.http.get(this.studentProfileUrl + profileID);
   }
 
-  patchStudentProfile(changes) {
-    return this.http.patch(this.studentProfileUrl, changes);
+  patchStudentProfile(changes, profileID) {
+    return this.http.patch(this.studentProfileUrl + profileID, changes);
   }
 
   constructor(private http: HttpClient, private cookieService: CookieService) { }

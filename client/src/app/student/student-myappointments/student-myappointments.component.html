@@ -39,8 +39,11 @@
           <p>{{appointment.date | date:'HH:mm a  MMM dd yyyy '}}</p>
         </h4>
       </mat-card-content>
-      <mat-card-actions>
-        <button mat-button [routerLink]="['/student-ratesupporter', appointment.supporter_name, appointment.appt_id]">RATE</button>
+      <mat-card-actions class="inlinec">
+        <button mat-button [disabled]= "appointment.rated" [routerLink]="['/student-ratesupporter', appointment.supporter_name, appointment.appt_id]">RATE</button>
+        <div *ngIf="appointment.rated">
+          <span>Already Rated</span>
+        </div>
       </mat-card-actions>
     </mat-card>
   </ul>

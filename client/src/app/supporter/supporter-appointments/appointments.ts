@@ -6,12 +6,15 @@ export interface SupporterAppointment {
   student: string;
   location: string;
   cancelled: boolean;
+  rated: boolean;
 }
 
 export interface SupporterFeedback {
-  question: string;
-  answer: string;
+  question: string[];
+  answer: string[];
+  show_rating: boolean;
   rating: number;
+  show_recommend: boolean;
   recommend: boolean;
 }
 
@@ -30,8 +33,8 @@ const app4 = new Date(2020, 1, 15, 9, 10, 0, 0);
 
 
 export const TEST_APPOINTMENTS: SupporterAppointment[] = [
-  {date: app1, type: 'Resume Help', student: 'Brian Smith', appt_id: '1', duration: '60', location: 'lederle 123', cancelled: false},
-  {date: app2, type: 'Interview Help', student: 'John Doe', appt_id: '2', duration: '60', location: 'lederle 124', cancelled: false},
-  {date: app3, type: 'Career Guidance', student: 'John Doe', appt_id: '3', duration: '60', location: 'lederle 125', cancelled: false},
-  {date: app4, type: 'Job Search', student: 'Daniel Fisher', appt_id: '1', duration: '60', location: 'lederle 126', cancelled: false}
+  {date: app1, type: 'Resume Help', student: 'Brian Smith', appt_id: '1', duration: '60', location: 'lederle 123', cancelled: false, rated: false},
+  {date: app2, type: 'Interview Help', student: 'John Doe', appt_id: '2', duration: '60', location: 'lederle 124', cancelled: false, rated: false},
+  {date: app3, type: 'Career Guidance', student: 'John Doe', appt_id: '3', duration: '60', location: 'lederle 125', cancelled: false, rated: false},
+  {date: app4, type: 'Job Search', student: 'Daniel Fisher', appt_id: '1', duration: '60', location: 'lederle 126', cancelled: false, rated: false}
 ];

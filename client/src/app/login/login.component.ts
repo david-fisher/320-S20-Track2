@@ -86,7 +86,6 @@ export class LoginComponent implements OnInit {
       'username': CryptoJS.SHA3(email, { outputLength: 224 }).toString(CryptoJS.enc.Hex),
       'password': CryptoJS.SHA3(this.post['password'], { outputLength: 224 }).toString(CryptoJS.enc.Hex)
     };
-    console.log(data);
 
     this.http.post<JSON>('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/authentication',
       data).subscribe(res => {
@@ -95,8 +94,10 @@ export class LoginComponent implements OnInit {
       console.log(res['user-id']);
       let user_id = res['user-id'].toString();
       let user_type = res['type'];
+      let is_admin = res['isAdmin'].toString();
       this.cookieService.set('user_id', user_id);
       this.cookieService.set('user_type', user_type);
+      this.cookieService.set('is_admin', is_admin);
       this.cookieService.set('logged-in', '');
       this.router.navigate(['/home']);
     }, error => {

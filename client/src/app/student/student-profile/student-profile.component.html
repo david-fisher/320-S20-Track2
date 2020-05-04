@@ -1,11 +1,8 @@
 <!-- TO IMPLEMENT:
-Character limit on description（done）
 Clickable links
 Dynamic display for certain attributes
 Edit/update profile picture
-Uploading files
-Cancel button
-Maybe something better than a bunch of <br>s?-->
+Uploading files-->
 <!DOCTYPE html>
 <html lang="en">
 <meta charset="UTF-8">
@@ -20,26 +17,28 @@ Maybe something better than a bunch of <br>s?-->
 
 
 <body>
-  <!--Profile picture-->
-    <header>Personal Avatar</header>
-    <img src = "assets/umasslogo.png" alt = "avatar">
-  <div *ngIf = "this.canEdit">
-  <mat-file-upload
-    [labelText]="'Upload Picture:'"
-    [selectButtonText]="'Choose File'"
-    [allowMultipleFiles]="false"
-    [showUploadButton]="true"
-    [customSvgIcon]="'close_custom'"
-    [acceptedTypes]="'.png'"
-  >
-  </mat-file-upload>
-  </div>
+  <!--Profile picture. Deprecated for now-->
+  <img src = "assets/umasslogo.png" alt = "avatar">
+
+<!--  file upload, currently deprecated-->
+
+<!--  <div *ngIf = "this.canEdit">-->
+<!--  <mat-file-upload-->
+<!--    [labelText]="'Upload Picture:'"-->
+<!--    [selectButtonText]="'Choose File'"-->
+<!--    [allowMultipleFiles]="false"-->
+<!--    [showUploadButton]="true"-->
+<!--    [customSvgIcon]="'close_custom'"-->
+<!--    [acceptedTypes]="'.png'"-->
+<!--  >-->
+<!--  </mat-file-upload>-->
+<!--  </div>-->
   <br>
 
   <!--Info/Personal Links: currently contains names, pronouns, major, graduate year, GPA, email-->
   <mat-expansion-panel>
     <!--View mode-->
-    <mat-expansion-panel-header>Personal Info</mat-expansion-panel-header>
+    <mat-expansion-panel-header>General Information</mat-expansion-panel-header>
       <ul *ngIf = "informationFlag">
         <li>Name: {{studentInfo.first_name}} {{studentInfo.last_name}}<br>
           <mat-card-subtitle>Prefers {{studentInfo.preferred_name}}</mat-card-subtitle></li><br>
@@ -47,7 +46,6 @@ Maybe something better than a bunch of <br>s?-->
         <li>Major:  {{studentInfo.major}}</li><br>
         <li>Graduation Year: {{studentInfo.grad_year}}</li><br>
         <li>GPA: {{studentInfo.GPA}}</li><br>
-        <li>Email: {{studentInfo.email}}</li><br>
         <div *ngIf = "this.canEdit">
          <mat-card-actions>
           <button mat-raised-button (click) = "runInformation()" color="primary">EDIT</button>
@@ -77,19 +75,27 @@ Maybe something better than a bunch of <br>s?-->
           </mat-form-field>
         </li>
         <li >Graduation Year:
+          <select name = "GraduationYear" [(ngModel)]="studentInfo.grad_year">
+            <option [value] = "item" *ngFor = "let item of graduationYears" >{{item}}</option>
+          </select>
+        </li>
+        <li>GPA:
           <mat-form-field class="input" appearance="fill">
-            <input matInput id = "grad_year" [(ngModel)]="studentInfo.grad_year" maxlength="4"/>
+            <input matInput id = "GPA" [(ngModel)]="studentInfo.GPA" maxlength="3"/>
           </mat-form-field>
         </li><br>
         <mat-card-actions>
           <button mat-raised-button (click) = "submitInformation()" color="primary">SUBMIT</button>
+        </mat-card-actions>
+        <mat-card-actions>
+          <button mat-raised-button (click) = "cancelInformation()" color="primary">CANCEL</button>
         </mat-card-actions>
       </ul>
   </mat-expansion-panel><br>
 
   <!--Personal Description-->
   <mat-expansion-panel>
-    <mat-expansion-panel-header>Personal Description</mat-expansion-panel-header>
+    <mat-expansion-panel-header>Description</mat-expansion-panel-header>
     <!--View mode-->
     <ul *ngIf = "descriptionFlag">
       <li>{{studentInfo.personal_description}}</li><br> <!--Character Limit Needed-->
@@ -109,16 +115,20 @@ Maybe something better than a bunch of <br>s?-->
       <mat-card-actions>
         <button mat-raised-button (click) = "submitDescription()" color="primary">SUBMIT</button>
       </mat-card-actions>
+      <mat-card-actions>
+        <button mat-raised-button (click) = "cancelDescription()" color="primary">CANCEL</button>
+      </mat-card-actions>
   </ul>
   </mat-expansion-panel>
   <br>
 
   <!--Personal Links/Files-->
   <mat-expansion-panel>
-    <mat-expansion-panel-header>Personal Links and Files</mat-expansion-panel-header>
+    <mat-expansion-panel-header>Personal Links</mat-expansion-panel-header>
     <!--View mode-->
     <ul *ngIf = "linksFilesFlag">
-      <li>Github: {{studentInfo.github_link}}</li><br> <!--Dynamic implementation needed-->
+      <li>Github: {{studentInfo.github_link}}</li><br>
+      <li>LinkedIn: {{studentInfo.linkedin_link}}</li><br><!--Dynamic implementation needed-->
 <!--      <li>Resume: {{studentInfo.Resume}}</li><br>-->
       <div *ngIf = "this.canEdit">
         <mat-card-actions>
@@ -130,19 +140,26 @@ Maybe something better than a bunch of <br>s?-->
     <ul *ngIf = "!linksFilesFlag">
       Github:
       <mat-form-field class="input" appearance="fill">
-        <input matInput placeholder="Personal link" [(ngModel)]="studentInfo.github_link">
+        <input matInput id="github_link" [(ngModel)]="studentInfo.github_link">
       </mat-form-field><br>
-      <mat-file-upload
-        [labelText]="'Upload File:'"
-        [selectButtonText]="'Choose File'"
-        [allowMultipleFiles]="false"
-        [showUploadButton]="true"
-        [customSvgIcon]="'close_custom'"
-        [acceptedTypes]="'.pdf, .docx'"
-      >
-      </mat-file-upload>
+      LinkedIn:
+      <mat-form-field class="input" appearance="fill">
+        <input matInput id="linkedin_link" [(ngModel)]="studentInfo.linkedin_link">
+      </mat-form-field><br>
+<!--      <mat-file-upload-->
+<!--        [labelText]="'Upload File:'"-->
+<!--        [selectButtonText]="'Choose File'"-->
+<!--        [allowMultipleFiles]="false"-->
+<!--        [showUploadButton]="true"-->
+<!--        [customSvgIcon]="'close_custom'"-->
+<!--        [acceptedTypes]="'.pdf, .docx'"-->
+<!--      >-->
+<!--      </mat-file-upload>-->
       <mat-card-actions>
         <button mat-raised-button (click) = "submitLinksFiles()" color="primary">SUBMIT</button>
+      </mat-card-actions>
+      <mat-card-actions>
+        <button mat-raised-button (click) = "cancelLinksFiles()" color="primary">CANCEL</button>
       </mat-card-actions>
     </ul>
   </mat-expansion-panel><br>
