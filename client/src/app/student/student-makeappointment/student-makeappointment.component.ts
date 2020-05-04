@@ -358,5 +358,3 @@ export class AppointmentConfirmationDialog {
   templateUrl: 'success-dialog.html',
 })
 export class AppointmentSuccessDialog {}
-
-

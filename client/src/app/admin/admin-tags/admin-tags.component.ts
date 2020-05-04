@@ -123,8 +123,10 @@ export class AdminTagsComponent implements OnInit {
           resolve();
         }
       }).then(() => {
+        setTimeout(() =>
         this.pageTags =
-          this.content_https('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/tags');
+          this.content_https('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/tags'),
+          1700);
       });
     });
   }
@@ -145,8 +147,10 @@ export class AdminTagsComponent implements OnInit {
           resolve();
         }
       }).then(() => {
+        setTimeout(() =>
         this.pageSupporterTypes =
-          this.content_https('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/options?resource=type_of_supporter');
+          this.content_https('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/options?resource=type_of_supporter'),
+            1700);
       });
     });
   }
@@ -167,8 +171,10 @@ export class AdminTagsComponent implements OnInit {
           resolve();
         }
       }).then(() => {
+        setTimeout(() =>
         this.pageAppointmentTypes =
-          this.content_https('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/options?resource=appointment_type');
+          this.content_https('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/options?resource=appointment_type'),
+            1700);
       });
     });
   }

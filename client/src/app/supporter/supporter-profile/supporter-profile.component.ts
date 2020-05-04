@@ -26,6 +26,7 @@ export class SupporterProfileComponent implements OnInit {
   public profileID = '';
   public userID = '';
   public canEdit = false;
+  profileTags;
 
   // hard coded things need to be updated by the lambdas
 
@@ -42,12 +43,25 @@ public supporterInfo: SupporterInfo = {
   }
 
   constructor(private activatedRoute: ActivatedRoute, private supporterProfileService: SupporterProfileService,
-              private cookieService: CookieService) {
+              private cookieService: CookieService, private http: HttpClient) {
     this.profileID = this.activatedRoute.snapshot.params.appt_id;
     this.userID = this.cookieService.get('user_id');
     if (this.profileID.match(this.userID)) {
       this.canEdit = true;
     }
+    this.profileTags = this.profile_tags();
+  }
+
+  profile_tags() {
+    const result = [];
+    this.http.get('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/account/' + this.profileID
+      + this.cookieService.get(this.profileID)).subscribe(res => {
+      for (let i = 0; i < Object.values(res)[4].length; i++) {
+        result.push({name: Object.values(res)[4][i][0]});
+      }
+    });
+    console.log(result);
+    return result;
   }
 
 
