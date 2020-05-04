@@ -35,7 +35,7 @@ Uploading files-->
 <!--  </div>-->
   <br>
 
-  <!--Info/Personal Links: currently contains names, pronouns, major, graduate year, GPA, email-->
+  <!--Info/Personal Links: currently contains names, pronouns, college, graduate year, GPA, email-->
   <mat-expansion-panel>
     <!--View mode-->
     <mat-expansion-panel-header>General Information</mat-expansion-panel-header>
@@ -43,7 +43,7 @@ Uploading files-->
         <li>Name: {{studentInfo.first_name}} {{studentInfo.last_name}}<br>
           <mat-card-subtitle>Prefers {{studentInfo.preferred_name}}</mat-card-subtitle></li><br>
         <li>Pronouns: {{studentInfo.pronouns}}</li><br>
-        <li>Major:  {{studentInfo.major}}</li><br>
+        <li>College:  {{studentInfo.college}}</li><br>
         <li>Graduation Year: {{studentInfo.grad_year}}</li><br>
         <li>GPA: {{studentInfo.GPA}}</li><br>
         <div *ngIf = "this.canEdit">
@@ -69,15 +69,28 @@ Uploading files-->
             <input matInput id = "pronouns" [(ngModel)]="studentInfo.pronouns" maxlength="15"/>
           </mat-form-field>
         </li>
-        <li>Major:
-          <mat-form-field class="input" appearance="fill">
-            <input matInput id = "major" [(ngModel)]="studentInfo.major" maxlength="20"/>
+        <li>College:
+          <mat-form-field class="form-element" appearance="fill">
+            <mat-label>College</mat-label>
+            <mat-select name = "College" [(ngModel)] = "studentInfo.college">
+              <mat-option value="College of Education">College of Education</mat-option>
+              <mat-option value="College of Engineering">College of Engineering</mat-option>
+              <mat-option value="College of Humanities and Fine Arts">College of Humanities and Fine Arts</mat-option>
+              <mat-option value="College of Natural Sciences">College of Natural Sciences</mat-option>
+              <mat-option value="College of Nursing">College of Nursing</mat-option>
+              <mat-option value="College of Social and Behavioral Sciences">College of Social and Behavioral Sciences</mat-option>
+              <mat-option value="Isenberg School of Management">Isenberg School of Management</mat-option>
+              <mat-option value="College of Information and Computer Sciences">College of Information and Computer Sciences</mat-option>
+              <mat-option value="School of Public Health and Health Sciences">School of Public Health and Health Sciences</mat-option>
+              <mat-option value="Stockbridge School of Agriculture">Stockbridge School of Agriculture</mat-option>
+              <mat-option value="University Without Walls">University Without Walls</mat-option>
+            </mat-select>
           </mat-form-field>
         </li>
         <li >Graduation Year:
-          <select name = "GraduationYear" [(ngModel)]="studentInfo.grad_year">
+          <mat-select name = "GraduationYear" [(ngModel)]="studentInfo.grad_year">
             <option [value] = "item" *ngFor = "let item of graduationYears" >{{item}}</option>
-          </select>
+          </mat-select>
         </li>
         <li>GPA:
           <mat-form-field class="input" appearance="fill">

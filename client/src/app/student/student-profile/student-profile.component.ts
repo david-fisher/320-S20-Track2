@@ -34,7 +34,7 @@ export class StudentProfileComponent implements OnInit {
     last_name: '',
     preferred_name: '',
     pronouns: '',
-    major: '',
+    college: '',
     GPA: 0,
     grad_year: 0,
     phone_number: 0,
@@ -49,7 +49,7 @@ export class StudentProfileComponent implements OnInit {
     last_name: '',
     preferred_name: '',
     pronouns: '',
-    major: '',
+    college: '',
     GPA: 0,
     grad_year: 0,
     phone_number: 0,
@@ -78,7 +78,7 @@ export class StudentProfileComponent implements OnInit {
         this.studentInfo.last_name = Object.values(data)[0][4];
         this.studentInfo.preferred_name = Object.values(data)[0][5];
         this.studentInfo.pronouns = Object.values(data)[0][11];
-        this.studentInfo.major = Object.values(data)[1][9];
+        this.studentInfo.college = Object.values(data)[1][9];
         this.studentInfo.GPA = Object.values(data)[1][1];
         this.studentInfo.grad_year = Object.values(data)[1][2].substring(0, 4);
         this.studentInfo.phone_number = Object.values(data)[0][6];
@@ -95,7 +95,7 @@ export class StudentProfileComponent implements OnInit {
     copy.last_name = original.last_name;
     copy.preferred_name = original.preferred_name;
     copy.pronouns = original.pronouns;
-    copy.major = original.major;
+    copy.college = original.college;
     copy.GPA = original.GPA;
     copy.grad_year = original.grad_year;
     copy.phone_number = original.phone_number;
@@ -127,7 +127,7 @@ Each submit sends a PATCH request for the editable fields
       grad_year: this.studentInfo.grad_year,
       description: this.studentInfo.personal_description,
       pronouns: this.studentInfo.pronouns,
-      program: this.studentInfo.major,
+      program: this.studentInfo.college,
       GPA: this.studentInfo.GPA
     }, this.profileID).subscribe(data => {console.log(data); });
   }

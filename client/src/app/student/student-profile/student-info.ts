@@ -3,7 +3,7 @@ export interface StudentInfo {
   last_name: string;
   preferred_name: string;
   pronouns: string;
-  major: string;
+  college: string;
   GPA: number;
   grad_year: number;
   phone_number: number;
