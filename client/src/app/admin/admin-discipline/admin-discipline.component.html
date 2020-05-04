@@ -8,7 +8,7 @@
 
   <h3>User ID</h3>
   <mat-form-field class = "input">
-    <input matInput placeholder="Specify a user ID here" [value]=reportedID>
+    <input matInput placeholder="Specify a user ID here" [value]=reportedID [(ngModel)]=reportedID>
   </mat-form-field>
 
   <h3>Reason</h3>
@@ -16,18 +16,8 @@
     <textarea matInput placeholder="Specify reason for discipline"></textarea>
   </mat-form-field>
 
-  <h3>Duration</h3>
-  <mat-form-field class="input">
-    <mat-select>
-      <mat-option value="3">3 Months</mat-option>
-     <mat-option value="6">6 Months</mat-option>
-      <mat-option value="12">1 Year</mat-option>
-      <mat-option value="24">2 Years</mat-option>
-    </mat-select>
-  </mat-form-field>
   <br>
-  <br>
-  <button mat-raised-button color="warn">Confirm</button>
+  <button mat-raised-button color="warn" (click) = "ban()">Ban</button>
 </div>
 </body>
 </html>

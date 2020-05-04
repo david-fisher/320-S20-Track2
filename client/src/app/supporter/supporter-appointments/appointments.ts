@@ -9,8 +9,8 @@ export interface SupporterAppointment {
 }
 
 export interface SupporterFeedback {
-  questions: string[];
-  answers: string[];
+  question: string;
+  answer: string;
   rating: number;
   recommend: boolean;
 }

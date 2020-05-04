@@ -1,14 +1,12 @@
-export interface StudentInfo {
+export interface SupporterInfo {
   first_name: string;
   last_name: string;
   preferred_name: string;
   pronouns: string;
-  major: string;
-  GPA: number;
-  grad_year: number;
+  title: string;
+  current_employer: string;
+  location: string;
   phone_number: number;
-  github_link: string;
-  linkedin_link: string;
   personal_description: string;
   //profile_picture: any;
   //request_supporter: boolean;

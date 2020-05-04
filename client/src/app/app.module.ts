@@ -34,7 +34,10 @@ import { StudentFindsupportersComponent } from './student/student-findsupporters
 import { StudentProfileComponent } from './student/student-profile/student-profile.component';
 import { AdminApplicationsComponent } from './admin/admin-applications/admin-applications.component';
 import { MatExpansionModule } from '@angular/material/expansion';
-import { AdminDisciplineComponent } from './admin/admin-discipline/admin-discipline.component';
+import {
+  AdminDisciplineComponent,
+  BanConfirmationDialogueComponent
+} from './admin/admin-discipline/admin-discipline.component';
 import { AdminLandingComponent } from './admin/admin-landing/admin-landing.component';
 import { AdminReportsComponent } from './admin/admin-reports/admin-reports.component';
 import {
@@ -49,7 +52,11 @@ import { SupporterLandingComponent } from './supporter/supporter-landing/support
 import { SupporterSettingsComponent } from './supporter/supporter-settings/supporter-settings.component';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { StudentMyappointmentsComponent, StudentCancelAppointmentDialog } from './student/student-myappointments/student-myappointments.component';
-import { StudentRatesupporterComponent } from './student/student-ratesupporter/student-ratesupporter.component';
+import {
+  StudentRatesupporterComponent,
+  MissingStarRatingDialog,
+  MissingRecommendDialog, MissingQuestionDialog, FeedbackSuccessDialog
+} from './student/student-ratesupporter/student-ratesupporter.component';
 import { StudentMakeappointmentComponent } from './student/student-makeappointment/student-makeappointment.component';
 import { CreateaccountComponent, DialogContentExampleDialog, EmailExistsDialog, UhOhDialog } from './createaccount/createaccount.component';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
@@ -57,10 +64,12 @@ import { MatFileUploadModule } from 'mat-file-upload';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { MatGridListModule } from '@angular/material/grid-list';
-import { MatRadioModule } from "@angular/material/radio";
-import { MatDialogModule } from "@angular/material/dialog";
-import {CanStudentActivateRouteGuard} from "./can-student-activate-route.guard";
-import {CanSupporterActivateRouteGuard} from "./can-supporter-activate-route.guard";
+import { MatRadioModule } from '@angular/material/radio';
+import { MatDialogModule } from '@angular/material/dialog';
+import {CanStudentActivateRouteGuard} from './can-student-activate-route.guard';
+import {CanSupporterActivateRouteGuard} from './can-supporter-activate-route.guard';
+import {SupporterProfileComponent} from './supporter/supporter-profile/supporter-profile.component';
+import {CanAdminActivateRouteGuard} from "./can-admin-activate-route.guard";
 
 
 
@@ -94,7 +103,13 @@ import {CanSupporterActivateRouteGuard} from "./can-supporter-activate-route.gua
     IncorrectPasswordDialog,
     IncorrectEmailDialog,
     ConfirmationDialogueComponent,
-    AlertDialogueComponent
+    AlertDialogueComponent,
+    SupporterProfileComponent,
+    BanConfirmationDialogueComponent,
+    MissingStarRatingDialog,
+    MissingRecommendDialog,
+    MissingQuestionDialog,
+    FeedbackSuccessDialog
   ],
   imports: [
     BrowserModule,
@@ -133,7 +148,7 @@ import {CanSupporterActivateRouteGuard} from "./can-supporter-activate-route.gua
     MatRadioModule,
     MatDialogModule,
   ],
-  providers: [CookieService, AuthService, CanActivateRouteGuard, CanStudentActivateRouteGuard, CanSupporterActivateRouteGuard],
+  providers: [CookieService, AuthService, CanActivateRouteGuard, CanStudentActivateRouteGuard, CanSupporterActivateRouteGuard, CanAdminActivateRouteGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

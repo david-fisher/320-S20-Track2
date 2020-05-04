@@ -1,7 +1,5 @@
 import {SUPPORTERS} from './mock-supporters';
 import {Supports} from './supports';
-import {TAGS} from './mock-tags';
-import {Tags} from './tags';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -16,7 +14,7 @@ import { finalize, takeUntil } from 'rxjs/operators';
 import { addDays, addMinutes, endOfWeek } from 'date-fns';
 import {HttpClient} from '@angular/common/http';
 import {InterestTags} from '../../admin/admin-tags/interest-tag';
-import {CookieService} from "ngx-cookie-service";
+import {CookieService} from 'ngx-cookie-service';
 
 function floorToNearest(amount: number, precision: number) {
   return Math.floor(amount / precision) * precision;
@@ -70,10 +68,18 @@ export class StudentMakeappointmentComponent {
   selectedTags;
   pageTags;
   pageSupporters;
+  selectedSupporter;
+  pageTypes;
+  selectedType;
+  userID;
 
   constructor(private cdr: ChangeDetectorRef, private http: HttpClient, private cookieService: CookieService) {
     this.pageTags = this.tags_https;
     this.pageSupporters = this.supporter_https;
+    this.userID = this.getUserId();
+    console.log(this.userID);
+    console.log('IS THE CONSTRUCTOR CONSTRUCTING?');
+    this.pageTypes = this.content_https('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/options?resource=appointment_type');
   }
 
   get tags_https(): Array<InterestTags> {
@@ -85,6 +91,23 @@ export class StudentMakeappointmentComponent {
       }
     });
     return result;
+  }
+
+  content_https(url) {
+    const result = [];
+    this.http.get(url, {}).subscribe(res => {
+      console.log(Object.values(res));
+      for (const tag of Object.values(res)) {
+        const newTag = {name: tag[1]};
+        result.push(newTag);
+      }
+    });
+    console.log(result);
+    return result;
+  }
+
+  getUserId() {
+    this.userID = this.cookieService.get('user_id');
   }
 
   get supporter_https() {
@@ -103,11 +126,11 @@ export class StudentMakeappointmentComponent {
   get supporters(): Supports[] {
     console.log(this.selectedTags);
     const list: Array<any> = [];
-    if (this.selectedTags == null) {
+    if (this.selectedTags === undefined) {
       return SUPPORTERS;
     }
 
-    if (this.selectedTags.length == 0) {
+    if (this.selectedTags.length === 0) {
       return SUPPORTERS;
     }
 
@@ -121,7 +144,7 @@ export class StudentMakeappointmentComponent {
           count++;
         }
       }
-      if (count == this.selectedTags.length) {
+      if (count === this.selectedTags.length) {
         list.push(SUPPORTERS[x]);
       }
     }
@@ -187,11 +210,11 @@ export class StudentMakeappointmentComponent {
 
   generate_appointment_object() {
     const appointment = {
-      student_id: 2,
-      supporter_id: this.cookieService.get('user_id'),
-      appt_date: '2014-12-12',
+      student_id: 20,
+      supporter_id: 15,
+      appt_date: '2019-12-12',
       start_time: '13:50:22',
-      duration: 999,
+      duration: 9876,
       type: 1,
       cancelled: false,
       rating: 0,
@@ -202,6 +225,7 @@ export class StudentMakeappointmentComponent {
 
   make_appointment(appointment) {
     console.log('Make appointment debug');
+    appointment = this.generate_appointment_object();
     console.log(appointment);
     if (confirm('Is this the appointment you wish to make?')) {
       this.http.post('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/appointments',

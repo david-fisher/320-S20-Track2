@@ -7,7 +7,7 @@
     <mat-card [class.mat-elevation-z5]="true" class="appointment-card">
       <mat-card-header>
         <div mat-card-avatar class="example-header-image"></div>
-        <mat-card-title>{{appointment.student}}</mat-card-title>
+        <mat-card-title> <button mat-button [routerLink]="['/student-profile', appointment.appt_id]" routerLinkActive="active">{{appointment.student}}</button> </mat-card-title>
         <mat-card-subtitle>{{appointment.type}}</mat-card-subtitle>
         <mat-card-subtitle>{{appointment.location}}</mat-card-subtitle>
       </mat-card-header>
@@ -30,7 +30,7 @@
     <mat-card [class.mat-elevation-z5]="true" class="appointment-card">
       <mat-card-header>
         <div mat-card-avatar class="example-header-image"></div>
-        <mat-card-title>{{appointment.student}}</mat-card-title>
+        <mat-card-title> <button mat-button [routerLink]="['/student-profile', appointment.appt_id]" routerLinkActive="active">{{appointment.student}}</button> </mat-card-title>
         <mat-card-subtitle>{{appointment.type}}</mat-card-subtitle>
         <mat-card-subtitle>{{appointment.location}}</mat-card-subtitle>
       </mat-card-header>
@@ -44,17 +44,24 @@
       <mat-expansion-panel>
         <mat-expansion-panel-header>View Feedback</mat-expansion-panel-header>
         <p>
-          Rating: {{tempFeedback.rating}}</p>
+          Rating: {{tempFeedback.rating}}
+        </p>
         <p>
           Would Recommend: {{tempFeedback.recommend}}
         </p>
-        <div *ngFor="let q of tempFeedback.questions;let i=index">
-          <p>
-            {{q}}
-            <br>
-            {{tempFeedback.answers[i]}}
-          </p>
-        </div>
+        <p>
+          Question: {{tempFeedback.question}}
+        </p>
+        <p>
+          Answer: {{tempFeedback.answer}}
+        </p>
+<!--        <div *ngFor="let q of tempFeedback.questions;let i=index">-->
+<!--          <p>-->
+<!--            {{q}}-->
+<!--            <br>-->
+<!--            {{tempFeedback.answers[i]}}-->
+<!--          </p>-->
+<!--        </div>-->
       </mat-expansion-panel>
     </mat-card>
   </ul>

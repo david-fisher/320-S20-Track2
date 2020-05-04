@@ -47,6 +47,7 @@ export class CreateaccountComponent implements OnInit {
       'preferredName': [null, Validators.required],
       'email': [null, [Validators.required, Validators.pattern(emailregex)]],
       'password': [null, [Validators.required, this.checkPassword]],
+      'pronouns': [null, Validators.required],
       'phoneNum': [null],
       'currentEmployer': [null],
       'userTitle': [null],
@@ -64,19 +65,25 @@ export class CreateaccountComponent implements OnInit {
     /*
     Builds student form with necessary fields and validators
      */
-    let emailregex: RegExp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    let emailregex: RegExp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    let linkregex = new RegExp("^(http[s]?:\\/\\/(www\\.)?|ftp:\\/\\/(www\\.)?|(www\\.)?){1}([0-9A-Za-z-\\.@:%_\+~#=]+)+((\\.[a-zA-Z]{2,3})+)(/(.)*)?(\\?(.)*)?");
     this.formStudentGroup = this.formBuilder.group({
       'first_name': [null, Validators.required],
       'last_name': [null, Validators.required],
       'preferredName': [null, Validators.required],
       'email': [null, [Validators.required, Validators.pattern(emailregex)]],
       'password': [null, [Validators.required, this.checkPassword]],
+      'pronouns': [null, Validators.required],
+      'college': [null, Validators.required],
+      'program': [null, Validators.required],
+      'job_search': [null],
+      'work_auth': [null],
       'phoneNum': [null],
       'gpa': [null],
       'gradYear': [null, Validators.required],
       'is_undergrad': [null, Validators.required],
-      'github': [null],
-      'linkedin': [null]
+      'github': [null, Validators.pattern(linkregex)],
+      'linkedin': [null, Validators.pattern(linkregex)]
     });
   }
 
@@ -126,6 +133,21 @@ export class CreateaccountComponent implements OnInit {
       return this.formSupporterGroup.get('email').hasError('required') ? 'Field is required' :
         this.formSupporterGroup.get('email').hasError('pattern') ? 'Not a valid emailaddress' : '';
     }
+  }
+
+  getErrorGithub() {
+    /*
+    Returns the error message if the link is invalid
+     */
+    return this.formStudentGroup.get('github').hasError('pattern') ? 'Not a valid link' : '';
+
+  }
+
+  getErrorLinkedIn() {
+    /*
+    Returns the error message if the link is invalid
+     */
+    return this.formStudentGroup.get('linkedin').hasError('pattern') ? 'Not a valid link' : '';
 
   }
 
@@ -182,7 +204,7 @@ export class CreateaccountComponent implements OnInit {
     let email_split = this.post['email'].split('@');
     let email = email_split[0] + '@' + email_split[1].toLowerCase();
     let data = {};
-    if (this.userType) {
+    if (this.userType) { // student
       data = {
         'kind': this.typeOfUser,
         'first_name': this.post['first_name'],
@@ -198,11 +220,17 @@ export class CreateaccountComponent implements OnInit {
         'profile_picture': "",
         'request_supporter': false,
         'active_account': true,
+        'description': "",
+        'pronouns': this.post['pronouns'],
+        'college': this.post['college'],
+        'program': this.post['program'],
+        'job_search': this.post['job_search'] == null ? false : this.post['job_search'] == 'YES',
+        'work_auth': this.post['work_auth'] == null ? '' : this.post['work_auth'],
         'resume_ref': '',
         'transcript_ref': '',
-        'is_undergrad': this.post['is_undergrad'] === 'Yes'
+        'is_undergrad': this.post['is_undergrad'] === 'YES'
       };
-    } else {
+    } else { // supporter
       data = {
         'kind': this.typeOfUser,
         'first_name': this.post['first_name'],
@@ -217,6 +245,8 @@ export class CreateaccountComponent implements OnInit {
         'profile_picture': "",
         'request_supporter': true,
         'active_account': true,
+        'description': "",
+        'pronouns': this.post['pronouns'],
         'location': '',
         'calendar_ref': 'gmail',
         'calendar_sync': true,
@@ -234,7 +264,7 @@ export class CreateaccountComponent implements OnInit {
       if (error['error'] === 'Email Exists!') {
         this.dialog.open(EmailExistsDialog);
       } else {
-        this.dialog.open(UhOhDialog)
+        this.dialog.open(UhOhDialog);
       }
     });
   }

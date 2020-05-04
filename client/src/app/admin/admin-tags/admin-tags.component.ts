@@ -21,12 +21,17 @@ export class AdminTagsComponent implements OnInit {
   showAppointmentTypes;
   showSupporterTypes;
   dialogResult;
+  data;
+  tableData;
+  showData;
+  displayedColumns = ['type', 'name', 'frequency'];
 
   constructor(private http: HttpClient, public dialog: MatDialog) {
     this.pageTags = this.content_https('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/tags');
     this.pageSupporterTypes = this.content_https('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/options?resource=type_of_supporter');
     this.pageAppointmentTypes = this.content_https('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/options?resource=appointment_type');
     this.showTags = true;
+    this.data = this.get_data()
     this.showAppointmentTypes = false;
     this.showSupporterTypes = false;
     this.dialogResult = null;
@@ -68,6 +73,38 @@ export class AdminTagsComponent implements OnInit {
     });
     console.log(result);
     return result;
+  }
+
+  get_data() {
+    let result = [];
+    this.http.get('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/data', {}).subscribe(res => {
+      console.log('Data!');
+      result.push(res);
+      });
+    return result;
+  }
+
+  parse_data() {
+    this.showData = true;
+    const tableInfo = [];
+    console.log(this.data);
+    const object = this.data[0];
+    const appointmentData = object['csv for appointments'];
+    const tagData = object['csv for tags'];
+    for (let i = 1; i < appointmentData.length; i++) {
+      const newRow = {type: 'Appointment Type', name: appointmentData[i][0], frequency: appointmentData[i][1]};
+      tableInfo.push(newRow);
+    }
+    for (let j = 1; j < tagData.length; j++) {
+      const newRow = {type: 'Tag', name: tagData[j][0], frequency: tagData[j][1]};
+      tableInfo.push(newRow);
+    }
+    console.log(tableInfo);
+    this.tableData = tableInfo;
+  }
+
+  hide_data() {
+    this.showData = false;
   }
 
   push_tag() {
@@ -169,7 +206,7 @@ export class AdminTagsComponent implements OnInit {
           if (type[1] === deleteName) {
             deleteId = type[0];
             // tslint:disable-next-line:max-line-length
-            const url = 'https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/options?resource=appointment_type/' + deleteId.toString();
+            const url = 'https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/options/' + deleteId.toString() + '?resource=appointment_type';
             console.log(url);
             this.http.delete(url).subscribe();
           }
@@ -177,6 +214,29 @@ export class AdminTagsComponent implements OnInit {
       }
       setTimeout(() => this.pageAppointmentTypes =
         this.content_https('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/options?resource=appointment_type'), 1700);
+    });
+  }
+
+  delete_supporter_type() {
+    let deleteId = 0;
+    if (this.selectedTags.length === 0) {
+      this.openAlert();
+      return;
+    }
+    this.http.get('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/options?resource=type_of_supporter', {}).subscribe(res => {
+      for (const type of Object.values(res)) {
+        for (const deleteName of this.selectedTags) {
+          if (type[1] === deleteName) {
+            deleteId = type[0];
+            // tslint:disable-next-line:max-line-length
+            const url = 'https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/options/' + deleteId.toString() + '?resource=type_of_supporter';
+            console.log(url);
+            this.http.delete(url).subscribe();
+          }
+        }
+      }
+      setTimeout(() => this.pageSupporterTypes =
+        this.content_https('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/options?resource=type_of_supporter'), 1700);
     });
   }
 

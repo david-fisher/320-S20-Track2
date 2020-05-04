@@ -4,7 +4,6 @@
   <h1>How would you rate {{supporterName}}</h1>
   <form [formGroup]="formStarGroup">
     <star-rating-control formControlName="stars"></star-rating-control>
-    <pre>{{ formStarGroup.value | json }}</pre>
   </form>
 </ng-template>
 
@@ -12,26 +11,30 @@
 <ng-template [ngIf]="toggleBinaryResponse()">
   <h1>Would you recommend {{supporterName}} to other students?</h1>
   <div class="buttons">
-    <mat-button-toggle-group>
-      <mat-button-toggle value="Recommend" class="recommend">Recommend</mat-button-toggle>
-      <mat-button-toggle value="Do Not Recommend" class="donotrecommend">Do Not Recommend</mat-button-toggle>
-    </mat-button-toggle-group>
+    <form [formGroup]="formRecommendGroup">
+      <mat-button-toggle-group formControlName="recommend">
+        <mat-button-toggle value="r" class="recommend">Recommend</mat-button-toggle>
+        <mat-button-toggle value="dnr" class="donotrecommend">Do Not Recommend</mat-button-toggle>
+      </mat-button-toggle-group>
+    </form>
   </div>
 </ng-template>
 
 <!-- Supporter wants text feedback -->
 <ng-template [ngIf]="toggleQuestions()">
   <h1>Please answer the following questions</h1>
-  <div *ngFor="let question of questions">
-    <div class="feedback">
-      <h3>{{question}}</h3>
-      <mat-form-field class="example-full-width">
-        <textarea matInput matTextareaAutosize placeholder="Type your response here"></textarea>
-      </mat-form-field>
+  <form [formGroup]="formQuestionGroup">
+    <div *ngFor="let question of questions">
+      <div class="feedback">
+        <h3>{{question}}</h3>
+        <mat-form-field class="example-full-width" >
+          <textarea matInput matTextareaAutosize placeholder="Type your response here" [formControlName]="question"></textarea>
+        </mat-form-field>
+      </div>
     </div>
-  </div>
+  </form>
 
 </ng-template>
 <div class="buttons">
-  <button mat-fab routerLink="/student-myappointments">Submit</button>
+  <button mat-raised-button color="accent" (click)="sendRate()">Submit Review</button>
 </div>

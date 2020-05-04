@@ -24,6 +24,8 @@ import { AdminLandingComponent } from './admin/admin-landing/admin-landing.compo
 import {StudentMyappointmentsComponent} from './student/student-myappointments/student-myappointments.component';
 import {StudentMakeappointmentComponent} from './student/student-makeappointment/student-makeappointment.component';
 import {CreateaccountComponent} from './createaccount/createaccount.component';
+import {SupporterProfileComponent} from './supporter/supporter-profile/supporter-profile.component';
+import {CanAdminActivateRouteGuard} from "./can-admin-activate-route.guard";
 
 const appRoutes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -32,7 +34,8 @@ const appRoutes: Routes = [
   { path: 'faq', component: FaqComponent},
   { path: 'createaccount/:type', component: CreateaccountComponent},
   { path: 'student-findsupporters', component: StudentFindsupportersComponent, canActivate: [ CanStudentActivateRouteGuard]},
-  { path: 'student-profile', component: StudentProfileComponent, canActivate: [ CanStudentActivateRouteGuard] },
+  { path: 'student-profile/:appt_id', component: StudentProfileComponent, canActivate: [ CanActivateRouteGuard] },
+  { path: 'supporter-profile/:appt_id', component: SupporterProfileComponent, canActivate: [ CanActivateRouteGuard] },
   { path: 'student-myappointments', component: StudentMyappointmentsComponent, canActivate: [ CanStudentActivateRouteGuard] },
   { path: 'student-ratesupporter/:name/:appt_id', component: StudentRatesupporterComponent, canActivate: [ CanStudentActivateRouteGuard] },
   { path: 'student-makeappointment', component: StudentMakeappointmentComponent, canActivate: [ CanStudentActivateRouteGuard] },
@@ -41,12 +44,12 @@ const appRoutes: Routes = [
   { path: 'supporter-settings', component: SupporterSettingsComponent, canActivate: [ CanSupporterActivateRouteGuard] },
   { path: 'supporter-availability', component: SupporterAvailabilityComponent, canActivate: [ CanSupporterActivateRouteGuard] },
   // The below pages' CanActivate needs to change once admin is implemented
-  { path: 'admin-landing', component: AdminLandingComponent, canActivate: [ CanActivateRouteGuard] },
-  { path: 'admin-reports', component: AdminReportsComponent, canActivate: [ CanActivateRouteGuard] },
-  { path: 'admin-applications', component: AdminApplicationsComponent, canActivate: [ CanActivateRouteGuard] },
-  { path: 'admin-tags', component: AdminTagsComponent, canActivate: [ CanActivateRouteGuard] },
-  { path: 'admin-discipline', component: AdminDisciplineComponent, canActivate: [ CanActivateRouteGuard] },
-  { path: 'admin-discipline/:filedAgainstID', component: AdminDisciplineComponent, canActivate: [ CanActivateRouteGuard] }
+  { path: 'admin-landing', component: AdminLandingComponent, canActivate: [ CanAdminActivateRouteGuard] },
+  { path: 'admin-reports', component: AdminReportsComponent, canActivate: [ CanAdminActivateRouteGuard] },
+  { path: 'admin-applications', component: AdminApplicationsComponent, canActivate: [ CanAdminActivateRouteGuard] },
+  { path: 'admin-tags', component: AdminTagsComponent, canActivate: [ CanAdminActivateRouteGuard] },
+  { path: 'admin-discipline', component: AdminDisciplineComponent, canActivate: [ CanAdminActivateRouteGuard] },
+  { path: 'admin-discipline/:filedAgainstID', component: AdminDisciplineComponent, canActivate: [ CanAdminActivateRouteGuard] }
   ];
 
 @NgModule({

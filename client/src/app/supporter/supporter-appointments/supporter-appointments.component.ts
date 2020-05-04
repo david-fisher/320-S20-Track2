@@ -16,10 +16,15 @@ export class SupporterAppointmentsComponent implements OnInit {
 
   tempAppointments;
   tempFeedback;
+  overwrittenAvail;
+  body;
 
   constructor(private http: HttpClient, private cookieService: CookieService) {
+    this.body = {};
+    this.overwrittenAvail = {};
     this.tempAppointments = this.appointments;
     this.tempFeedback = this.feedback(2);
+    console.log(this.tempFeedback);
   }
 
   get date(): object {
@@ -48,29 +53,26 @@ export class SupporterAppointmentsComponent implements OnInit {
         }
       }
     });
+    console.log(result);
+    //console.log(result[0]);
     return result;
   }
 
   feedback(appt_id): SupporterFeedback {
-    const result : SupporterFeedback = {questions: ["q1", "q2"], answers: ["a1", "a2"], rating: appt_id, recommend: true};
+    const result : SupporterFeedback = {question: "What can I do to improve?", answer: "More cowbell.", rating: appt_id, recommend: true};
     console.log(result);
     return result;
   }
 
+
+
   // feedback(appt_id): SupporterFeedback {
   //   //const result = {} as SupporterFeedback;
-  //   const result : SupporterFeedback = {questions: ["q1", "q2"], answers: ["a1", "a2"], rating: 0, recommend: true};
-  //   const qlist  = [];
-  //   const alist = [];
+  //   const result : SupporterFeedback = {question: "What can I do to improve?", answer: "More cowbell.", rating: appt_id, recommend: true};
+  //
   //   this.http.get('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/rate/'+appt_id, {}).subscribe(res => {
   //     console.log(Object.values(res));
-  //     for (const appt of Object.values(res)) {
-  //       for(const qapair of appt[3]) {
-  //         qlist.push(qapair[0]);
-  //         alist.push(qapair[1]);
-  //       }
-  //       const result : SupporterFeedback = {questions: qlist, answers: alist, rating: appt[1], recommend: appt[2]};
-  //     }
+  //     const result : SupporterFeedback = {question: res[5], answer: res[6], rating: res[2], recommend: res[3]};
   //   });
   //
   //   console.log(result);
@@ -86,8 +88,23 @@ export class SupporterAppointmentsComponent implements OnInit {
             console.log(Object.values(res));
             console.log(appointment.appt_id);
           });
+
           this.tempAppointments.splice(parseInt(x), 1);
           console.log(x);
+
+          const endDate = appointment.date;
+          endDate.setMinutes(endDate.getMinutes() + 20);
+          this.overwrittenAvail.start_time = appointment.date.format('HHMM');
+          this.overwrittenAvail.end_time = (endDate).format('HHMM');
+          this.overwrittenAvail.appt_date = appointment.date.format('DDMMYY');
+          this.body.availability_delete = [];
+          this.body.availability_delete.push(this.overwrittenAvail);
+
+          this.http.patch('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/account/' + this.cookieService.get('user_id'), this.body).subscribe(res => {
+            console.log(Object.values(res));
+            console.log(appointment.appt_id);
+          });
+
         }
       }
     }

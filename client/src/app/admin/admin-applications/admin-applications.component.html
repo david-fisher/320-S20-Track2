@@ -42,23 +42,20 @@
 <body>
 <h1>Review Supporter Applications</h1>
 
-<li *ngFor="let application of applications">
+<li *ngFor="let application of tempApplications">
   <ul>
     <mat-card class="application-card">
       <mat-card-header>
         <mat-card-title>Name: {{application.name}}</mat-card-title>
-        <mat-card-subtitle>Submitted: {{application.date}}</mat-card-subtitle>
+<!--        <mat-card-subtitle>Submitted: {{application.date}}</mat-card-subtitle>-->
       </mat-card-header>
       <mat-card-content>
-        <b>Supporter Type:</b> {{application.supporter_type}} <br>
         <b>Employer:</b> {{application.employer}} <br>
-        <b>Team:</b> {{application.team}} <br>
         <b>Title:</b> {{application.title}} <br>
       </mat-card-content>
       <mat-card-actions>
-        <button mat-raised-button color="accent">Download Resumé</button>
-        <button mat-raised-button color="accent">Approve</button>
-        <button mat-raised-button color="primary">Deny</button>
+        <button (click)="approve(application.user_id)" mat-raised-button color="accent">Approve</button>
+        <button (click)="deny(application.user_id)" mat-raised-button color="primary">Deny</button>
       </mat-card-actions>
     </mat-card>
   </ul>

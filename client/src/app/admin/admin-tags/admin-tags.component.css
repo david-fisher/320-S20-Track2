@@ -5,3 +5,12 @@
   padding: 10px;
   border-radius: 10px;
 }
+
+table {
+  width: 100%;
+}
+
+.analytics {
+  overflow-y: scroll;
+  max-height: 300px;
+}

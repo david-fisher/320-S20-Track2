@@ -6,10 +6,39 @@
 <h1>Tag Analysis And Management</h1>
 <div class = tagbox>
 
-  <button mat-raised-button color="warn" (click)="openDialog()">Dialog Me!</button>
-
   <h3 color="primary">Analytics</h3>
-  <button mat-raised-button color="accent">Download .csv</button>
+
+  <div *ngIf ="this.showData">
+    <button mat-raised-button color="primary" (click) = "hide_data()">Hide Analytics</button>
+    <div class = "analytics">
+      <table mat-table [dataSource]="tableData" class="mat-elevation-z8">
+
+        <ng-container matColumnDef="type">
+          <th mat-header-cell *matHeaderCellDef> Type </th>
+          <td mat-cell *matCellDef="let element"> {{element.type}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef> Name </th>
+          <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="frequency">
+          <th mat-header-cell *matHeaderCellDef> Frequency </th>
+          <td mat-cell *matCellDef="let element"> {{element.frequency}} </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef=displayedColumns></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+    </div>
+  </div>
+
+  <div *ngIf="!this.showData">
+    <button mat-raised-button color="accent" (click) = "parse_data()">Show Analytics</button>
+  </div>
+
+
 
   <h3 color="primary">Choose View</h3>
   <button mat-raised-button color="accent" (click)="display_tags()">Tags</button>
@@ -25,11 +54,13 @@
   <button mat-raised-button color="primary" (click)="push_tag()">Confirm</button>
 
   <h3 color="primary">Removing Tags</h3>
+    <div class = "analytics">
   <mat-selection-list [(ngModel)]="selectedTags">
     <mat-list-option *ngFor="let tag of pageTags" [value]="tag.name">
       {{tag.name}}
     </mat-list-option>
   </mat-selection-list>
+    </div>
   <button mat-raised-button color="warn" (click)="delete_tag_https()">Delete Selected</button>
   </div>
 
@@ -41,12 +72,14 @@
   <button mat-raised-button color="primary" (click)="push_supporter_type()">Confirm</button>
 
   <h3 color="primary">Removing Supporter Types</h3>
+    <div class = "analytics">
   <mat-selection-list [(ngModel)]="selectedTags">
     <mat-list-option *ngFor="let type of pageSupporterTypes" [value]="type.name">
       {{type.name}}
     </mat-list-option>
   </mat-selection-list>
-  <button mat-raised-button color="warn" (click)="delete_tag_https()">Delete Selected</button>
+  </div>
+  <button mat-raised-button color="warn" (click)="delete_supporter_type()">Delete Selected</button>
   </div>
 
   <div *ngIf="this.showAppointmentTypes">
@@ -57,11 +90,13 @@
     <button mat-raised-button color="primary" (click)="push_appointment_type()">Confirm</button>
 
     <h3 color="primary">Removing Appointment Types</h3>
-    <mat-selection-list [(ngModel)]="selectedTags">
-      <mat-list-option *ngFor="let type of pageAppointmentTypes" [value]="type.name">
-        {{type.name}}
-      </mat-list-option>
-    </mat-selection-list>
+    <div class = "analytics">
+      <mat-selection-list [(ngModel)]="selectedTags">
+        <mat-list-option *ngFor="let type of pageAppointmentTypes" [value]="type.name">
+          {{type.name}}
+        </mat-list-option>
+      </mat-selection-list>
+    </div>
     <button mat-raised-button color="warn" (click)="delete_appointment_type()">Delete Selected</button>
   </div>
 

@@ -7,15 +7,15 @@ import {CookieService} from "ngx-cookie-service";
 @Injectable({
   providedIn: 'root'
 })
-export class StudentProfileService {
-  studentProfileUrl = 'https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/account/';
+export class SupporterProfileService {
+  supporterProfileUrl = 'https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/account/';
 
-  getStudentProfile(profileID) {
-    return this.http.get(this.studentProfileUrl + profileID);
+  getSupporterProfile(profileID) {
+    return this.http.get(this.supporterProfileUrl + profileID);
   }
 
-  patchStudentProfile(changes, profileID) {
-    return this.http.patch(this.studentProfileUrl + profileID, changes);
+  patchSupporterProfile(changes) {
+    return this.http.patch(this.supporterProfileUrl, changes);
   }
 
   constructor(private http: HttpClient, private cookieService: CookieService) { }

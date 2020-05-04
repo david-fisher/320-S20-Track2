@@ -15,20 +15,23 @@
         </mat-menu>
       </ng-template>
 
-      <!-- Admin Menu -->
-      <button mat-button [matMenuTriggerFor]="adminMenu">Admin</button>
-      <mat-menu #adminMenu="matMenu" xPosition="before">
-        <button mat-menu-item routerLink="/admin-landing">Landing</button>
-        <button mat-menu-item routerLink="/admin-discipline">Discipline</button>
-        <button mat-menu-item routerLink="/admin-applications">Applications</button>
-        <button mat-menu-item routerLink="/admin-reports">Reports</button>
-        <button mat-menu-item routerLink="/admin-tags">Tags</button>
-      </mat-menu>
+      <ng-template [ngIf]="isAdmin()">
+        <!-- Admin Menu -->
+        <button mat-button [matMenuTriggerFor]="adminMenu">Admin</button>
+        <mat-menu #adminMenu="matMenu" xPosition="before">
+          <!-- <button mat-menu-item routerLink="/admin-landing">Landing</button> -->
+          <button mat-menu-item routerLink="/admin-discipline">Discipline</button>
+          <button mat-menu-item routerLink="/admin-applications">Applications</button>
+          <button mat-menu-item routerLink="/admin-reports">Reports</button>
+          <button mat-menu-item routerLink="/admin-tags">Tags</button>
+        </mat-menu>
+      </ng-template>
+
       <ng-template [ngIf]="isSupporter()">
         <!-- Supporter Menu -->
         <button mat-button [matMenuTriggerFor]="supporterMenu">Supporter</button>
         <mat-menu #supporterMenu="matMenu" xPosition="before">
-          <button mat-menu-item routerLink="/supporter-landing">Landing</button>
+          <!-- <button mat-menu-item routerLink="/supporter-landing">Landing</button> -->
           <button mat-menu-item routerLink="/supporter-appointments">Appointments</button>
           <button mat-menu-item routerLink="/supporter-settings">Settings</button>
           <button mat-menu-item routerLink="/supporter-availability">Availability</button>
@@ -37,11 +40,22 @@
       <!-- This fills the remaining space of the current row -->
       <span class="example-fill-remaining-space"></span>
 
-      <button mat-button [matMenuTriggerFor]="accountMenu">Account</button>
-      <mat-menu #accountMenu="matMenu" xPosition="before">
-        <button mat-menu-item routerLink="/student-profile">Profile</button>
-        <button mat-menu-item (click)="logout()" routerLink="/home">Logout</button>
-      </mat-menu>
+      <ng-template [ngIf]="isStudent()">
+        <button mat-button [matMenuTriggerFor]="accountMenu" (click) = "getUserId()">Account</button>
+        <mat-menu #accountMenu="matMenu" xPosition="before">
+          <button mat-menu-item [routerLink]="['/student-profile', this.userID]">Profile</button>
+          <button mat-menu-item (click)="logout()" routerLink="/home">Logout</button>
+        </mat-menu>
+      </ng-template>
+
+      <ng-template [ngIf]="isSupporter()">
+        <button mat-button [matMenuTriggerFor]="accountMenu" (click) = "getUserId()">Account</button>
+        <mat-menu #accountMenu="matMenu" xPosition="before">
+          <button mat-menu-item [routerLink]="['/supporter-profile', this.userID]">Profile</button>
+          <button mat-menu-item (click)="logout()" routerLink="/home">Logout</button>
+        </mat-menu>
+      </ng-template>
+
     </ng-template>
 
     <!-- Not logged in -->

@@ -1,1 +1,15 @@
-<button mat-fab (click) = "test()">Submit</button>
+<h1>Frequently Asked Questions</h1>
+
+<div *ngFor="let question of questions">
+  <div class="feedback">
+    <h2>Question</h2>
+    <span>{{question['question']}}</span>
+    <h2>Answer</h2>
+    <span>{{question['answer']}}</span>
+    <br>
+    <br>
+    <br>
+    <br>
+
+  </div>
+</div>
