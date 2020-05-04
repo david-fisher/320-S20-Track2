@@ -37,7 +37,7 @@ export class SupporterAvailabilityComponent implements OnInit {
           console.log(date);
           if(date[1] !== undefined && date[2] !== undefined && date[3] !== undefined){
             let dateObj = {year:date[3].split("-")[0],month: date[3].split("-")[1], date:date[3].split("-")[2].split(":")[0], start_hour: date[1].split(":")[0], start_min:date[1].split(":")[1], end_hour:date[2].split(":")[0],end_min:date[2].split(":")[1]};
-          }
+
           let a = "AM";
           if(dateObj.start_hour >= 12) {
             a = "PM";
@@ -64,6 +64,7 @@ export class SupporterAvailabilityComponent implements OnInit {
           let s = dateObj.month + "/" + dateObj.date +"/"+dateObj.year+ ": "+dateObj.start_hour + ":" + dateObj.start_min + " " + a + " - " + dateObj.end_hour + ":" + dateObj.end_min + " "+b;
           console.log(s);
           this.dates.push({str:s, start_time: date[1], end_time: date[2], appt_date: date[3]});
+          }
         }
         i++;
       }
