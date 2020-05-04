@@ -278,7 +278,7 @@ export class StudentMakeappointmentComponent {
       supporter_id: this.selectedSupporter[0].id,
       appt_date: this.date,
       start_time: this.time,
-      duration: 9876,
+      duration: 15,
       type: this.typeToID[this.selectedType],
       cancelled: false,
       rating: '0',

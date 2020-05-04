@@ -31,6 +31,10 @@ export class SupporterSettingsComponent implements OnInit {
   test_job_title = "testing";
 
   body;
+  myTags;
+  mySelectedTags;
+  pageTags;
+  selectedTags;
 
   constructor(private http: HttpClient, private cookieService: CookieService) {
     this.body = {};
@@ -38,6 +42,73 @@ export class SupporterSettingsComponent implements OnInit {
     //console.log(this.body);
     this.tempSettings = this.currSettings;
     console.log(this.tempSettings);
+    this.myTags = this.my_tags();
+    this.pageTags = this.content_https('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/tags');
+  }
+
+  content_https(url) {
+    const result = [];
+    this.http.get(url, {}).subscribe(res => {
+      console.log(Object.values(res));
+      for (const tag of Object.values(res)) {
+        const newTag = {name: tag[1]};
+        result.push(newTag);
+      }
+    });
+    console.log(result);
+    return result;
+  }
+
+  my_tags() {
+    const result = [];
+    this.http.get('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/account/' + + this.cookieService.get('user_id')).subscribe(res => {
+      for (let i = 0; i < Object.values(res)[4].length; i++) {
+        result.push({name: Object.values(res)[4][i][0]});
+      }
+    });
+    console.log(result);
+    return result;
+  }
+
+  delete_my_tags() {
+    let deleteArray = [];
+    if (this.mySelectedTags.length === 0) {
+      return;
+    }
+    this.http.get('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/tags', {}).subscribe(res => {
+      for (const tag of Object.values(res)) {
+        for (const deleteName of this.mySelectedTags) {
+          if (tag[1] === deleteName) {
+            deleteArray.push({tag_id: tag[0]});
+          }
+        }
+      }
+      const deleteBody = {tags_delete: deleteArray};
+      console.log(deleteBody);
+      this.http.patch('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/account/'
+        + this.cookieService.get('user_id'), deleteBody).subscribe();
+      setTimeout(() => this.myTags = this.my_tags(), 1700);
+    });
+  }
+
+  add_my_tags() {
+    let addArray = [];
+    if (this.selectedTags.length === 0) {
+      return;
+    }
+    this.http.get('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/tags', {}).subscribe(res => {
+      for (const tag of Object.values(res)) {
+        for (const addName of this.selectedTags) {
+          if (tag[1] === addName) {
+            addArray.push({tag_id: tag[0]});
+          }
+        }
+      }
+      const addBody = {tags_add: addArray};
+      this.http.patch('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/account/'
+        + this.cookieService.get('user_id'), addBody).subscribe();
+      setTimeout(() => this.myTags = this.my_tags(), 1700);
+    });
   }
 
 

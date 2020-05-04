@@ -22,3 +22,8 @@
   max-width: 200px;
 }
 
+.analytics {
+  overflow-y: scroll;
+  max-height: 300px;
+}
+
