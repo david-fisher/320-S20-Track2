@@ -8,8 +8,8 @@ export class SupporterSettings {
   location: string;
   bio: string;
   pronouns: string;
-  question: string;
-  question_id: number;
+  questions: string[];
+  question_ids: number[];
   publicFeedback: boolean;
   recommend: boolean;
   stars: boolean;

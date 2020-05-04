@@ -37,7 +37,7 @@ const appRoutes: Routes = [
   { path: 'student-profile/:appt_id', component: StudentProfileComponent, canActivate: [ CanActivateRouteGuard] },
   { path: 'supporter-profile/:appt_id', component: SupporterProfileComponent, canActivate: [ CanActivateRouteGuard] },
   { path: 'student-myappointments', component: StudentMyappointmentsComponent, canActivate: [ CanStudentActivateRouteGuard] },
-  { path: 'student-ratesupporter/:name/:appt_id', component: StudentRatesupporterComponent, canActivate: [ CanStudentActivateRouteGuard] },
+  { path: 'student-ratesupporter/:name/:appt_id/:supp_id', component: StudentRatesupporterComponent, canActivate: [ CanStudentActivateRouteGuard] },
   { path: 'student-makeappointment', component: StudentMakeappointmentComponent, canActivate: [ CanStudentActivateRouteGuard] },
   { path: 'supporter-landing', component: SupporterLandingComponent, canActivate: [ CanSupporterActivateRouteGuard] },
   { path: 'supporter-appointments', component: SupporterAppointmentsComponent, canActivate: [ CanSupporterActivateRouteGuard] },

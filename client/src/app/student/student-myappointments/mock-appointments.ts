@@ -7,9 +7,9 @@ const app3 = new Date(2020, 1, 11, 9, 10, 0, 0);
 const app4 = new Date(2020, 1, 15, 9, 10, 0, 0);
 
 
-export const APPOINTMENTS: StudentAppointment[] = [
-  {date: app1, type: 'Resume Help', supporter_name: 'Brian Smith', appt_id: '1', duration: '60', location: 'lederle 123', cancelled: false, rated: false},
-  {date: app2, type: 'Interview Help', supporter_name: 'John Doe', appt_id: '2', duration: '60', location: 'lederle 123', cancelled: false, rated: true},
-  {date: app3, type: 'Career Guidance', supporter_name: 'John Doe', appt_id: '3', duration: '60', location: 'lederle 123', cancelled: false, rated: false},
-  {date: app4, type: 'Job Search', supporter_name: 'David Fisher', appt_id: '1', duration: '60', location: 'lederle 123', cancelled: false, rated: false}
-];
+// export const APPOINTMENTS: StudentAppointment[] = [
+//   {date: app1, type: 'Resume Help', supporter_name: 'Brian Smith', appt_id: '1', duration: '60', location: 'lederle 123', cancelled: false, rated: false},
+//   {date: app2, type: 'Interview Help', supporter_name: 'John Doe', appt_id: '2', duration: '60', location: 'lederle 123', cancelled: false, rated: true},
+//   {date: app3, type: 'Career Guidance', supporter_name: 'John Doe', appt_id: '3', duration: '60', location: 'lederle 123', cancelled: false, rated: false},
+//   {date: app4, type: 'Job Search', supporter_name: 'David Fisher', appt_id: '1', duration: '60', location: 'lederle 123', cancelled: false, rated: false}
+// ];

@@ -40,11 +40,11 @@
       </mat-card-content>
       <mat-expansion-panel *ngIf="appointment.rated">
         <mat-expansion-panel-header>View Feedback</mat-expansion-panel-header>
-        <p *ngIf="tempFeedback.show_rating">
-          Rating: {{tempFeedback.rating}} / 5
+        <p *ngIf="appointment.show_rating">
+          Rating: {{appointment.rating}} / 5
         </p>
-        <p  *ngIf="tempFeedback.show_recommend">
-          Would Recommend: {{tempFeedback.recommend}}
+        <p  *ngIf="appointment.show_recommend">
+          Would Recommend: {{appointment.recommend}}
         </p>
 <!--        <p>-->
 <!--          Question: {{tempFeedback.question}}-->
@@ -52,11 +52,11 @@
 <!--        <p>-->
 <!--          Answer: {{tempFeedback.answer}}-->
 <!--        </p>-->
-        <div *ngFor="let q of tempFeedback.questions;let i=index">
+        <div *ngFor="let q of appointment.questions;let i=index">
           <p>
-            {{q}}
+            Question: {{q}}
             <br>
-            {{tempFeedback.answers[i]}}
+            Answer: {{appointment.answers[i]}}
           </p>
         </div>
       </mat-expansion-panel>
