@@ -232,8 +232,8 @@ export class CreateaccountComponent implements OnInit {
         'description': "",
         'pronouns': this.post['pronouns'],
         'location': '',
-        'calendar_ref': '',
-        'calendar_sync': 'gmail',
+        'calendar_ref': 'gmail',
+        'calendar_sync': true,
         'calendar_sync_freq': 3
       };
     }
