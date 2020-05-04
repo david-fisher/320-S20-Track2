@@ -8,6 +8,22 @@ hr {
   max-width: 400px;
 }
 
+.inlinec {
+  display: inline-flex;
+  vertical-align: middle;
+
+}
+span {
+  position: relative;
+  top: 9px;
+  color: #B71C1C;
+}
+
+
+span {
+  padding-top: 1em;
+}
+
 .example-header-image {
   background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
   background-size: cover;

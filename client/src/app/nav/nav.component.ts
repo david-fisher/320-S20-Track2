@@ -64,4 +64,3 @@ export class NavComponent implements OnInit {
 
   blank() {}
 }
-

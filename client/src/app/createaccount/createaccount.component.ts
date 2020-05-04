@@ -128,10 +128,10 @@ export class CreateaccountComponent implements OnInit {
      */
     if (this.userType) {
       return this.formStudentGroup.get('email').hasError('required') ? 'Field is required' :
-        this.formStudentGroup.get('email').hasError('pattern') ? 'Not a valid emailaddress' : '';
+        this.formStudentGroup.get('email').hasError('pattern') ? 'Not a valid email address' : '';
     } else {
       return this.formSupporterGroup.get('email').hasError('required') ? 'Field is required' :
-        this.formSupporterGroup.get('email').hasError('pattern') ? 'Not a valid emailaddress' : '';
+        this.formSupporterGroup.get('email').hasError('pattern') ? 'Not a valid email address' : '';
     }
   }
 

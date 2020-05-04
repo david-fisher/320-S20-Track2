@@ -58,6 +58,7 @@
 
   <br>
 
+
 <!--  <mat-expansion-panel>-->
 <!--    <mat-expansion-panel-header>Appointment Settings</mat-expansion-panel-header>-->
 <!--    <ul>-->
@@ -111,7 +112,7 @@
 <!--      <li><mat-checkbox>Allow comments</mat-checkbox></li>-->
       <li>Feedback Question <br>
         <mat-form-field class="textbox">
-          <textarea matInput placeholder={{tempSettings.question}} [(ngModel)]="question"></textarea>
+          <textarea matInput placeholder={{tempSettings.questions}} [(ngModel)]="question"></textarea>
         </mat-form-field>
 <!--      <li>Current Feedback Questions-->
 <!--      <mat-selection-list [(ngModel)]="selectedQuestions">-->
@@ -144,6 +145,30 @@
 <!--  </mat-expansion-panel>-->
 
 <!--  <br>-->
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>Tag Settings</mat-expansion-panel-header>
+    <h3>My Tags</h3>
+      <div class = "analytics">
+        <mat-selection-list [(ngModel)]="mySelectedTags">
+          <mat-list-option *ngFor="let tag of myTags" [value]="tag.name">
+            {{tag.name}}
+          </mat-list-option>
+        </mat-selection-list>
+      </div>
+    <button (click) = "delete_my_tags()" mat-raised-button color="accent">Delete Selected</button>
+
+    <h3>Add Tags</h3>
+    <div class = "analytics">
+      <mat-selection-list [(ngModel)]="selectedTags">
+        <mat-list-option *ngFor="let tag of pageTags" [value]="tag.name">
+          {{tag.name}}
+        </mat-list-option>
+      </mat-selection-list>
+    </div>
+    <button mat-raised-button color="accent" (click) = "add_my_tags()">Add Selected</button>
+  </mat-expansion-panel>
+
+  <br>
 
   <button (click) = "click()" mat-raised-button color="accent">Apply Settings</button>
   </div>

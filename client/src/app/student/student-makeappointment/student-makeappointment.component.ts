@@ -3,11 +3,11 @@ import {Supports} from './supports';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
-  Component,
+  Component, Inject,
   Injectable,
   ViewEncapsulation,
 } from '@angular/core';
-import { CalendarEvent, CalendarEventTitleFormatter } from 'angular-calendar';
+import {CalendarEvent, CalendarEventTitleFormatter, CalendarWeekViewBeforeRenderEvent} from 'angular-calendar';
 import { WeekViewHourSegment } from 'calendar-utils';
 import { fromEvent } from 'rxjs';
 import { finalize, takeUntil } from 'rxjs/operators';
@@ -15,6 +15,9 @@ import { addDays, addMinutes, endOfWeek } from 'date-fns';
 import {HttpClient} from '@angular/common/http';
 import {InterestTags} from '../../admin/admin-tags/interest-tag';
 import {CookieService} from 'ngx-cookie-service';
+import {StudentCancelAppointmentDialog} from "../student-myappointments/student-myappointments.component";
+import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
+import {UhOhDialog} from "../../createaccount/createaccount.component";
 
 function floorToNearest(amount: number, precision: number) {
   return Math.floor(amount / precision) * precision;
@@ -44,7 +47,7 @@ export class CustomEventTitleFormatter extends CalendarEventTitleFormatter {
   selector: 'app-student-makeappointment',
   templateUrl: './student-makeappointment.component.html',
   styleUrls: ['./student-makeappointment.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
   providers: [
     {
       provide: CalendarEventTitleFormatter,
@@ -53,12 +56,13 @@ export class CustomEventTitleFormatter extends CalendarEventTitleFormatter {
   ],
   styles: [
     `
-      .disable-hover {
-        pointer-events: none;
+      .cal-week-view .cal-day-columns .bg-pink {
+        background-color: #B71C1C !important;
       }
     `,
   ],
 })
+
 export class StudentMakeappointmentComponent {
   viewDate = new Date();
   events: CalendarEvent[] = [];
@@ -68,21 +72,26 @@ export class StudentMakeappointmentComponent {
   selectedTags;
   pageTags;
   pageSupporters;
-  selectedSupporter;
+  selectedSupporter = null;
   pageTypes;
   selectedType;
   userID;
+  date;
+  time;
+  dur;
+  typeToID = {};
 
-  constructor(private cdr: ChangeDetectorRef, private http: HttpClient, private cookieService: CookieService) {
-    this.pageTags = this.tags_https;
-    this.pageSupporters = this.supporter_https;
+  constructor(private cdr: ChangeDetectorRef, private http: HttpClient, private cookieService: CookieService, public dialog: MatDialog) {
+    this.pageTags = this.tags_https();
+    this.pageSupporters = this.supporter_https();
+    console.log(this.pageSupporters);
+    this.pageTypes = this.types_https();
+    console.log(this.pageTypes);
     this.userID = this.getUserId();
-    console.log(this.userID);
-    console.log('IS THE CONSTRUCTOR CONSTRUCTING?');
-    this.pageTypes = this.content_https('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/options?resource=appointment_type');
+
   }
 
-  get tags_https(): Array<InterestTags> {
+  tags_https()  {
     const result = [];
     this.http.get('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/tags', {}).subscribe(res => {
       for (const tag of Object.values(res)) {
@@ -93,13 +102,27 @@ export class StudentMakeappointmentComponent {
     return result;
   }
 
-  content_https(url) {
+  types_https() {
     const result = [];
-    this.http.get(url, {}).subscribe(res => {
-      console.log(Object.values(res));
+    this.http.get('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/options?resource=appointment_type', {}).subscribe(res => {
       for (const tag of Object.values(res)) {
+        this.typeToID[tag[1]] = tag[0];
         const newTag = {name: tag[1]};
         result.push(newTag);
+      }
+    });
+    return result;
+  }
+
+  supporter_https() {
+    const result = [];
+    this.http.get('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/supporters').subscribe(res => {
+      console.log(res);
+      // tslint:disable-next-line:forin
+      for (const id in res) {
+        const temp = res[id];
+        temp.id = id;
+        result.push(temp);
       }
     });
     console.log(result);
@@ -110,48 +133,58 @@ export class StudentMakeappointmentComponent {
     this.userID = this.cookieService.get('user_id');
   }
 
-  get supporter_https() {
-    const result = [];
-    this.http.get('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/supporters', {params: this.selectedTags}).subscribe(res => {
-      console.log(Object.values(res));
-      for (const tag of Object.values(res)) {
-        const newTag = {name: tag[1]};
-        result.push(newTag);
-      }
-    });
-    console.log(result);
-    return result;
-  }
-
-  get supporters(): Supports[] {
-    console.log(this.selectedTags);
-    const list: Array<any> = [];
+  get supporterList() {
+    let array = [];
     if (this.selectedTags === undefined) {
-      return SUPPORTERS;
-    }
-
-    if (this.selectedTags.length === 0) {
-      return SUPPORTERS;
-    }
-
-    // tslint:disable-next-line:forin
-    for (const x in SUPPORTERS) {
+      return this.pageSupporters;
+    } else if (this.selectedTags.length === 0) {
+      return this.pageSupporters;
+    } else {
       // tslint:disable-next-line:prefer-for-of
-      let count = 0;
-      for (let i = 0; i <  this.selectedTags.length; i++  ) {
+      for (let x = 0; x < this.pageSupporters.length; x++ ) {
+        let apptType = false;
+        let boxsChecked = 0;
+        // tslint:disable-next-line:prefer-for-of
+        for (let i = 0; i < this.pageSupporters[x].apptTypes.length; i++) {
 
-        if (SUPPORTERS[x].tags.includes(this.selectedTags[i])) {
-          count++;
+          if ( this.pageSupporters[x].apptTypes[i][0] === this.selectedType[0] ) {
+            apptType = true;
+          }
+        }
+        // tslint:disable-next-line:prefer-for-of
+        for (let y = 0; y < this.selectedTags.length; y++ ) {
+          // tslint:disable-next-line:prefer-for-of
+          for (let z = 0; z < this.pageSupporters[x].tags.length ; z++ ) {
+            if ( this.selectedTags[y].name === this.pageSupporters[x].tags[z][0] ) {
+              boxsChecked++;
+            }
+          }
+        }
+
+        if (apptType === true  && boxsChecked === this.selectedTags.length ) {
+          array.push(this.pageSupporters[x]);
         }
       }
-      if (count === this.selectedTags.length) {
-        list.push(SUPPORTERS[x]);
-      }
+      return array;
     }
-    return list;
+
   }
 
+  getSched() {
+    console.log(this.selectedSupporter);
+    if (this.selectedSupporter[0].availability === null) {
+      alert('sorry this supporter is unavailable');
+    }
 
+    // tslint:disable-next-line:prefer-for-of
+    for (let x = 0; x < this.selectedSupporter[0].availability.length; x++) {
+      console.log(this.selectedSupporter[0].availability[x]);
+    }
+  }
+
+  refreshView(): void {
+    this.refresh();
+  }
 
 
   startDragToCreate(
@@ -159,6 +192,12 @@ export class StudentMakeappointmentComponent {
     mouseDownEvent: MouseEvent,
     segmentElement: HTMLElement
   ) {
+    if (this.selectedSupporter === null) {
+      return;
+    }
+    if ( segment.cssClass === 'bg-pink') {
+      return;
+    }
     const dragToSelectEvent: CalendarEvent = {
       id: this.events.length,
       title: 'New event',
@@ -167,9 +206,20 @@ export class StudentMakeappointmentComponent {
         tmpEvent: true,
       },
     };
+    const year = dragToSelectEvent.start.getFullYear().toString();
+    const month = String(dragToSelectEvent.start.getMonth() ).padStart(2, '0');
+    const day = String(dragToSelectEvent.start.getDate()).padStart(2, '0');
+    const hour = String(dragToSelectEvent.start.getHours()).padStart(2, '0');
+    const min = String(dragToSelectEvent.start.getMinutes()).padStart(2, '0');
+    this.date = year + '-' + month + '-' + day;
+    this.time = hour + ':' + min + ':00';
+
     this.events = [...this.events, dragToSelectEvent];
+    if ( segment.cssClass === 'bg-pink') {
+      console.log('lslsls')
+    }
     const segmentPosition = segmentElement.getBoundingClientRect();
-    this.dragToCreateActive = true;
+    console.log(segmentPosition)
     const endOfView = endOfWeek(this.viewDate, {
       weekStartsOn: this.weekStartsOn,
     });
@@ -181,9 +231,16 @@ export class StudentMakeappointmentComponent {
           this.dragToCreateActive = false;
           this.refresh();
         }),
-        takeUntil(fromEvent(document, 'mouseup'))
+        takeUntil(fromEvent(document, 'mouseup').pipe(
+          finalize(() => {
+            this.make_appointment(this.generate_appointment_object());
+          })
+        ))
       )
       .subscribe((mouseMoveEvent: MouseEvent) => {
+        if ( segment.cssClass === 'bg-pink') {
+          return;
+        }
         const minutesDiff = ceilToNearest(
           mouseMoveEvent.clientY - segmentPosition.top,
           30
@@ -196,11 +253,17 @@ export class StudentMakeappointmentComponent {
           ) / segmentPosition.width;
 
         const newEnd = addDays(addMinutes(segment.date, minutesDiff), daysDiff);
-        if (newEnd > segment.date && newEnd < endOfView) {
+        if ( segment.cssClass === 'bg-pink') {
+          this.refresh();
+        } else if (newEnd > segment.date && newEnd < endOfView) {
           dragToSelectEvent.end = newEnd;
+          this.refresh();
         }
-        this.refresh();
+        this.dur = (( newEnd.getTime() - segment.date.getTime()) / 60000) ;
+
+
       });
+
   }
 
   private refresh() {
@@ -208,18 +271,46 @@ export class StudentMakeappointmentComponent {
     this.cdr.detectChanges();
   }
 
+  beforeWeekViewRender(renderEvent: CalendarWeekViewBeforeRenderEvent) {
+    if (this.selectedSupporter === null) {
+      return;
+    }
+    renderEvent.hourColumns.forEach((hourColumn) => {
+      hourColumn.hours.forEach((hour) => {
+        hour.segments.forEach((segment) => {
+          //this.selectedSupporter.availability.splice(parseInt(x), 1);
+          if (!(
+            (segment.date.getHours() >= 12 &&
+            segment.date.getHours() <= 16 &&
+            segment.date.getDay() === 2)
+
+            ||
+
+            (segment.date.getHours() >= 9 &&
+              segment.date.getHours() <= 13 &&
+              segment.date.getDay() === 4)
+
+          )) {
+            segment.cssClass = 'bg-pink';
+          }
+        });
+      });
+    });
+  }
+
   generate_appointment_object() {
     const appointment = {
-      student_id: 20,
-      supporter_id: 15,
-      appt_date: '2019-12-12',
-      start_time: '13:50:22',
-      duration: 9876,
-      type: 1,
+      student_id: this.cookieService.get('user_id'),
+      supporter_id: this.selectedSupporter[0].id,
+      appt_date: this.date,
+      start_time: this.time,
+      duration: this.dur,
+      type: this.typeToID[this.selectedType],
       cancelled: false,
-      rating: 0,
+      rating: '0',
       recommended: false
     };
+    console.log(appointment);
     return appointment;
   }
 
@@ -227,80 +318,45 @@ export class StudentMakeappointmentComponent {
     console.log('Make appointment debug');
     appointment = this.generate_appointment_object();
     console.log(appointment);
-    if (confirm('Is this the appointment you wish to make?')) {
-      this.http.post('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/appointments',
-        appointment).subscribe();
-    }
+    const sched = false;
+    let appt_detail = ['Date: ' + appointment.appt_date, 'Start Time: ' + appointment.start_time, 'Duration: ' + appointment.duration];
+    const dialogRef = this.dialog.open(AppointmentConfirmationDialog, {
+      data: {details: appt_detail, schedule: sched}
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result.scheduled) {
+        this.http.post('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/appointments',
+          appointment).subscribe( res => {
+            this.dialog.open(AppointmentSuccessDialog);
+        }, error => {
+            this.dialog.open(UhOhDialog);
+        });
+      }
+    });
   }
 
 }
 
 
 
-
-
-
-/*@Component({
-  selector: 'app-student-makeappointment',
-  templateUrl: './student-makeappointment.component.html',
-  styleUrls: ['./student-makeappointment.component.css']
+// Confirmation dialog component
+@Component({
+  selector: 'appointment-confirmation-dialog',
+  templateUrl: 'confirmation-dialog.html',
 })
-export class StudentMakeappointmentComponent implements OnInit {
-
-  constructor() { }
-
-  ngOnInit(): void {
+export class AppointmentConfirmationDialog {
+  constructor(public dialogRef: MatDialogRef<AppointmentConfirmationDialog>, @Inject(MAT_DIALOG_DATA) public data: any) {}
+  onNoClick() {
+    this.dialogRef.close({scheduled: false});
   }
-}*/
+  onCancelClick() {
+    this.dialogRef.close({scheduled: true});
+  }
+}
 
-/*@Component({
-  selector: 'app-student-makeappointment',
-  templateUrl: './student-makeappointment.component.html',
-  styleUrls: ['./student-makeappointment.component.css'],
-  styles: [
-    `
-      .cal-week-view .cal-time-events .cal-day-column {
-        margin-right: 10px;
-      }
-
-      .cal-week-view .cal-hour {
-        width: calc(100% + 10px);
-      }
-    `,
-  ]
+// Appointment success dialog component
+@Component({
+  selector: 'appointment-success-dialog',
+  templateUrl: 'success-dialog.html',
 })
-export class StudentMakeappointmentComponent {
-  @ViewChild('modalContent', { static: true }) modalContent: TemplateRef<any>;
-
-  selectedTags;
-  get supporters(): Supports[] {
-
-    let list: Array<any> = [];
-    if (this.selectedTags == null) {
-      return SUPPORTERS;
-    }
-
-    if (this.selectedTags.length == 0) {
-      return SUPPORTERS;
-    }
-
-    // tslint:disable-next-line:forin
-    for (const x in SUPPORTERS) {
-      // tslint:disable-next-line:prefer-for-of
-      let count: number = 0;
-      for (let i = 0; i <  this.selectedTags.length; i++  ) {
-
-        if (SUPPORTERS[x].tags.includes(this.selectedTags[i])) {
-          count++;
-        }
-      }
-      if(count == this.selectedTags.length){
-        list.push(SUPPORTERS[x]);
-      }
-    }
-    return list;
-  }
-
-  get tags(): Tags {
-    return TAGS;
-  }*/
+export class AppointmentSuccessDialog {}

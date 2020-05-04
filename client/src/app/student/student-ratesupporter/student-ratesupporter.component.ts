@@ -26,12 +26,13 @@ export class StudentRatesupporterComponent implements OnInit {
   formQuestionGroup: FormGroup;
   questionOutput;
   apptId;
+  suppID;
 
 
   constructor(private formBuilder: FormBuilder, private activatedRoute: ActivatedRoute, public dialog: MatDialog, private http: HttpClient, private cookieService: CookieService) {
     this.supporterName = this.activatedRoute.snapshot.params.name;
     this.apptId = this.activatedRoute.snapshot.params.appt_id;
-
+    this.suppID = this.activatedRoute.snapshot.params.supp_id;
 
   }
 
@@ -63,7 +64,7 @@ export class StudentRatesupporterComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.http.get('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/data/' + this.apptId, {}).subscribe(res => {
+    this.http.get('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/data/' + this.suppID, {}).subscribe(res => {
       console.log(Object.values(res));
       this.specs['rating'] = res[1]['rating'];
       this.specs['recommend'] = res[1]['recommended'];

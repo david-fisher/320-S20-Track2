@@ -71,6 +71,15 @@ Maybe something better than a bunch of <br>s?-->
       <button mat-raised-button (click) = "submitInformation()" color="primary">SUBMIT</button>
     </mat-card-actions>
   </ul>
+
+  <h4>Tags</h4>
+  <div class = "analytics">
+    <ul [(ngModel)]="profileTags">
+      <li *ngFor="let tag of profileTags" [value]="tag.name">
+        {{tag.name}}
+      </li>
+    </ul>
+  </div>
 </mat-expansion-panel><br>
 
 <!--Personal Description-->
