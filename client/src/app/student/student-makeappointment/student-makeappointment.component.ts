@@ -75,6 +75,7 @@ export class StudentMakeappointmentComponent {
   pageTypes;
   selectedType;
   userID;
+  typeToID = {};
 
   constructor(private cdr: ChangeDetectorRef, private http: HttpClient, private cookieService: CookieService, public dialog: MatDialog) {
     this.pageTags = this.tags_https();
@@ -101,6 +102,7 @@ export class StudentMakeappointmentComponent {
     const result = [];
     this.http.get('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/options?resource=appointment_type', {}).subscribe(res => {
       for (const tag of Object.values(res)) {
+        this.typeToID[tag[1]] = tag[0];
         const newTag = {name: tag[1]};
         result.push(newTag);
       }
@@ -111,9 +113,11 @@ export class StudentMakeappointmentComponent {
   supporter_https() {
     const result = [];
     this.http.get('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/supporters').subscribe(res => {
-      console.log(Object.values(res))
-      for (const tag of Object.values(res)) {
-        result.push(tag);
+      console.log(res);
+      for (const id in res) {
+        let temp = res[id];
+        temp[id] = id;
+        result.push(temp);
       }
     });
     console.log(result);
@@ -179,7 +183,7 @@ export class StudentMakeappointmentComponent {
   ) {
     const dragToSelectEvent: CalendarEvent = {
       id: this.events.length,
-      title: 'New event',
+      title: this.selectedType,
       start: segment.date,
       meta: {
         tmpEvent: true,
@@ -218,11 +222,11 @@ export class StudentMakeappointmentComponent {
     console.log(this.selectedType)
     const appointment = {
       student_id: this.cookieService.get('user_id'),
-      supporter_id: 15,
+      supporter_id: this.selectedSupporter['id'],
       appt_date: '2019-12-12',
       start_time: '13:50:22',
       duration: 9876,
-      type: 1,
+      type: this.typeToID[this.selectedType],
       cancelled: false,
       rating: '0',
       recommended: false
