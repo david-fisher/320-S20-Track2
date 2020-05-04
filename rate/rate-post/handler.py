@@ -18,7 +18,7 @@ def lambda_handler(event, context):
         appointment_id = int(json.loads(event["body"])["appointment_id"])
         user_id_ = int(json.loads(event["body"])["user_id_"])
         rating = int(json.loads(event["body"])["rating"])
-        recommended = bool(json.loads(event["body"])["recommended"])
+        recommended = str(json.loads(event["body"])["recommended"])
         question_list = json.loads(event["body"])["questions"]
 
         #check if appointment_id and user_id exists in the database
@@ -46,7 +46,7 @@ def lambda_handler(event, context):
         sql_parameters = [ {'name':'appointment_id', 'value':{'longValue': appointment_id}}, 
                    {'name':'user_id_', 'value':{'longValue': user_id_}},
                    {'name':'rating', 'value':{'longValue': rating}}, 
-                   {'name':'recommended', 'value':{'booleanValue': recommended}}  ]
+                   {'name':'recommended', 'value':{'stringValue': recommended}}  ]
         query_result = execute_statement(query, sql_parameters)
 
         #Insert response to questions into the student_responses table
@@ -61,7 +61,7 @@ def lambda_handler(event, context):
                 if existing_question['records'] == []:
                     return {
                         'statusCode': 404,
-                        'body': json.dumps({ 'message' : 'question_id not in database' })
+                        'body': json.dumps({ 'message' : 'question_id  not in database' })
                     }
                 else:
                     query = "INSERT INTO student_responses VALUES (:appointment_id, :user_id_, :question_id, :response);"
