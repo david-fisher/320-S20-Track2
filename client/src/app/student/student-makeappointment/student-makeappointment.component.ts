@@ -74,13 +74,15 @@ export class StudentMakeappointmentComponent {
   userID;
 
   constructor(private cdr: ChangeDetectorRef, private http: HttpClient, private cookieService: CookieService) {
-    this.pageTags = this.tags_https;
-    this.pageSupporters = this.supporter_https;
+    this.pageTags = this.tags_https();
+    this.pageSupporters = this.supporter_https();
+    console.log(this.pageSupporters);
+    this.pageTypes = this.types_https();
+    console.log(this.pageTypes);
     this.userID = this.getUserId();
-    this.pageTypes = this.content_https('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/options?resource=appointment_type');
   }
 
-  get tags_https(): Array<InterestTags> {
+  tags_https()  {
     const result = [];
     this.http.get('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/tags', {}).subscribe(res => {
       for (const tag of Object.values(res)) {
@@ -91,14 +93,26 @@ export class StudentMakeappointmentComponent {
     return result;
   }
 
-  content_https(url) {
+  types_https() {
     const result = [];
-    this.http.get(url, {}).subscribe(res => {
+    this.http.get('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/options?resource=appointment_type', {}).subscribe(res => {
       for (const tag of Object.values(res)) {
         const newTag = {name: tag[1]};
         result.push(newTag);
       }
     });
+    return result;
+  }
+
+  supporter_https() {
+    const result = [];
+    this.http.get('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/supporters').subscribe(res => {
+      console.log(Object.values(res))
+      for (const tag of Object.values(res)) {
+        result.push(tag);
+      }
+    });
+    console.log(result);
     return result;
   }
 
@@ -106,47 +120,53 @@ export class StudentMakeappointmentComponent {
     this.userID = this.cookieService.get('user_id');
   }
 
-  get supporter_https() {
-    const result = [];
-    this.http.get('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/supporters', {params: this.selectedTags}).subscribe(res => {
-      for (const tag of Object.values(res)) {
-        const newTag = {name: tag[1]};
-        result.push(newTag);
-      }
-    });
-    console.log(result);
-    return result;
-  }
-
-  get supporters(): Supports[] {
-    const list: Array<any> = [];
+  get supporterList() {
+    let array = [];
     if (this.selectedTags === undefined) {
-      return SUPPORTERS;
-    }
-
-    if (this.selectedTags.length === 0) {
-      return SUPPORTERS;
-    }
-
-    // tslint:disable-next-line:forin
-    for (const x in SUPPORTERS) {
+      return this.pageSupporters;
+    } else if (this.selectedTags.length === 0) {
+      return this.pageSupporters;
+    } else {
       // tslint:disable-next-line:prefer-for-of
-      let count = 0;
-      for (let i = 0; i <  this.selectedTags.length; i++  ) {
+      for (let x = 0; x < this.pageSupporters.length; x++ ) {
+        let apptType = false;
+        let boxsChecked = 0;
+        // tslint:disable-next-line:prefer-for-of
+        for (let i = 0; i < this.pageSupporters[x].apptTypes.length; i++) {
 
-        if (SUPPORTERS[x].tags.includes(this.selectedTags[i])) {
-          count++;
+          if ( this.pageSupporters[x].apptTypes[i][0] === this.selectedType[0] ) {
+            apptType = true;
+          }
+        }
+        // tslint:disable-next-line:prefer-for-of
+        for (let y = 0; y < this.selectedTags.length; y++ ) {
+          // tslint:disable-next-line:prefer-for-of
+          for (let z = 0; z < this.pageSupporters[x].tags.length ; z++ ) {
+            if ( this.selectedTags[y].name === this.pageSupporters[x].tags[z][0] ) {
+              boxsChecked++;
+            }
+          }
+        }
+
+        if (apptType === true  && boxsChecked === this.selectedTags.length ) {
+          array.push(this.pageSupporters[x]);
         }
       }
-      if (count === this.selectedTags.length) {
-        list.push(SUPPORTERS[x]);
-      }
+      return array;
     }
-    return list;
+
   }
 
-
-
+  getSched() {
+    console.log(this.selectedSupporter);
+    if (this.selectedSupporter[0].availability === null){
+      alert('sorry this supporter is unavailable');
+    }
+    // tslint:disable-next-line:prefer-for-of
+    for (let x = 0; x < this.selectedSupporter[0].availability.length; x++) {
+      console.log(this.selectedSupporter[0].availability[x]);
+    }
+  }
 
   startDragToCreate(
     segment: WeekViewHourSegment,
@@ -190,6 +210,8 @@ export class StudentMakeappointmentComponent {
   }
 
   generate_appointment_object() {
+    console.log(this.selectedSupporter);
+    console.log(this.selectedType)
     const appointment = {
       student_id: this.userID,
       supporter_id: this.selectedSupporter,
@@ -198,7 +220,7 @@ export class StudentMakeappointmentComponent {
       duration: 999,
       type: this.selectedType,
       cancelled: false,
-      rating: 0,
+      rating: '0',
       recommended: false
     };
     return appointment;
