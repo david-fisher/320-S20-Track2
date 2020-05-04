@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {SupporterAppointment} from './appointments';
 import {SupporterFeedback} from './appointments';
-import {TEST_APPOINTMENTS} from "./appointments";
+// import {TEST_APPOINTMENTS} from "./appointments";
 import { Router } from '@angular/router';
 import {InterestTags} from "../../admin/admin-tags/interest-tag";
 import {HttpClient, HttpResponse} from '@angular/common/http';
