@@ -88,9 +88,9 @@ Uploading files-->
           </mat-form-field>
         </li>
         <li >Graduation Year:
-          <mat-select name = "GraduationYear" [(ngModel)]="studentInfo.grad_year">
+          <select name = "GraduationYear" [(ngModel)]="studentInfo.grad_year">
             <option [value] = "item" *ngFor = "let item of graduationYears" >{{item}}</option>
-          </mat-select>
+          </select>
         </li>
         <li>GPA:
           <mat-form-field class="input" appearance="fill">
