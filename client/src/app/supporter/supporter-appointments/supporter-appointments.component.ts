@@ -55,9 +55,9 @@ export class SupporterAppointmentsComponent implements OnInit {
       });
 
     this.http.get('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/rate/'+this.cookieService.get('user_id'), {}).subscribe(res => {
-        console.log(Object.values(res));
-        console.log(Object.values(res)[0]);
-        console.log(Object.values(res)[1]);
+        // console.log(Object.values(res));
+        // console.log(Object.values(res)[0]);
+        // console.log(Object.values(res)[1]);
 
         for(const feed in Object.values(res)[0]){
           const feed_appt_id = Object.values(res)[0][feed].appointment_id;
@@ -92,7 +92,7 @@ export class SupporterAppointmentsComponent implements OnInit {
             rat = bigmap[appt[0]].rating;
             rec = bigmap[appt[0]].recommend;
           }
-
+          console.log(appt[11]);
           const newAppt: SupporterAppointment = {
             date: new Date(appt[2].split("-")[0], appt[2].split("-")[1], appt[2].split("-")[2], appt[3].split(":")[0], appt[3].split(":")[1], appt[3].split(":")[2], 0),
             type: appt[9],

@@ -35,7 +35,9 @@ export class SupporterAvailabilityComponent implements OnInit {
       for (const date of Object.values(res)) {
         if(i > 1) {
           console.log(date);
-          let dateObj = {year:date[3].split("-")[0],month: date[3].split("-")[1], date:date[3].split("-")[2].split(":")[0], start_hour: date[1].split(":")[0], start_min:date[1].split(":")[1], end_hour:date[2].split(":")[0],end_min:date[2].split(":")[1]};
+          if(date[1] !== undefined && date[2] !== undefined && date[3] !== undefined){
+            let dateObj = {year:date[3].split("-")[0],month: date[3].split("-")[1], date:date[3].split("-")[2].split(":")[0], start_hour: date[1].split(":")[0], start_min:date[1].split(":")[1], end_hour:date[2].split(":")[0],end_min:date[2].split(":")[1]};
+          }
           let a = "AM";
           if(dateObj.start_hour >= 12) {
             a = "PM";
