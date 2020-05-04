@@ -94,7 +94,7 @@ export class LoginComponent implements OnInit {
       console.log(res['user-id']);
       let user_id = res['user-id'].toString();
       let user_type = res['type'];
-      let is_admin = res['isAdmin'];
+      let is_admin = res['isAdmin'].toString();
       this.cookieService.set('user_id', user_id);
       this.cookieService.set('user_type', user_type);
       this.cookieService.set('is_admin', is_admin);

@@ -33,7 +33,7 @@ export class NavComponent implements OnInit {
     /*
     Checks if the user is an admin
      */
-    return this.cookieService.get('is_admin');
+    return this.cookieService.get('is_admin') == "true";
   }
 
 
