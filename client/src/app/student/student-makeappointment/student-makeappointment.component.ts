@@ -78,6 +78,7 @@ export class StudentMakeappointmentComponent {
   userID;
   date;
   time;
+  dur;
   typeToID = {};
 
   constructor(private cdr: ChangeDetectorRef, private http: HttpClient, private cookieService: CookieService, public dialog: MatDialog) {
@@ -258,6 +259,7 @@ export class StudentMakeappointmentComponent {
           dragToSelectEvent.end = newEnd;
           this.refresh();
         }
+        this.dur = (( newEnd.getTime() - segment.date.getTime()) / 60000) ;
 
 
       });
@@ -302,7 +304,7 @@ export class StudentMakeappointmentComponent {
       supporter_id: this.selectedSupporter[0].id,
       appt_date: this.date,
       start_time: this.time,
-      duration: 60,
+      duration: this.dur,
       type: this.typeToID[this.selectedType],
       cancelled: false,
       rating: '0',
