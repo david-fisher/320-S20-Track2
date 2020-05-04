@@ -40,7 +40,7 @@
         </h4>
       </mat-card-content>
       <mat-card-actions class="inlinec">
-        <button mat-button [disabled]= "appointment.rated" [routerLink]="['/student-ratesupporter', appointment.supporter_name, appointment.appt_id]">RATE</button>
+        <button mat-button [disabled]= "appointment.rated" [routerLink]="['/student-ratesupporter', appointment.supporter_name, appointment.appt_id, appointment.supporter_id]">RATE</button>
         <div *ngIf="appointment.rated">
           <span>Already Rated</span>
         </div>

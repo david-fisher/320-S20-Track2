@@ -15,7 +15,7 @@ import {CookieService} from "ngx-cookie-service";
 export class SupporterAppointmentsComponent implements OnInit {
 
   tempAppointments;
-  tempFeedback;
+  //tempFeedback;
   overwrittenAvail;
   body;
 
@@ -23,7 +23,7 @@ export class SupporterAppointmentsComponent implements OnInit {
     this.body = {};
     this.overwrittenAvail = {};
     this.tempAppointments = this.appointments;
-    this.tempFeedback = this.feedback(2);
+    //this.tempFeedback = this.feedback(2, this.cookieService.get('user_id'));
     //console.log(this.tempFeedback);
   }
 
@@ -33,6 +33,47 @@ export class SupporterAppointmentsComponent implements OnInit {
 
   get appointments(): Array<SupporterAppointment> {
     const result = [];
+
+
+
+    //   const qs = [];
+    //   const q_ids = [];
+    //   const as = [];
+    //   const s_rate = [];
+    //   const s_rec = [];
+    //   const
+    //
+    //
+    //   this.http.get('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/data/'+ this.cookieService.get('user_id'), {}).subscribe(res => {
+    //     //console.log(Object.values(res));
+    //     for(const qa in Object.values(res)[0]){
+    //       qs.push(Object.values(res)[0][qa].question);
+    //       q_ids.push(Object.values(res)[0][qa].question_id);
+    //       as.push("");
+    //       //console.log(qa);
+    //     }
+    //     s_rate = Object.values(res)[1].rating;
+    //     s_rec = Object.values(res)[1].recommended;
+    //   });
+    //
+    // this.http.get('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/rate/'+this.cookieService.get('user_id'), {}).subscribe(res => {
+    //     console.log(Object.values(res));
+    //     console.log(Object.values(res)[0]);
+    //     console.log(Object.values(res)[1]);
+    //     for(const feed in Object.values(res)[0]){
+    //       result.rating = Object.values(res)[0][feed].rating;
+    //       result.recommend = Object.values(res)[0][feed].recommended;
+    //     }
+    //     for(const respo in Object.values(res)[1]){
+    //       const ind = q_ids.indexOf(Object.values(res)[1][respo].question_id);
+    //       if(ind > -1){
+    //         as[ind] = Object.values(res)[1][respo].response;
+    //       //console.log(qa);
+    //       }
+    //     }
+    //   });
+
+
     this.http.get('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/appointments/' + this.cookieService.get('user_id'), {observe: 'response'}).subscribe(res => {
       //console.log(Object.values(res));
       if(res.status === 200 && res.body !== "") {
@@ -45,17 +86,18 @@ export class SupporterAppointmentsComponent implements OnInit {
             duration: appt[4],
             appt_id: appt[0],
             cancelled: appt[6],
-            rated: appt[11]
+            rated: appt[11],
+            question: [],
+            answer: [],
+            show_rating: true,
+            rating: 0,
+            show_recommend: true,
+            recommend: true,
           };
           result.push(newAppt);
-          // if(!newAppt.cancelled) {
-          //   result.push(newAppt);
-          // }
         }
       }
     });
-    //console.log(result);
-    //console.log(result[0]);
     return result;
   }
 
@@ -67,43 +109,43 @@ export class SupporterAppointmentsComponent implements OnInit {
 
 
 
-  feedback(appt_id): SupporterFeedback {
-    //const result = {} as SupporterFeedback;
-    const result : SupporterFeedback = {question: [], answer: [], show_rating: true, rating: 0, show_recommend: true, recommend: true};
-    const q_ids = [];
-
-    this.http.get('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/data/'+appt_id, {}).subscribe(res => {
-      //console.log(Object.values(res));
-      for(const qa in Object.values(res)[0]){
-        result.question.push(Object.values(res)[0][qa].question);
-        q_ids.push(Object.values(res)[0][qa].question_id);
-        result.answer.push("");
-        //console.log(qa);
-      }
-      result.show_rating = Object.values(res)[1].rating;
-      result.show_recommend = Object.values(res)[1].recommended;
-    });
-
-    this.http.get('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/rate/'+appt_id, {}).subscribe(res => {
-      console.log(Object.values(res));
-      console.log(Object.values(res)[0]);
-      console.log(Object.values(res)[1]);
-      for(const feed in Object.values(res)[0]){
-        result.rating = Object.values(res)[0][feed].rating;
-        result.recommend = Object.values(res)[0][feed].recommended;
-      }
-      for(const respo in Object.values(res)[1]){
-        const ind = q_ids.indexOf(Object.values(res)[1][respo].question_id);
-        if(ind > -1){
-          result.answer[ind] = Object.values(res)[1][respo].response;
-        //console.log(qa);
-        }
-      }
-    });
-
-    console.log(result);
-    return result;
-  }
+  // feedback(appt_id, supp_id): SupporterFeedback {
+  //   //const result = {} as SupporterFeedback;
+  //   const result : SupporterFeedback = {question: [], answer: [], show_rating: true, rating: 0, show_recommend: true, recommend: true};
+  //   const q_ids = [];
+  //
+  //   this.http.get('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/data/'+appt_id, {}).subscribe(res => {
+  //     //console.log(Object.values(res));
+  //     for(const qa in Object.values(res)[0]){
+  //       result.question.push(Object.values(res)[0][qa].question);
+  //       q_ids.push(Object.values(res)[0][qa].question_id);
+  //       result.answer.push("");
+  //       //console.log(qa);
+  //     }
+  //     result.show_rating = Object.values(res)[1].rating;
+  //     result.show_recommend = Object.values(res)[1].recommended;
+  //   });
+  //
+  //   this.http.get('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/rate/'+supp_id, {}).subscribe(res => {
+  //     console.log(Object.values(res));
+  //     console.log(Object.values(res)[0]);
+  //     console.log(Object.values(res)[1]);
+  //     for(const feed in Object.values(res)[0]){
+  //       result.rating = Object.values(res)[0][feed].rating;
+  //       result.recommend = Object.values(res)[0][feed].recommended;
+  //     }
+  //     for(const respo in Object.values(res)[1]){
+  //       const ind = q_ids.indexOf(Object.values(res)[1][respo].question_id);
+  //       if(ind > -1){
+  //         result.answer[ind] = Object.values(res)[1][respo].response;
+  //       //console.log(qa);
+  //       }
+  //     }
+  //   });
+  //
+  //   console.log(result);
+  //   return result;
+  // }
 
   verify(appointment) {
     if (confirm('Are you sure you want to cancel?')) {

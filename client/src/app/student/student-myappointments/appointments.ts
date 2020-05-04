@@ -6,5 +6,6 @@ export interface StudentAppointment {
   location: string;
   cancelled: boolean;
   supporter_name: string;
+  supporter_id: number;
   rated: boolean;
 }
