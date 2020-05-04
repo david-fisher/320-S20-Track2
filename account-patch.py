@@ -29,17 +29,12 @@ def param_to_sql_param(params, existing_sql_params=None):
             value = {
                 'booleanValue': param
             }
-        else:
+        elif var_type is list:
             value = {
-                'blobValue': param
+                'arrayValue': {
+                    'stringValues': param
+                }
             }
-
-        #elif var_type is list:
-        #    value = {
-        #        'arrayValue': {
-        #            'stringValues': param
-        #        }
-        #    }
 
         sql_params.append({
             'name': str(name_index),
@@ -701,7 +696,7 @@ def update_account(event, context):
 
             query = ("DELETE FROM supporter_tags "
                      "WHERE user_id_ = :0 "
-                     "AND type_id = :1;")
+                     "AND tag_id = :1;")
             params = param_to_sql_param([user_id_, tag_id])
             response = client.execute_statement(resourceArn=rds_config.ARN,
                                                 secretArn=rds_config.SECRET_ARN,
