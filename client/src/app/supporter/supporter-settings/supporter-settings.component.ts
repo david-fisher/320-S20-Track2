@@ -119,7 +119,13 @@ export class SupporterSettingsComponent implements OnInit {
     {
       this.http.get('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/rate/' + this.cookieService.get('user_id'), {}).subscribe(res => {
         console.log(res);
-        this.body.question_id = res[4];
+        if(res[4] !== undefined){
+          this.body.question_id = res[4];
+        }
+        else{
+          this.body.question_id = Math.random()*100000;
+        }
+
       });
       this.body.question = this.question;
     }
