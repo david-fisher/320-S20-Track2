@@ -231,12 +231,12 @@ export class StudentMakeappointmentComponent {
     appointment = this.generate_appointment_object();
     console.log(appointment);
     const sched = false;
-    let appt_detail = appointment.appt_date + ' ' + appointment.start_time + ' ' + appointment.duration;
+    let appt_detail = ['Date: ' + appointment.appt_date, 'Start Time: ' + appointment.start_time, 'Duration: ' + appointment.duration];
     const dialogRef = this.dialog.open(AppointmentConfirmationDialog, {
       data: {details: appt_detail, schedule: sched}
     });
     dialogRef.afterClosed().subscribe(result => {
-      if (sched) {
+      if (result.scheduled) {
         this.http.post('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/appointments',
           appointment).subscribe( res => {
             this.dialog.open(AppointmentSuccessDialog);

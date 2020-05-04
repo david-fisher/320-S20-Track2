@@ -1,6 +1,8 @@
 <h4 mat-dialog-title>Is this the appointment you want?</h4>
 <div mat-dialog-content>
-  <p>{{data.details}}</p>
+  <p>{{data.details[0]}}</p>
+  <p>{{data.details[1]}}</p>
+  <p>{{data.details[2]}}</p>
 </div>
 <div mat-dialog-actions>
   <button mat-button (click)="onNoClick()" >No</button>
