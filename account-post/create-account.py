@@ -243,7 +243,7 @@ def supporter_create(body, response_headers):
     first_name = body["first_name"]
     last_name = body["last_name"]
     preferred_name = body["preferred_name"]
-    phone_number = body["profile_picture"]
+    phone_number = body["phone_number"]
     profile_picture = body["profile_picture"]
     request_supporter = body["request_supporter"]
     active_account = body["active_account"]
