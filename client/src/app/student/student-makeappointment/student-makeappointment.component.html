@@ -106,7 +106,7 @@
         [dayStartHour]="8"
         [dayEndHour]="17"
         [hourSegments]="2"
-
+        (beforeViewRender)="beforeWeekViewRender($event)"
       >
       </mwl-calendar-week-view>
 

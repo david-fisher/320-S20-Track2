@@ -7,7 +7,7 @@ import {
   Injectable,
   ViewEncapsulation,
 } from '@angular/core';
-import { CalendarEvent, CalendarEventTitleFormatter } from 'angular-calendar';
+import {CalendarEvent, CalendarEventTitleFormatter, CalendarWeekViewBeforeRenderEvent} from 'angular-calendar';
 import { WeekViewHourSegment } from 'calendar-utils';
 import { fromEvent } from 'rxjs';
 import { finalize, takeUntil } from 'rxjs/operators';
@@ -48,6 +48,7 @@ export class CustomEventTitleFormatter extends CalendarEventTitleFormatter {
   templateUrl: './student-makeappointment.component.html',
   styleUrls: ['./student-makeappointment.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
   providers: [
     {
       provide: CalendarEventTitleFormatter,
@@ -56,12 +57,15 @@ export class CustomEventTitleFormatter extends CalendarEventTitleFormatter {
   ],
   styles: [
     `
-      .disable-hover {
-        pointer-events: none;
+      .cal-month-view .bg-pink,
+      .cal-week-view .cal-day-columns .bg-pink,
+      .cal-day-view .bg-pink {
+        background-color: #B71C1C !important;
       }
     `,
   ],
 })
+
 export class StudentMakeappointmentComponent {
   viewDate = new Date();
   events: CalendarEvent[] = [];
@@ -71,10 +75,12 @@ export class StudentMakeappointmentComponent {
   selectedTags;
   pageTags;
   pageSupporters;
-  selectedSupporter;
+  selectedSupporter = null;
   pageTypes;
   selectedType;
   userID;
+  date;
+  time;
   typeToID = {};
 
   constructor(private cdr: ChangeDetectorRef, private http: HttpClient, private cookieService: CookieService, public dialog: MatDialog) {
@@ -114,9 +120,10 @@ export class StudentMakeappointmentComponent {
     const result = [];
     this.http.get('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/supporters').subscribe(res => {
       console.log(res);
+      // tslint:disable-next-line:forin
       for (const id in res) {
-        let temp = res[id];
-        temp[id] = id;
+        const temp = res[id];
+        temp.id = id;
         result.push(temp);
       }
     });
@@ -176,22 +183,34 @@ export class StudentMakeappointmentComponent {
     }
   }
 
+
+
   startDragToCreate(
     segment: WeekViewHourSegment,
     mouseDownEvent: MouseEvent,
     segmentElement: HTMLElement
   ) {
+    if (this.selectedSupporter === null) {
+      return;
+    }
     const dragToSelectEvent: CalendarEvent = {
       id: this.events.length,
-      title: this.selectedType,
+      title: 'New event',
       start: segment.date,
       meta: {
         tmpEvent: true,
       },
     };
+    const year = dragToSelectEvent.start.getFullYear().toString();
+    const month = String(dragToSelectEvent.start.getMonth() ).padStart(2, '0');
+    const day = String(dragToSelectEvent.start.getDate()).padStart(2, '0');
+    const hour = String(dragToSelectEvent.start.getHours()).padStart(2, '0');
+    const min = String(dragToSelectEvent.start.getMinutes()).padStart(2, '0');
+    this.date = year + '-' + month + '-' + day;
+    this.time = hour + ':' + min + ':00';
+
     this.events = [...this.events, dragToSelectEvent];
     const segmentPosition = segmentElement.getBoundingClientRect();
-    this.dragToCreateActive = true;
     const endOfView = endOfWeek(this.viewDate, {
       weekStartsOn: this.weekStartsOn,
     });
@@ -203,13 +222,32 @@ export class StudentMakeappointmentComponent {
           this.dragToCreateActive = false;
           this.refresh();
         }),
-        takeUntil(fromEvent(document, 'mouseup'))
+        takeUntil(fromEvent(document, 'mouseup').pipe(
+          finalize(() => {
+            this.make_appointment(this.generate_appointment_object());
+          })
+        ))
       )
       .subscribe((mouseMoveEvent: MouseEvent) => {
-        const newEnd = addDays(addMinutes(segment.date, 45), 0);
-        dragToSelectEvent.end = newEnd;
+        const minutesDiff = ceilToNearest(
+          mouseMoveEvent.clientY - segmentPosition.top,
+          30
+        );
+
+        const daysDiff =
+          floorToNearest(
+            mouseMoveEvent.clientX - segmentPosition.left,
+            segmentPosition.width
+          ) / segmentPosition.width;
+
+        const newEnd = addDays(addMinutes(segment.date, minutesDiff), daysDiff);
+        if (newEnd > segment.date && newEnd < endOfView) {
+          dragToSelectEvent.end = newEnd;
+        }
         this.refresh();
+
       });
+
   }
 
   private refresh() {
@@ -217,20 +255,36 @@ export class StudentMakeappointmentComponent {
     this.cdr.detectChanges();
   }
 
+  beforeWeekViewRender(renderEvent: CalendarWeekViewBeforeRenderEvent) {
+    console.log('smash');
+    renderEvent.hourColumns.forEach((hourColumn) => {
+      hourColumn.hours.forEach((hour) => {
+        hour.segments.forEach((segment) => {
+          if (!(
+            segment.date.getHours() >= 8 &&
+            segment.date.getHours() <= 10 &&
+            segment.date.getDay() === 4
+          )) {
+            segment.cssClass = 'bg-pink';
+          }
+        });
+      });
+    });
+  }
+
   generate_appointment_object() {
-    console.log(this.selectedSupporter);
-    console.log(this.selectedType)
     const appointment = {
       student_id: this.cookieService.get('user_id'),
-      supporter_id: this.selectedSupporter['id'],
-      appt_date: '2019-12-12',
-      start_time: '13:50:22',
+      supporter_id: this.selectedSupporter[0].id,
+      appt_date: this.date,
+      start_time: this.time,
       duration: 9876,
       type: this.typeToID[this.selectedType],
       cancelled: false,
       rating: '0',
       recommended: false
     };
+    console.log(appointment);
     return appointment;
   }
 
@@ -282,67 +336,3 @@ export class AppointmentConfirmationDialog {
 export class AppointmentSuccessDialog {}
 
 
-/*@Component({
-  selector: 'app-student-makeappointment',
-  templateUrl: './student-makeappointment.component.html',
-  styleUrls: ['./student-makeappointment.component.css']
-})
-export class StudentMakeappointmentComponent implements OnInit {
-
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-}*/
-
-/*@Component({
-  selector: 'app-student-makeappointment',
-  templateUrl: './student-makeappointment.component.html',
-  styleUrls: ['./student-makeappointment.component.css'],
-  styles: [
-    `
-      .cal-week-view .cal-time-events .cal-day-column {
-        margin-right: 10px;
-      }
-
-      .cal-week-view .cal-hour {
-        width: calc(100% + 10px);
-      }
-    `,
-  ]
-})
-export class StudentMakeappointmentComponent {
-  @ViewChild('modalContent', { static: true }) modalContent: TemplateRef<any>;
-
-  selectedTags;
-  get supporters(): Supports[] {
-
-    let list: Array<any> = [];
-    if (this.selectedTags == null) {
-      return SUPPORTERS;
-    }
-
-    if (this.selectedTags.length == 0) {
-      return SUPPORTERS;
-    }
-
-    // tslint:disable-next-line:forin
-    for (const x in SUPPORTERS) {
-      // tslint:disable-next-line:prefer-for-of
-      let count: number = 0;
-      for (let i = 0; i <  this.selectedTags.length; i++  ) {
-
-        if (SUPPORTERS[x].tags.includes(this.selectedTags[i])) {
-          count++;
-        }
-      }
-      if(count == this.selectedTags.length){
-        list.push(SUPPORTERS[x]);
-      }
-    }
-    return list;
-  }
-
-  get tags(): Tags {
-    return TAGS;
-  }*/
