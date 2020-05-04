@@ -52,6 +52,7 @@ export class NavComponent implements OnInit {
     this.cookieService.delete('logged-in');
     this.cookieService.delete('user_id');
     this.cookieService.delete('user_type');
+    this.cookieService.delete('is_admin');
   }
 
   getAuth() {
