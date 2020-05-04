@@ -3,7 +3,7 @@ import {Supports} from './supports';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
-  Component,
+  Component, Inject,
   Injectable,
   ViewEncapsulation,
 } from '@angular/core';
@@ -15,6 +15,9 @@ import { addDays, addMinutes, endOfWeek } from 'date-fns';
 import {HttpClient} from '@angular/common/http';
 import {InterestTags} from '../../admin/admin-tags/interest-tag';
 import {CookieService} from 'ngx-cookie-service';
+import {StudentCancelAppointmentDialog} from "../student-myappointments/student-myappointments.component";
+import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
+import {UhOhDialog} from "../../createaccount/createaccount.component";
 
 function floorToNearest(amount: number, precision: number) {
   return Math.floor(amount / precision) * precision;
@@ -73,7 +76,7 @@ export class StudentMakeappointmentComponent {
   selectedType;
   userID;
 
-  constructor(private cdr: ChangeDetectorRef, private http: HttpClient, private cookieService: CookieService) {
+  constructor(private cdr: ChangeDetectorRef, public dialog: MatDialog, private http: HttpClient, private cookieService: CookieService) {
     this.pageTags = this.tags_https;
     this.pageSupporters = this.supporter_https;
     this.userID = this.getUserId();
@@ -210,7 +213,7 @@ export class StudentMakeappointmentComponent {
 
   generate_appointment_object() {
     const appointment = {
-      student_id: 20,
+      student_id: this.cookieService.get('user_id'),
       supporter_id: 15,
       appt_date: '2019-12-12',
       start_time: '13:50:22',
@@ -227,17 +230,48 @@ export class StudentMakeappointmentComponent {
     console.log('Make appointment debug');
     appointment = this.generate_appointment_object();
     console.log(appointment);
-    if (confirm('Is this the appointment you wish to make?')) {
-      this.http.post('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/appointments',
-        appointment).subscribe();
-    }
+    const sched = false;
+    let appt_detail = appointment.appt_date + ' ' + appointment.start_time + ' ' + appointment.duration;
+    const dialogRef = this.dialog.open(AppointmentConfirmationDialog, {
+      data: {details: appt_detail, schedule: sched}
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (sched) {
+        this.http.post('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/appointments',
+          appointment).subscribe( res => {
+            this.dialog.open(AppointmentSuccessDialog);
+        }, error => {
+            this.dialog.open(UhOhDialog);
+        });
+      }
+    });
   }
 
 }
 
 
 
+// Confirmation dialog component
+@Component({
+  selector: 'appointment-confirmation-dialog',
+  templateUrl: 'confirmation-dialog.html',
+})
+export class AppointmentConfirmationDialog {
+  constructor(public dialogRef: MatDialogRef<AppointmentConfirmationDialog>, @Inject(MAT_DIALOG_DATA) public data: any) {}
+  onNoClick() {
+    this.dialogRef.close({scheduled: false});
+  }
+  onCancelClick() {
+    this.dialogRef.close({scheduled: true});
+  }
+}
 
+// Appointment success dialog component
+@Component({
+  selector: 'appointment-success-dialog',
+  templateUrl: 'success-dialog.html',
+})
+export class AppointmentSuccessDialog {}
 
 
 /*@Component({
