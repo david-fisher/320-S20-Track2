@@ -1,5 +1,5 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {APPOINTMENTS} from './mock-appointments';
+//import {APPOINTMENTS} from './mock-appointments';
 import { HttpClient } from '@angular/common/http';
 import {StudentAppointment} from '../../student/student-myappointments/appointments';
 import {SupporterAppointment} from '../../supporter/supporter-appointments/appointments';
