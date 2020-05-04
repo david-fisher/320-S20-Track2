@@ -16,19 +16,9 @@ import {MatDialog} from "@angular/material/dialog";
 export class StudentRatesupporterComponent implements OnInit {
   currentRate = 5;
   specs = {
-    'rating': true,
-    'recommend': true,
-    'questions': [
-      {
-        'question_id': 1,
-        'question': 'This is a filler question'
-      },
-      {
-        'question_id': 2,
-        'question': 'This is a filler question NUMBER 2'
-      }
-
-    ]
+    'rating': null,
+    'recommend': null,
+    'questions': []
   };
   supporterName;
   formStarGroup: FormGroup;
@@ -41,10 +31,8 @@ export class StudentRatesupporterComponent implements OnInit {
   constructor(private formBuilder: FormBuilder, private activatedRoute: ActivatedRoute, public dialog: MatDialog, private http: HttpClient, private cookieService: CookieService) {
     this.supporterName = this.activatedRoute.snapshot.params.name;
     this.apptId = this.activatedRoute.snapshot.params.appt_id;
-    this.http.get('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/rate/' + this.apptId, {}).subscribe(res => {
-      console.log(Object.values(res));
-      // this.specs = res;
-    });
+
+
   }
 
   createStarForm() {
@@ -58,6 +46,13 @@ export class StudentRatesupporterComponent implements OnInit {
       recommend: new FormControl('')
     });
   }
+  get questions(): Array<string> {
+    let qs = [];
+    this.specs['questions'].forEach(function (question) {
+      qs.push(question['question']);
+    });
+    return qs;
+  }
 
   createQuestionForm() {
     let form = {};
@@ -68,17 +63,17 @@ export class StudentRatesupporterComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.createStarForm();
-    this.createRecommendForm();
-    this.createQuestionForm();
-  }
-  get questions(): Array<string> {
-    let qs = [];
-    this.specs['questions'].forEach(function (question) {
-      qs.push(question['question']);
+    this.http.get('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/data/' + this.apptId, {}).subscribe(res => {
+      console.log(Object.values(res));
+      this.specs['rating'] = res[1]['rating'];
+      this.specs['recommend'] = res[1]['recommended'];
+      this.specs['questions'] = res[0];
+      this.createStarForm();
+      this.createRecommendForm();
+      this.createQuestionForm();
     });
-    return qs;
   }
+
   toggleStar() {
     return this.specs['rating'];
   }
@@ -101,6 +96,7 @@ export class StudentRatesupporterComponent implements OnInit {
   }
 
   sendRate() {
+    console.log(this.specs);
     if (!this.checkValidity()) {
       return;
     }
@@ -119,12 +115,11 @@ export class StudentRatesupporterComponent implements OnInit {
         i++;
       }
     }
-
     const data = {
       appointment_id: parseInt(this.apptId),
       user_id_: parseInt(this.cookieService.get('user_id')),
-      rating: parseInt(this.formStarGroup.value.stars),
-      recommended: this.formRecommendGroup.value.recommend === "r",
+      rating: !this.specs['rating'] ? "" : this.formStarGroup.value.stars ,
+      recommended: !this.specs['recommend'] ? "" : (this.formRecommendGroup.value.recommend === "r").toString(),
       questions : questions_output
     };
     console.log(data);
