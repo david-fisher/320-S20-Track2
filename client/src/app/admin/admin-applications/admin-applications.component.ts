@@ -56,7 +56,9 @@ export class AdminApplicationsComponent implements OnInit {
     this.approveBody.request_supporter = false;
     this.approveBody.active_account = true;
     this.http.patch('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/account/' + user_id, this.approveBody).subscribe(res => {
-      console.log(res);
+      // console.log(this.approveBody);
+      // console.log(res);
+      // console.log(user_id);
     });
   }
 
@@ -65,7 +67,9 @@ export class AdminApplicationsComponent implements OnInit {
     this.denyBody.request_supporter = false;
     this.denyBody.active_account = false;
     this.http.patch('https://lcqfxob7mj.execute-api.us-east-2.amazonaws.com/dev/account/' + user_id, this.denyBody).subscribe(res => {
-      console.log(res);
+      // console.log(this.denyBody);
+      // console.log(res);
+      // console.log(user_id);
     });
   }
 
