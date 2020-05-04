@@ -29,6 +29,14 @@ export class NavComponent implements OnInit {
     return this.cookieService.get('user_type') === 'supporter';
   }
 
+  isAdmin() {
+    /*
+    Checks if the user is an admin
+     */
+    return this.cookieService.get('is_admin') == "true";
+  }
+
+
   ngOnInit(): void {
   }
 

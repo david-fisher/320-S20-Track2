@@ -69,6 +69,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import {CanStudentActivateRouteGuard} from './can-student-activate-route.guard';
 import {CanSupporterActivateRouteGuard} from './can-supporter-activate-route.guard';
 import {SupporterProfileComponent} from './supporter/supporter-profile/supporter-profile.component';
+import {CanAdminActivateRouteGuard} from "./can-admin-activate-route.guard";
 
 
 
@@ -147,7 +148,7 @@ import {SupporterProfileComponent} from './supporter/supporter-profile/supporter
     MatRadioModule,
     MatDialogModule,
   ],
-  providers: [CookieService, AuthService, CanActivateRouteGuard, CanStudentActivateRouteGuard, CanSupporterActivateRouteGuard],
+  providers: [CookieService, AuthService, CanActivateRouteGuard, CanStudentActivateRouteGuard, CanSupporterActivateRouteGuard, CanAdminActivateRouteGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
