@@ -34,7 +34,7 @@ export class SupporterAppointmentsComponent implements OnInit {
   get appointments(): Array<SupporterAppointment> {
     const result = [];
 
-
+      const student_id = 1;
       const bigmap = [];
       const qs = [];
       const q_ids = [];
@@ -82,15 +82,23 @@ export class SupporterAppointmentsComponent implements OnInit {
       //console.log(Object.values(res));
       if(res.status === 200 && res.body !== "") {
         for (const appt of Object.values(res)[6]) {
-          const as = [];
+
 
           let rat = 0;
           let rec = true;
+          let as = [];
 
           if(bigmap[appt[0]] !== undefined)
           {
             rat = bigmap[appt[0]].rating;
             rec = bigmap[appt[0]].recommend;
+            for(const q in qs)
+            {
+              if(q_ids.indexOf(q) > -1) {
+                as.push(bigmap[appt[0]].as[q_ids.indexOf(q)])
+              }
+            }
+            // as = bigmap[appt[0]].as[q_ids.indexOf(qs)]
           }
           console.log(appt[11]);
           const newAppt: SupporterAppointment = {
@@ -102,7 +110,9 @@ export class SupporterAppointmentsComponent implements OnInit {
             appt_id: appt[0],
             cancelled: appt[6],
             rated: appt[11],
-            question: qs,
+            // question: qs,
+            // answer: as,
+            question: [],
             answer: [],
             show_rating: show_ratin,
             rating: rat,

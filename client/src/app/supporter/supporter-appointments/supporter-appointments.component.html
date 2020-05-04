@@ -52,11 +52,11 @@
 <!--        <p>-->
 <!--          Answer: {{tempFeedback.answer}}-->
 <!--        </p>-->
-        <div *ngFor="let q of appointment.questions;let i=index">
+        <div *ngFor="let q of appointment.question;let i=index">
           <p>
             Question: {{q}}
             <br>
-            Answer: {{appointment.answers[i]}}
+            Answer: {{appointment.answer[i]}}
           </p>
         </div>
       </mat-expansion-panel>
