@@ -30,18 +30,18 @@ REPOSITORY LINK: https://github.com/david-fisher/320-S20-Track2
  - Observe the response and the test results.
 
 
-#Cloud
+# Cloud
 
-##Monitoring the database
+## Monitoring the database
 - Go to your AWS account.
 - Open the Management Console and click on RDS.
 - Click on Databases and select the chosen database, here you can view your database’s information
 
-##Sanitizing the database
+## Sanitizing the database
 - the database needs to be regularly monitored to ensure that all values in the database are actually meant to be there and that not too much storage is used
 - In the case where there is information in the database that is wished to be removed, a user with proper permissions can simply remove unwanted data using simple MySQL code
 
-##Creating an admin account
+## Creating an admin account
 - Admin accounts must be created within AWS for security reasons
 - Once navigated into the database, you can execute the following code:
 set @u_id = (1);
@@ -50,12 +50,12 @@ set @pa = (select password_ from user where user_id_ = @u_id);
 insert into admin values (@u_id, @em, @pa);
 - All that needs to be changed is in the first line to whatever user_id_ you want to become an admin
 
-##Monitoring the API gateway
+## Monitoring the API gateway
 - Go to your AWS account
 - Open the Management Console and click on API gateway
 - Choose the API you want to monitor and click on it, here you can monitor the working of your API
 
-##S3 bucket
+## S3 bucket
 - Go to [https://docs.aws.amazon.com/quickstarts/latest/s3backup/step-1-create-bucket.html](https://docs.aws.amazon.com/quickstarts/latest/s3backup/step-1-create-bucket.html) and follow step 1 to create a bucket
 - Go to [https://docs.aws.amazon.com/quickstarts/latest/s3backup/step-2-upload-file.html](https://docs.aws.amazon.com/quickstarts/latest/s3backup/step-1-create-bucket.html) and follow step 2 to upload a file to the bucket
 - Go to [https://docs.aws.amazon.com/quickstarts/latest/s3backup/step-4-delete-file.html](https://docs.aws.amazon.com/quickstarts/latest/s3backup/step-1-create-bucket.html) and follow step 4 to delete a file from the bucket
@@ -77,14 +77,14 @@ insert into admin values (@u_id, @em, @pa);
 - After making the desired changes, upload the file using the above mentioned steps.
 
 
-#FrontEnd
+# FrontEnd
 
-##Downloading the Files
+## Downloading the Files
 -Navigate to the GitHub repository included at the top of this README
 -You should be on the page 320-S20-Track2- from here, click clone if you want to use GitHub Desktop or download if you simply want the files as a zip.
 -You should now have a folder titled something similar to ‘320-S20-Track2’ on your device. To start working with the website, we will be looking at the ‘client’ folder within.
 
-##Editing The Website
+## Editing The Website
 The following steps are taken from the official Angular setup page, starting from step 1: https://angular.io/guide/setup-local
 - Install an IDE (ex. the latest version of Webstorm by JetBrains)
 - Open the ‘client’ folder in your IDE (WebStorm has an open as project functionality on folders)
@@ -97,7 +97,7 @@ The following steps are taken from the official Angular setup page, starting fro
 - In your IDE, navigate to /client/src/app. Here you will find the bulk of the code in different folders, each representing different components of the website. Any edits made to the code in the IDE will be reflected immediately on the localhost
 - The site is now ready to be edited and/or maintained.
 
-##Deploying The Website
+## Deploying The Website
 Once you have the code in an IDE of your choice, and have successfully configured an Amazon S3 bucket, you are now ready to deploy the latest version of the Trellis platform. However, it is not as simple as uploading the contents of the site itself to the bucket.
 
 - In your IDE of choice, instead of running the Start command, run the Build command. This will compile the files and bundle them together into a deployable form.
